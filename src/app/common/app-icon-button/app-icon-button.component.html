@@ -1,0 +1,11 @@
+<button
+  type="button"
+  class="icon-button"
+  [style.background-color]="backgroundColor"
+  [style.border-color]="borderColor"
+  [style.border-radius.px]="borderRadius"
+  (click)="logMessage()"
+>
+  <img class="icon-prefix" [src]="iconUrl" alt="Icon" />
+  <span class="button-text">{{ buttonText }}</span>
+</button>

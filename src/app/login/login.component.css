@@ -1,0 +1,86 @@
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-screen {
+    background-image: url('../../assets/background-login.svg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.header {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    height: 10vh;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.center-container {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0px 0px 8px 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 20px 0px 20px;
+    text-align: center;
+    height: 75vh;
+    min-height: 500px;
+    width: 30vw;
+    min-width: 300px;
+}
+
+.login-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.login-button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.row-with-dashes {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dash {
+    flex-grow: 1;
+    height: 1px;
+    background: #000;
+}
+
+.height-box {
+    height: 10px;
+    min-height: 10px;
+}
+
+.signup-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+p {
+    margin: 0px;
+}
