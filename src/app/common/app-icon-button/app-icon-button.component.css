@@ -1,0 +1,20 @@
+.icon-button {
+  display: flex;
+  align-items: center;
+  padding: 2% 3%;
+  border: 1px solid;
+  width: 100%;
+  cursor: pointer;
+}
+
+.icon-prefix {
+  width: 7%;
+  height: 7%;
+}
+
+.button-text {
+  flex: 1;
+  text-align: center;
+  margin-right: 7%;
+  font-size: medium;
+}
