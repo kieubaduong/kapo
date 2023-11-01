@@ -1,53 +1,83 @@
 <div class="login-screen">
-    <div class="header">
-        <div style="font-size: x-large;">Kapo!</div>
-        <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
-            <mat-icon>public</mat-icon>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item>English</button>
-                <button mat-menu-item>Tiếng việt</button>
-            </mat-menu>
+  <div class="header">
+    <div style="font-size: x-large">Kapo!</div>
+    <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+      <mat-icon>public</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>English</button>
+        <button mat-menu-item>Tiếng việt</button>
+      </mat-menu>
+    </button>
+  </div>
+
+  <div class="body">
+    <div class="center-container column">
+      <div class="login-text">Log in</div>
+
+      <form>
+        <mat-form-field>
+          <mat-label>Username or email</mat-label>
+          <input
+            matInput
+            placeholder="duong.kieu@gmeo.com"
+            [formControl]="email"
+            required
+          />
+          <mat-error *ngIf="email.invalid">{{
+            getEmailErrorMessage()
+          }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput required [formControl]="password" type="password" />
+          <mat-error *ngIf="password.invalid">{{
+            getPasswordErrorMessage()
+          }}</mat-error>
+        </mat-form-field>
+
+        <p>Forgot password? <a href="#">Reset your password</a></p>
+        <button
+          type="button"
+          class="login-button"
+          mat-raised-button
+          color="primary"
+          (click)="logMessage()"
+        >
+          Log in
         </button>
+      </form>
 
+      <div class="row-with-dashes">
+        <div class="dash"></div>
+        <div style="padding-left: 10px; padding-right: 10px">or</div>
+        <div class="dash"></div>
+      </div>
+
+      <div
+        id="g_id_onload"
+        data-client_id="583589317553-067g326volft4gnajopj66fcoq8ilrai.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-auto_select="true"
+        data-itp_support="true"
+        data-callback="handleCredentialResponse"
+      ></div>
+      <div class="g-button">
+        <div
+          class="g_id_signin"
+          data-shape="rectangular"
+          data-logo_alignment="left"
+          data-width="400"
+        ></div>
+      </div>
+
+      <div class="signup-text">
+        <p>
+          Don't have an account?
+          <a href="register">Sign up</a>
+        </p>
+      </div>
     </div>
-
-    <div class="body">
-        <div class="center-container column">
-            <div class="login-text">Log in</div>
-            <form>
-                <mat-form-field>
-                    <mat-label>Username or email</mat-label>
-                    <input matInput placeholder="duong.kieu@gmeo.com" [formControl]="email" required>
-                    <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
-                </mat-form-field>
-
-                <mat-form-field>
-                    <mat-label>Password</mat-label>
-                    <input matInput required [formControl]="password" type="password">
-                    <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
-                </mat-form-field>
-
-                <p>Forgot password? <a href="#">Reset your password</a></p>
-                <button type="button" class="login-button" mat-raised-button color="primary" (click)="logMessage()">Log in</button>
-            </form>
-
-            <div class="row-with-dashes">
-                <div class="dash"></div>
-                <div style="padding-left: 10px; padding-right: 10px">or</div>
-                <div class="dash"></div>
-            </div>
-            <app-icon-button iconUrl="../../assets/google.png" buttonText="Continue with Google" backgroundColor="white"
-                borderColor="black">
-            </app-icon-button>
-            <div class="height-box"></div>
-            <app-icon-button iconUrl="../../assets/github.png" buttonText="Continue with Github" backgroundColor="white"
-                borderColor="black">
-            </app-icon-button>
-            <div class="signup-text">
-                <p>Don't have an account? 
-                    <a href="#">Sign up</a>
-                </p>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

@@ -1,0 +1,53 @@
+<div class="register-screen">
+    <div class="header">
+        <div style="font-size: x-large;">Kapo!</div>
+        <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+            <mat-icon>public</mat-icon>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>English</button>
+                <button mat-menu-item>Tiếng việt</button>
+            </mat-menu>
+        </button>
+
+    </div>
+
+    <div class="body">
+        <div class="center-container column">
+            <h2 class="sign-up-text">Sign up with your email</h2>
+            <form>
+                <p class="email-desc">Emails are collected only for password resets and are one-way hashed at time of collection</p>
+                <mat-form-field>
+                    <mat-label>Username or email</mat-label>
+                    <input matInput placeholder="duong.kieu@gmeo.com" [formControl]="email" required>
+                    <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput required [formControl]="password" type="password">
+                    <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+                </mat-form-field>
+
+                <button type="button" class="sign-up-button" mat-raised-button color="primary" (click)="logMessage()">Sign up</button>
+            </form>
+
+            <div class="row-with-dashes">
+                <div class="dash"></div>
+                <div style="padding-left: 10px; padding-right: 10px">or</div>
+                <div class="dash"></div>
+            </div>
+            <app-icon-button iconUrl="../../assets/google.png" buttonText="Continue with Google" backgroundColor="white"
+                borderColor="black">
+            </app-icon-button>
+            <div class="height-box"></div>
+            <app-icon-button iconUrl="../../assets/github.png" buttonText="Continue with Github" backgroundColor="white"
+                borderColor="black">
+            </app-icon-button>
+            <div class="login-text">
+                <p>Already have an account?
+                    <a href="login">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

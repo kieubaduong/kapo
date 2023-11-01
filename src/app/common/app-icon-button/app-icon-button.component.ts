@@ -14,6 +14,6 @@ export class AppIconButtonComponent {
 
   logMessage(): void {
     if (isDevMode())
-    console.log('Button clicked!'); // Log your desired message
+    console.log('Click not implemented yet'); // Log your desired message
   }
 }
