@@ -1,0 +1,100 @@
+<div
+  class="item-rest"
+  [style.border]="selected ? '3px solid #3f51b5' : 'none'"
+  [style.backgroundColor]="selected ? 'white' : '#e9e9e9'"
+  style="
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+  "
+>
+  <div
+    style="
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.75rem;
+      text-align: center;
+      color: #6e6e6e;
+      line-height: 0.75rem;
+    "
+  >
+    {{ title ?? 'Question' }}
+  </div>
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    "
+  >
+    <div
+      style="
+        border: 1px solid #B2B2B2;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.5625rem;
+      "
+    >
+      {{ timeLimit }}
+    </div>
+    <div
+      style="
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        margin-right: 26px;
+      "
+    >
+      <img
+        [src]="imgUrl ?? '../../../assets/image-place-holder.png'"
+        alt="Placeholder"
+        style="height: 28px; width: 28px"
+      />
+    </div>
+  </div>
+  <div style="display: flex; justify-content: space-between">
+    <div
+      style="
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-right: 5px;
+      "
+    >
+      <div
+        style="
+          border: 1px solid #B2B2B2;
+          height: 5px;
+          width: 100%;
+          margin-bottom: 5px;
+        "
+      ></div>
+      <div
+        style="border: 1px solid #B2B2B2; height: 5px; width: 100%"
+      ></div>
+    </div>
+    <div
+      style="
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 5px;
+      "
+    >
+      <div
+        style="border: 1px solid #B2B2B2; height: 5px; width: 100%"
+      ></div>
+      <div
+        style="border: 1px solid #B2B2B2; height: 5px; width: 100%"
+      ></div>
+    </div>
+  </div>
+</div>

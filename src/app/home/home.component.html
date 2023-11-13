@@ -1,27 +1,115 @@
-<ng-container>
-  <mat-toolbar class="example-header">Header</mat-toolbar>
+<mat-toolbar
+  color="primary"
+  style="display: flex; justify-content: space-between; align-items: center"
+>
+  <span>Kapo!</span>
 
-  <mat-sidenav-container class="example-container">
-    <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
-      Sidenav
-    </mat-sidenav>
+  <div style="position: relative; min-width: 300px">
+    <input
+      type="text"
+      placeholder="Search anything else include your crush"
+      style="padding-left: 10px; width: 100%; min-height: 40px; outline: none"
+    />
+  </div>
 
-    <mat-sidenav-content>
-      <p><mat-checkbox formControlName="fixed">Fixed</mat-checkbox></p>
-      <p>
-        <mat-form-field>
-          <mat-label>Top gap</mat-label>
-          <input matInput type="number" formControlName="top" />
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field>
-          <mat-label>Bottom gap</mat-label>
-          <input matInput type="number" formControlName="bottom" />
-        </mat-form-field>
-      </p>
-      <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  <div style="display: flex; align-items: center">
+    <button
+      mat-raised-button
+      color="accent"
+      style="margin-right: 20px"
+      (click)="navigateToQuiz()"
+    >
+      Create
+    </button>
 
-</ng-container>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Option 1</button>
+</mat-menu>
+
+<mat-sidenav-container style="height: calc(100vh - 64px)">
+  <mat-sidenav mode="side" opened style="width: 80px">
+    <mat-nav-list style="padding: 8px">
+      <a
+        mat-list-item
+        style="
+          border-radius: 4px;
+          padding: 0;
+          height: 100%;
+          margin-bottom: 10px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            height: 100%;
+          "
+        >
+          <mat-icon matListIcon matListIcon class="material-icons-outlined"
+            >home</mat-icon
+          >
+          <p matLine style="margin: 0; font-size: 0.625rem">Home</p>
+        </div>
+      </a>
+      <a
+        mat-list-item
+        style="
+          border-radius: 4px;
+          padding: 0;
+          height: 100%;
+          margin-bottom: 10px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            height: 100%;
+          "
+        >
+          <mat-icon matListIcon class="material-icons-outlined">poll</mat-icon>
+          <p matLine style="margin: 0; font-size: 0.625rem">Reports</p>
+        </div>
+      </a>
+      <a
+        mat-list-item
+        style="
+          border-radius: 4px;
+          padding: 0;
+          height: 100%;
+          margin-bottom: 10px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            height: 100%;
+          "
+        >
+          <mat-icon matListIcon class="material-icons-outlined">group</mat-icon>
+          <p matLine style="margin: 0; font-size: 0.625rem">Groups</p>
+        </div>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content style="overflow: auto">
+    <!-- Main content goes here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

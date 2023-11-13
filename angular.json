@@ -65,6 +65,10 @@
             },
             "development": {
               "browserTarget": "kapo:build:development"
+            },
+            "options": {
+              "browserTarget": "kapo:build",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

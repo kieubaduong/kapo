@@ -1,0 +1,26 @@
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="overlayOrigin"
+  [cdkConnectedOverlayOpen]="isHovering"
+  [cdkConnectedOverlayPositions]="[
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top' },
+    { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom' }
+  ]"
+>
+  <div class="tooltip-container">
+    <div class="tooltip-content">
+      <div class="tooltip-item">
+        <span class="tooltip-value">Standard</span>
+        <span class="tooltip-hint">Award correct answers with the normal amount of points.</span>
+      </div>
+      <div class="tooltip-item">
+        <span class="tooltip-value">Double points</span>
+        <span class="tooltip-hint">Give twice as many points for correct answers</span>
+      </div>
+      <div>
+        <span class="tooltip-value">No points</span>
+        <span class="tooltip-hint">Lower the stakes of the question and remove points.</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

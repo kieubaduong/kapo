@@ -1,0 +1,27 @@
+<div style="display: flex; align-items: center; margin-bottom: 10px">
+  <mat-icon class="material-icons-outlined" style="margin-right: 5px"
+    >sports_score</mat-icon
+  >
+  Points
+  <mat-icon
+    style="margin-left: 5px"
+    cdkOverlayOrigin
+    #overlayOrigin="cdkOverlayOrigin"
+    (mouseover)="tooltip.showTooltip()"
+    (mouseout)="tooltip.hideTooltip()"
+    >help_outline</mat-icon
+  >
+  <app-points-tooltip
+    *ngIf="overlayOrigin"
+    #tooltip
+    [overlayOrigin]="overlayOrigin"
+  ></app-points-tooltip>
+</div>
+<mat-form-field appearance="fill" style="width: 100%">
+  <mat-label>Points</mat-label>
+  <mat-select [value]="points" (selectionChange)="onPointsChange($event.value)">
+    <mat-option value="standard">Standard</mat-option>
+    <mat-option value="double-points">Double points</mat-option>
+    <mat-option value="no-points">No points</mat-option>
+  </mat-select>
+</mat-form-field>

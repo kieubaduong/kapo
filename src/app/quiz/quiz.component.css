@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+}
+
+.sidebar {
+  right: 0;
+  transition: width 0.5s ease;
+}
+
+button {
+  transition: transform 0.5s ease;
+}
+
+.left-sidebar {
+  width: 15%;
+  border-right: 1px solid #ddd;
+  display: flex; 
+  flex-direction: column;
+}
+
+.item-container {
+  display: flex;
+}
+
+.icon-buttons {
+  flex: 0 0 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.item-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-header {
+  flex: 0 0 10%;
+}
+
+.item-body {
+  flex: 1;
+  background-color: grey;
+  border-radius: 10px;
+  /* styles for the item body */
+}
+
+.selected {
+  background-color: #EAF4FC; /* Replace with your desired color */
+}

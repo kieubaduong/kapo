@@ -1,0 +1,11 @@
+<div style="display: flex; align-items: center; margin-bottom: 10px">
+  <mat-icon style="margin-right: 5px">list</mat-icon>
+  Answer options
+</div>
+<mat-form-field appearance="fill" style="width: 100%">
+  <mat-label>Answer options</mat-label>
+  <mat-select [value]="answerOptions" (selectionChange)="onAnswerOptionsChange($event.value)">
+    <mat-option value="single-select">Single select</mat-option>
+    <mat-option value="multi-select">Multi select</mat-option>
+  </mat-select>
+</mat-form-field>

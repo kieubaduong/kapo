@@ -1,0 +1,366 @@
+<!-- Header -->
+<mat-toolbar
+  color="primary"
+  style="display: flex; justify-content: space-between; align-items: center"
+>
+  <span>Kapo!</span>
+
+  <button
+    style="
+      position: relative;
+      min-width: 300px;
+      min-height: 40px;
+      border: 1px solid #808080;
+      border-radius: 4px;
+      background: #fff;
+      color: #6e6e6e;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px;
+      cursor: pointer;
+    "
+  >
+    Enter kapo title...
+    <span
+      style="
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #f2f2f2;
+        border: none;
+        color: #333333;
+        font-size: 14px;
+        font-weight: 700;
+        width: 80px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+      "
+    >
+      Settings
+    </span>
+  </button>
+
+  <div style="display: flex; align-items: center">
+    <button mat-raised-button style="margin-right: 10px" color="accent">
+      <mat-icon>palette_outline</mat-icon>
+      Themes
+    </button>
+    <button mat-raised-button style="margin-right: 10px">
+      <mat-icon>remove_red_eye_outline</mat-icon>
+      Preview
+    </button>
+    <div
+      style="border-left: 1px solid #000; height: 30px; margin: 0 10px 0 0"
+    ></div>
+    <button mat-raised-button style="margin-right: 10px">Exit</button>
+    <button mat-raised-button color="warn">Save</button>
+  </div>
+</mat-toolbar>
+
+<div class="container" style="display: flex; height: calc(100vh - 64px)">
+  <!-- Left Sidebar -->
+  <div class="left-sidebar">
+    <mat-list style="padding: 0px; overflow: auto; flex-grow: 1">
+      <mat-list-item
+        *ngFor="let item of items; index as i"
+        style="height: 130px; padding: 0px; padding-bottom: 15px"
+        [class.selected]="item.id === selectedKapo.id"
+        (click)="selectQuiz(i)"
+      >
+        <div
+          class="item-container"
+          style="display: flex; flex-direction: row; height: 130px"
+        >
+          <div
+            class="icon-buttons"
+            style="flex: none; align-self: flex-end; width: 20px"
+          >
+            <button
+              mat-icon-button
+              style="
+                width: 25px;
+                height: 25px;
+                padding: 0px;
+                margin-bottom: 10px;
+              "
+              *ngIf="item.id === selectedKapo?.id"
+            >
+              <mat-icon
+                style="
+                  font-size: 15px;
+                  line-height: 15px;
+                  margin: 0px;
+                  vertical-align: middle;
+                  text-align: center;
+                "
+                >content_copy</mat-icon
+              >
+            </button>
+            <button
+              mat-icon-button
+              style="width: 25px; height: 25px; padding: 0px"
+              *ngIf="item.id === selectedKapo?.id"
+            >
+              <mat-icon
+                class="material-icons-outlined"
+                style="
+                  font-size: 15px;
+                  line-height: 15px;
+                  margin: 0px;
+                  vertical-align: middle;
+                  text-align: center;
+                "
+                >delete</mat-icon
+              >
+            </button>
+          </div>
+          <div
+            class="item-content"
+            style="
+              display: flex;
+              flex-direction: column;
+              flex-grow: 1;
+              margin-right: 10px;
+            "
+          >
+            <div class="item-header" style="flex: none; margin-top: 5px">
+              <span
+                style="
+                  font-size: 12px;
+                  margin-right: 5px;
+                  margin-left: 5px;
+                  font-weight: 700;
+                "
+                [style.color]="
+                  item.id === selectedKapo.id ? '#333333' : '#6E6E6E'
+                "
+                >{{ i + 1 }}</span
+              >
+              <span
+                style="font-size: 12px; font-weight: 700"
+                [style.color]="
+                  item.id === selectedKapo.id ? '#333333' : '#6E6E6E'
+                "
+                >{{ getTypeName(item) }}</span
+              >
+            </div>
+            <ng-container *ngIf="isInstanceOfQuiz(item)">
+              <app-quiz-structure-preview
+                [title]="item.title"
+                [selected]="selectedKapo.id === item.id"
+                [imgUrl]="$any(item).imgUrl"
+                [timeLimit]="$any(item).timeLimit"
+              ></app-quiz-structure-preview>
+            </ng-container>
+
+            <ng-container *ngIf="isInstanceOfSlide(item)">
+              <app-slide-structure-preview
+                [title]="item.title"
+                [selected]="selectedKapo.id === item.id"
+                [imgUrl]="
+                  $any(item).imgUrl ?? '../../../assets/image-place-holder.png'
+                "
+                [content]="$any(item).content ?? 'Text'"
+              ></app-slide-structure-preview>
+            </ng-container>
+
+            <ng-container *ngIf="isInstanceOfTrueFalseQuiz(item)">
+              <app-true-false-quiz-preview
+                [title]="item.title"
+                [selected]="selectedKapo.id === item.id"
+                [imgUrl]="
+                  $any(item).imgUrl ?? '../../../assets/image-place-holder.png'
+                "
+                [timeLimit]="$any(item).timeLimit"
+              ></app-true-false-quiz-preview>
+            </ng-container>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+    <div
+      style="
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      "
+    >
+      <button mat-raised-button color="primary" style="width: 135px">
+        Add question
+      </button>
+      <button
+        mat-raised-button
+        style="margin: 10px; margin-bottom: 0px; width: 135px"
+      >
+        Add slide
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div
+    class="main-content"
+    style="
+      flex-grow: 1;
+      overflow: auto;
+      background-image: url('../../assets/beach.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    "
+  >
+    <!-- Main content goes here -->
+    <div
+      class="main-content"
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
+      <!-- First row -->
+      <div style="position: relative; width: calc(80% - 20px); margin: 20px 10px;">
+        <textarea
+          id="question"
+          name="question"
+          [(ngModel)]="question"
+          maxlength="120"
+          style="
+            background-color: white;
+            height: 100px;
+            width: 100%;
+            overflow: auto;
+            word-wrap: break-word;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            resize: none;
+          "
+          (input)="updateCountdown()"
+        ></textarea>
+        <div id="countdown" style="position: absolute; top: 0; right: 0">{{countdown}}</div>
+      </div>
+
+      <!-- Second row -->
+      <div class="row">
+        <div
+          class="container"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <button onclick="openFolder()">Add Media</button>
+        </div>
+      </div>
+
+      <!-- Third row -->
+      <div class="row">
+        <input type="text" id="answer1" name="answer1" placeholder="Answer 1" />
+        <input type="text" id="answer2" name="answer2" placeholder="Answer 2" />
+      </div>
+
+      <!-- Fourth row -->
+      <div class="row">
+        <input type="text" id="answer3" name="answer3" placeholder="Answer 3" />
+        <input type="text" id="answer4" name="answer4" placeholder="Answer 4" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div
+    class="sidebar"
+    style="
+      width: 22%;
+      height: calc(100vh - 64px);
+      border-left: 1px solid #ddd;
+      position: relative;
+    "
+    [ngStyle]="{ width: isSidebarOpen ? '300px' : '0px' }"
+  >
+    <button
+      mat-mini-fab
+      color="primary"
+      style="
+        position: absolute;
+        left: -30px;
+        top: calc(calc(100vh - 64px) / 2 - 24px);
+        padding: 0px;
+        margin: 0px;
+        min-width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+      (click)="toggleSidebar()"
+      [ngStyle]="{
+        transform: isSidebarOpen ? 'rotate(0deg)' : 'rotate(-180deg)'
+      }"
+    >
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+    <!-- Right Sidebar content goes here -->
+    <div
+      *ngIf="isSidebarOpen && !isSidebarAnimating"
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* changed from space-between */
+        height: calc(100% - 44px);
+        padding: 20px;
+        padding-bottom: 10px;
+      "
+      class="sidebar"
+    >
+      <!-- Scrollable container -->
+      <div style="overflow-y: auto; flex-grow: 1">
+        <div style="display: flex; align-items: center; margin-bottom: 10px">
+          <mat-icon class="material-icons-outlined" style="margin-right: 5px"
+            >live_help_outlined</mat-icon
+          >
+          Question type
+        </div>
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Question type</mat-label>
+          <mat-select [value]="questionType">
+            <mat-option value="quiz">Quiz</mat-option>
+            <mat-option value="true-or-false">True or false</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="isInstanceOfQuiz(selectedKapo)">
+          <app-quiz-field
+            [timeLimit]="$any(selectedKapo).timeLimit.toString()"
+            [points]="$any(selectedKapo).points"
+            [answerOptions]="$any(selectedKapo).answerOptions"
+            (timeLimitChange)="$any(selectedKapo).timeLimit = $event"
+            (pointsChange)="$any(selectedKapo).points = $event"
+            (answerOptionsChange)="$any(selectedKapo).answerOptions = $event"
+          ></app-quiz-field>
+        </div>
+
+        <div *ngIf="isInstanceOfTrueFalseQuiz(selectedKapo)">
+          <app-true-fasle-quiz-field
+            [timeLimit]="$any(selectedKapo).timeLimit.toString()"
+            [points]="$any(selectedKapo).points"
+            (timeLimitChange)="$any(selectedKapo).timeLimit = $event"
+            (pointsChange)="$any(selectedKapo).points = $event"
+          ></app-true-fasle-quiz-field>
+        </div>
+        <!-- Add more fields here -->
+      </div>
+
+      <div style="display: flex; justify-content: space-between; width: 100%">
+        <button mat-raised-button color="accent" style="min-width: 102.29px">
+          Delete
+        </button>
+        <button mat-raised-button color="primary">Duplicate</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,24 +14,24 @@
     <div class="center-container column">
       <div class="login-text">Log in</div>
 
-      <form>
-        <mat-form-field>
+      <form [formGroup]="loginForm">
+        <mat-form-field >
           <mat-label>Username or email</mat-label>
           <input
             matInput
             placeholder="duong.kieu@gmeo.com"
-            [formControl]="email"
+            formControlName="email"
             required
           />
-          <mat-error *ngIf="email.invalid">{{
+          <mat-error *ngIf="loginForm.controls.email.invalid">{{
             getEmailErrorMessage()
           }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input matInput required [formControl]="password" type="password" />
-          <mat-error *ngIf="password.invalid">{{
+          <input matInput required formControlName="password" type="password" />
+          <mat-error *ngIf="loginForm.controls.password.invalid">{{
             getPasswordErrorMessage()
           }}</mat-error>
         </mat-form-field>
@@ -42,7 +42,8 @@
           class="login-button"
           mat-raised-button
           color="primary"
-          (click)="logMessage()"
+          (click)="loginWithEmail()"
+          [disabled]="!loginForm.valid"
         >
           Log in
         </button>

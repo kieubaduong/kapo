@@ -1,36 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Kapo</title>
-    <base href="/" />
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <title>Kapo</title>
+  <base href="/" />
 
-    <meta name="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
-    <meta name="Referrer-Policy" content="no-referrer-when-downgrade">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+  <meta name="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+  <meta name="Referrer-Policy" content="no-referrer-when-downgrade">
 
-    <script src="https://accounts.google.com/gsi/client"></script>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet">
 
-    <script>
-      function handleCredentialResponse(response) {
-        console.log(response['credential']);
-      }
-    </script>
-    
-  </head>
-  <body class="mat-typography">
-    <app-root></app-root>
-  </body>
+  <script src="https://accounts.google.com/gsi/client"></script>
+
+  <script>
+    function handleCredentialResponse(response) {
+      // Define the data you want to send
+      const data = response['credential'];
+
+      // Send an HTTP POST request using Angular's HttpClient
+      const url = 'http://localhost:8080/login/google';
+
+      // You need to inject HttpClient in your Angular component
+      const httpClient = new HttpClient();
+
+      // Send the POST request
+      httpClient.post(url, data).subscribe(
+        (result) => {
+          console.log('HTTP POST request was successful', result);
+        },
+        (error) => {
+          console.error('HTTP POST request failed', error);
+        }
+      );
+    }
+  </script>
+
+</head>
+
+<body class="mat-typography">
+  <app-root></app-root>
+</body>
+
 </html>

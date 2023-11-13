@@ -1,0 +1,25 @@
+.tooltip-container {
+    border-radius: 4px;
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.tooltip-item {
+    margin-bottom: 10px;
+}
+
+.tooltip-value {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+
+.tooltip-hint {
+    display: block;
+    font-size: 12px;
+    color: grey;
+}

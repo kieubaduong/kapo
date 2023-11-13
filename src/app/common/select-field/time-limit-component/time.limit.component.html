@@ -1,0 +1,20 @@
+<div style="display: flex; align-items: center; margin-bottom: 10px">
+    <mat-icon class="material-icons-outlined" style="margin-right: 5px"
+      >timer</mat-icon
+    >
+    Time limit
+  </div>
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>Time limit</mat-label>
+    <mat-select [value]="timeLimit" (selectionChange)="onTimeLimitChange($event.value)">
+      <mat-option value="5">5 seconds</mat-option>
+      <mat-option value="10">10 seconds</mat-option>
+      <mat-option value="20">20 seconds</mat-option>
+      <mat-option value="30">30 seconds</mat-option>
+      <mat-option value="60">1 minute</mat-option>
+      <mat-option value="90">1 minute 30 seconds</mat-option>
+      <mat-option value="120">2 minute</mat-option>
+      <mat-option value="180">3 minute</mat-option>
+      <mat-option value="240">4 minute</mat-option>
+    </mat-select>
+  </mat-form-field>
