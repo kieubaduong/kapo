@@ -222,16 +222,17 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 100%;
+        overflow: auto;
       "
     >
       <!-- First row -->
       <div
         style="
           width: calc(80% - 20px);
-          margin: 30px 10px;
+          margin: 30px 0px;
           position: relative;
           border-radius: 0.25rem;
+          background-color: aqua;
         "
         [style.height]="greyContainerHeight"
       >
@@ -243,7 +244,7 @@
             top: 0;
             border-radius: 0.25rem;
             min-height: 57px;
-            height: 57px;
+            min-width: 400px;
           "
           [style.height]="greyContainerHeight"
         ></div>
@@ -287,15 +288,17 @@
       </div>
 
       <!-- Second row -->
-      <div class="row">
+      <div class="row" style="margin-bottom: 20px; height: 30vh; width: 20vw">
         <div class="media-container">
-          <span class="media-text" style="color: #000; font-size: 20px"
+          <span
+            class="media-text"
+            style="color: #000; font-size: 20px; margin-top: 5vh"
             >Attach media file</span
           >
           <button
             mat-raised-button
             class="media-button"
-            style="height: 48px; width: 48px; min-width: 48px; margin-top: 20px"
+            style="height: 48px; width: 48px; min-width: 48px; margin-top: 2vh"
           >
             <i class="material-icons" style="font-size: 30px">add</i>
           </button>
@@ -306,48 +309,152 @@
       <div
         style="
           display: flex;
-          justify-content: space-between;
+          flex-direction: column;
           margin-bottom: 20px;
+          width: calc(100% - 32px);
+          height: 40vh;
         "
       >
-        <input
-          type="text"
-          id="answer1"
-          name="answer1"
-          placeholder="Answer 1"
-          style="flex: 1; margin-right: 10px"
-        />
-        <input
-          type="text"
-          id="answer2"
-          name="answer2"
-          placeholder="Answer 2"
-          style="flex: 1; margin-right: 10px"
-        />
-      </div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-grow: 1;
+          "
+        >
+          <div
+            style="
+              flex: 1;
+              margin-right: 10px;
+              background-color: #d9d9d9;
+              position: relative;
+              border-radius: 4px;
+            "
+          >
+            <div
+              style="
+                background-color: white;
+                border-radius: 4px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 5px;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+              "
+            >
+              <!-- Rectangle with icon -->
+              <div
+                style="
+                  height: 100px;
+                  width: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  background-color: red;
+                  border-radius: 4px;
+                "
+              >
+                <mat-icon
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  fontIcon="change_history"
+                ></mat-icon>
+              </div>
 
-      <!-- Fourth row -->
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 20px;
-        "
-      >
-        <input
-          type="text"
-          id="answer3"
-          name="answer3"
-          placeholder="Answer 3"
-          style="flex: 1; margin-right: 10px"
-        />
-        <input
-          type="text"
-          id="answer4"
-          name="answer4"
-          placeholder="Answer 4"
-          style="flex: 1; margin-right: 10px"
-        />
+              <!-- Textarea -->
+              <textarea
+                style="flex-grow: 1; margin-left: 10px; margin-right: 10px"
+              ></textarea>
+
+              <!-- Icon -->
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <mat-icon
+                  aria-hidden="false"
+                  aria-label="Example home icon"
+                  fontIcon="image"
+                  class="material-icons-outlined"
+                ></mat-icon>
+              </div>
+            </div>
+          </div>
+          <div
+            style="
+              flex: 1;
+              margin-left: 10px;
+              background-color: #d9d9d9;
+              position: relative;
+              border-radius: 4px;
+            "
+          >
+            <div
+              style="
+                background-color: white;
+                border-radius: 4px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 5px;
+              "
+            ></div>
+          </div>
+        </div>
+        <div
+          style="display: flex; justify-content: space-between; flex-grow: 1"
+        >
+          <div
+            style="
+              flex: 1;
+              margin-right: 10px;
+              background-color: #d9d9d9;
+              position: relative;
+              border-radius: 4px;
+            "
+          >
+            <div
+              style="
+                background-color: white;
+                border-radius: 4px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 5px;
+              "
+            ></div>
+          </div>
+          <div
+            style="
+              flex: 1;
+              margin-left: 10px;
+              background-color: #d9d9d9;
+              position: relative;
+              border-radius: 4px;
+            "
+          >
+            <div
+              style="
+                background-color: white;
+                border-radius: 4px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 5px;
+              "
+            ></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

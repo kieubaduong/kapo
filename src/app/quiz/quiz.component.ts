@@ -17,6 +17,7 @@ export class QuizComponent {
   greyContainerHeight: string = '52px';
   placeholder = 'Enter your question here...';
   displayCounter = false;
+  firstRowHeight: string = '100px';
 
   // Data related variables
   kapoItems: Kapo[] = [];
@@ -96,16 +97,21 @@ export class QuizComponent {
   adjustTextareaHeight(event: any): void {
     event.target.style.height = '52px';
     this.greyContainerHeight = '57px';
+    this.firstRowHeight = '100px';
     if (event.target.scrollHeight > event.target.clientHeight) {
-      const temp = event.target.scrollHeight + 5;
+      let temp = event.target.scrollHeight + 5;
       this.greyContainerHeight = temp + 'px';
+      temp += 48;
+      this.firstRowHeight = temp + 'px';
       event.target.style.height = event.target.scrollHeight + 'px';
     } else if (
       event.target.scrollHeight < parseInt(event.target.style.height)
     ) {
       event.target.style.height = event.target.scrollHeight + 'px';
       this.greyContainerHeight = event.target.scrollHeight + 5 + 'px';
+      this.firstRowHeight = event.target.scrollHeight + 53 + 'px';
     }
+    console.log(this.firstRowHeight);
   }
 
   preventEnter(event: any): void {
