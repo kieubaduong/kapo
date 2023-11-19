@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import KapoFactory from '../../data/models/kapo.factory';
 import Kapo from '../../data/models/kapo';
 import Quiz from '../../data/models/quiz';
@@ -11,13 +11,18 @@ import TrueOrFalseQuiz from '../../data/models/true.or.false.quiz';
   styleUrls: ['./quiz.component.css'],
 })
 export class QuizComponent {
+  @ViewChild('myDiv') myDiv!: ElementRef;
+  @ViewChild('userInputTextarea') userInputTextarea!: ElementRef;
+
   // UI related variables
   sidebarOpen = true;
   sidebarAnimating = false;
   greyContainerHeight: string = '52px';
   placeholder = 'Enter your question here...';
   displayCounter = false;
-  firstRowHeight: string = '100px';
+  remainingCharacters: number = 95;
+  isTextareaFocused: boolean = false;
+  answerPlaceholder: string = 'Add answer...';
 
   // Data related variables
   kapoItems: Kapo[] = [];
@@ -28,7 +33,7 @@ export class QuizComponent {
   questionText = '';
   initialWindowWidth: number = window.innerWidth;
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.kapoItems = [
       this.kapoFactory.createQuestion('Quiz'),
       this.kapoFactory.createQuestion('TrueOrFalse'),
@@ -37,6 +42,10 @@ export class QuizComponent {
     ];
 
     this.selectedKapo = this.kapoItems[0];
+  }
+
+  ngAfterViewInit() {
+    this.myDiv.nativeElement.addEventListener('focus', this.onFocus.bind(this));
   }
 
   getTypeName(item: any): string {
@@ -66,6 +75,11 @@ export class QuizComponent {
     return item instanceof TrueOrFalseQuiz;
   }
 
+  handleAnswerChange(newValue: boolean) {
+    (this.selectedKapo as TrueOrFalseQuiz).answer = newValue;
+    this.cdr.detectChanges();
+  }
+
   // UI related functions
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -88,6 +102,8 @@ export class QuizComponent {
 
   selectQuiz(index: number) {
     this.selectedKapo = this.kapoItems[index];
+    console.log(this.selectedKapo);
+    this.cdr.detectChanges();
   }
 
   updateCountdown() {
@@ -97,21 +113,17 @@ export class QuizComponent {
   adjustTextareaHeight(event: any): void {
     event.target.style.height = '52px';
     this.greyContainerHeight = '57px';
-    this.firstRowHeight = '100px';
     if (event.target.scrollHeight > event.target.clientHeight) {
       let temp = event.target.scrollHeight + 5;
       this.greyContainerHeight = temp + 'px';
       temp += 48;
-      this.firstRowHeight = temp + 'px';
       event.target.style.height = event.target.scrollHeight + 'px';
     } else if (
       event.target.scrollHeight < parseInt(event.target.style.height)
     ) {
       event.target.style.height = event.target.scrollHeight + 'px';
       this.greyContainerHeight = event.target.scrollHeight + 5 + 'px';
-      this.firstRowHeight = event.target.scrollHeight + 53 + 'px';
     }
-    console.log(this.firstRowHeight);
   }
 
   preventEnter(event: any): void {
@@ -124,4 +136,47 @@ export class QuizComponent {
       this.placeholder = 'Enter your question here...';
     }
   }
+
+  onFocus() {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    if (sel) {
+      range.setStart(this.myDiv.nativeElement.firstChild, 0);
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+
+  onKeyup() {
+    if (!this.myDiv.nativeElement.textContent) {
+      this.myDiv.nativeElement.innerHTML = '&#8203;';
+      this.onFocus();
+    }
+  }
+
+  updateTextareaHeightAndRemainingChars(event: any) {
+    this.userInputTextarea.nativeElement.style.height = '40px';
+    if (this.userInputTextarea.nativeElement.scrollHeight > this.userInputTextarea.nativeElement.clientHeight) {
+      this.userInputTextarea.nativeElement.style.height = this.userInputTextarea.nativeElement.scrollHeight + 'px';
+    }
+    this.remainingCharacters = 95 - this.userInputTextarea.nativeElement.value.length;
+  }
+
+  onTextareaFocus() {
+    this.isTextareaFocused = true;
+    this.answerPlaceholder = '';
+  }
+
+  onTextareaBlur() {
+    if (!this.userInputTextarea.nativeElement.value) {
+      this.answerPlaceholder = 'Add answer...';
+    }
+    this.isTextareaFocused = false;
+  }
+
+  trackByFn(index: number, kapo: Kapo): number {
+    return kapo.id;
+  }
+
 }

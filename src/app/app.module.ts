@@ -35,6 +35,9 @@ import { TrueFasleQuizFieldComponent } from './common/combine-select-field/true-
 import { AnswerOptionsComponent } from './common/select-field/answer-options-component/answer.options.component';
 import { PointsComponent } from './common/select-field/points-component/points.component';
 import { TimeLimitComponent } from './common/select-field/time-limit-component/time.limit.component';
+import { AnswerComponent } from './common/answer/answer.component';
+import { TofAnswerComponent } from './common/tof-answer/tof-answer.component';
+import { TextAnswerComponent } from './common/text-answer/text-answer.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +57,9 @@ import { TimeLimitComponent } from './common/select-field/time-limit-component/t
     AnswerOptionsComponent,
     QuizFieldComponent,
     TrueFasleQuizFieldComponent,
+    AnswerComponent,
+    TofAnswerComponent,
+    TextAnswerComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +81,7 @@ import { TimeLimitComponent } from './common/select-field/time-limit-component/t
     MatSelectModule,
     MatTooltipModule,
     OverlayModule,
+    BrowserAnimationsModule,
   ],
   providers: [importProvidersFrom(HttpClientModule)],
   bootstrap: [AppComponent],

@@ -1,0 +1,76 @@
+<div
+  style="height: 100%; border-radius: 4px"
+  [style.backgroundColor]="backgroundColorDark"
+>
+  <div
+    style="
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 5px;
+      display: flex;
+      align-items: center;
+      padding: 5px;
+    "
+    [style.backgroundColor]="backgroundColor"
+  >
+    <!-- Rectangle with icon -->
+    <div
+      style="
+        height: 100%;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        margin-right: 5px;
+      "
+      [style.backgroundColor]="backgroundColor"
+      [ngSwitch]="trueOrFalse"
+    >
+      <div *ngSwitchCase="true" class="triangle"></div>
+      <div *ngSwitchCase="false" class="rhombus"></div>
+    </div>
+
+    <!-- Textarea -->
+    <textarea
+      id="myTextarea"
+      [(ngModel)]="answer"
+      disabled="true"
+      style="
+        flex-grow: 1;
+        word-wrap: break-word;
+        padding: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+        height: 40px;
+        outline: none;
+        border: none;
+        resize: none;
+        color: white;
+      "
+      [style.backgroundColor]="backgroundColor"
+    ></textarea>
+
+    <!-- Check button -->
+    <button
+      class="check-button"
+      [@changeBgColor]="isChecked ? 'checked' : 'unchecked'"
+      [style.backgroundColor]="isChecked ? '#66bf39' : 'transparent'"
+      (mouseenter)="showCheckIcon = true"
+      (mouseleave)="showCheckIcon = false"
+      (click)="toggleButton()"
+    >
+      <img
+        class="upscale-icon"
+        *ngIf="showCheckIcon || isChecked"
+        src="../../../assets/check-icon.svg"
+        alt="check icon"
+        height="32px"
+        width="32px"
+      />
+    </button>
+  </div>
+</div>

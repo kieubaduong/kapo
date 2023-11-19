@@ -229,7 +229,7 @@
       <div
         style="
           width: calc(80% - 20px);
-          margin: 30px 0px;
+          margin: 30px 0px 20px 0px;
           position: relative;
           border-radius: 0.25rem;
           background-color: aqua;
@@ -288,7 +288,7 @@
       </div>
 
       <!-- Second row -->
-      <div class="row" style="margin-bottom: 20px; height: 30vh; width: 20vw">
+      <div class="row" style="margin-bottom: 20px">
         <div class="media-container">
           <span
             class="media-text"
@@ -307,10 +307,11 @@
 
       <!-- Third row -->
       <div
+        *ngIf="isInstanceOfQuiz(selectedKapo)"
         style="
           display: flex;
           flex-direction: column;
-          margin-bottom: 20px;
+          margin-bottom: 50px;
           width: calc(100% - 32px);
           height: 40vh;
         "
@@ -323,136 +324,51 @@
             flex-grow: 1;
           "
         >
-          <div
-            style="
-              flex: 1;
-              margin-right: 10px;
-              background-color: #d9d9d9;
-              position: relative;
-              border-radius: 4px;
-            "
-          >
-            <div
-              style="
-                background-color: white;
-                border-radius: 4px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 5px;
-                display: flex;
-                align-items: center;
-                padding: 10px;
-              "
-            >
-              <!-- Rectangle with icon -->
-              <div
-                style="
-                  height: 100px;
-                  width: 40px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  background-color: red;
-                  border-radius: 4px;
-                "
-              >
-                <mat-icon
-                  aria-hidden="false"
-                  aria-label="Example home icon"
-                  fontIcon="change_history"
-                ></mat-icon>
-              </div>
-
-              <!-- Textarea -->
-              <textarea
-                style="flex-grow: 1; margin-left: 10px; margin-right: 10px"
-              ></textarea>
-
-              <!-- Icon -->
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <mat-icon
-                  aria-hidden="false"
-                  aria-label="Example home icon"
-                  fontIcon="image"
-                  class="material-icons-outlined"
-                ></mat-icon>
-              </div>
-            </div>
+          <div style="flex: 1; margin-right: 10px; position: relative">
+            <app-answer [index]="0" [kapo]="selectedKapo"></app-answer>
           </div>
-          <div
-            style="
-              flex: 1;
-              margin-left: 10px;
-              background-color: #d9d9d9;
-              position: relative;
-              border-radius: 4px;
-            "
-          >
-            <div
-              style="
-                background-color: white;
-                border-radius: 4px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 5px;
-              "
-            ></div>
+          <div style="flex: 1; margin-right: 10px; position: relative">
+            <app-answer [index]="1" [kapo]="selectedKapo"></app-answer>
           </div>
         </div>
+
         <div
           style="display: flex; justify-content: space-between; flex-grow: 1"
         >
-          <div
-            style="
-              flex: 1;
-              margin-right: 10px;
-              background-color: #d9d9d9;
-              position: relative;
-              border-radius: 4px;
-            "
-          >
-            <div
-              style="
-                background-color: white;
-                border-radius: 4px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 5px;
-              "
-            ></div>
+          <div style="flex: 1; margin-right: 10px; position: relative">
+            <app-answer [index]="2" [kapo]="selectedKapo"></app-answer>
           </div>
-          <div
-            style="
-              flex: 1;
-              margin-left: 10px;
-              background-color: #d9d9d9;
-              position: relative;
-              border-radius: 4px;
-            "
-          >
-            <div
-              style="
-                background-color: white;
-                border-radius: 4px;
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 5px;
-              "
-            ></div>
+          <div style="flex: 1; margin-right: 10px; position: relative">
+            <app-answer [index]="3" [kapo]="selectedKapo"></app-answer>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="isInstanceOfTrueFalseQuiz(selectedKapo)"
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          width: calc(100% - 32px);
+          height: 20vh;
+        "
+      >
+        <div style="display: flex; flex-grow: 1">
+          <div style="flex: 1; margin-right: 10px; position: relative">
+            <app-tof-answer
+              [trueOrFalse]="true"
+              [kapo]="selectedKapo"
+              (onAnswerChange)="handleAnswerChange($event)"
+            ></app-tof-answer>
+          </div>
+          <div style="flex: 1; margin-right: 10px; position: relative">
+            <app-tof-answer
+              [trueOrFalse]="false"
+              [kapo]="selectedKapo"
+              (onAnswerChange)="handleAnswerChange($event)"
+            ></app-tof-answer>
           </div>
         </div>
       </div>

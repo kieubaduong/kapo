@@ -1,7 +1,7 @@
 import Kapo from "./kapo";
 
 class TrueOrFalseQuiz extends Kapo {
-  answer: boolean | null = null;
+  answer: boolean = true;
   timeLimit: number = 5;
   minTimeLimit: number = 5;
   points: string = 'standard'; 
