@@ -7,7 +7,7 @@ class Quiz extends Kapo {
   points: string = 'standard';
   answerOptions: string = 'single-select';
   answers: string[] = new Array(4).fill(null);
-  correctAnswer: number = -1;
+  correctAnswers: boolean[] = new Array(4).fill(false);
 
   constructor() {
     super();

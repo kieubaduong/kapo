@@ -20,6 +20,7 @@ import AppColor from 'src/app/color';
 import Kapo from 'src/data/models/kapo';
 import TrueOrFalseQuiz from 'src/data/models/true.or.false.quiz';
 import { AnswerService } from './answer.service';
+import Quiz from 'src/data/models/quiz';
 
 @Component({
   selector: 'app-answer',
@@ -47,10 +48,10 @@ import { AnswerService } from './answer.service';
 export class AnswerComponent implements OnInit {
   @Input() index: number = -1;
   @Input() kapo!: Kapo;
-  isTrueOrFalseQuiz: boolean = false;
   answerBool: boolean = false;
 
-  @Output() onAnswerChange = new EventEmitter<boolean>();
+  @Output() onAnswerValueChange = new EventEmitter<string>();
+  @Output() onAnswerCorrectnessToggle = new EventEmitter<boolean>();
 
   @ViewChild('userInputTextarea') userInputTextarea!: ElementRef;
   remainingCharacters: number = 95;
@@ -64,32 +65,24 @@ export class AnswerComponent implements OnInit {
   answer: string = '';
   isTextareaDisabled: boolean = false;
 
-  constructor(private answerService: AnswerService) {}
-
   ngOnInit() {
-    this.isTrueOrFalseQuiz = this.kapo instanceof TrueOrFalseQuiz;
-
-    if (this.kapo instanceof TrueOrFalseQuiz) {
-      this.answerService.currentAnswer.subscribe((isTrue) => {
-        this.isChecked = this.index === 0 ? isTrue : !isTrue;
-      });
-      this.isChecked = this.index === 0 ? this.kapo.answer : !this.kapo.answer;
-      this.initializeAnswerBool();
-      this.initializeTextarea();
-    }
-
     this.initializeAnswerPlaceholder();
     this.initializeBackgroundColor();
+    let initValue = (this.kapo as Quiz).answers[this.index];
+    if (initValue != '' && initValue != null) {
+      this.answer = initValue;
+      this.emptyContent = false;
+    }
+    else {
+      this.answer = '';
+      this.emptyContent = true;
+    }
+    this.isChecked = (this.kapo as Quiz).correctAnswers[this.index];
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['kapo'] && !changes['kapo'].firstChange) {
-      if (this.isTrueOrFalseQuiz) {
-        this.isChecked =
-          this.index === 0
-            ? (this.kapo as TrueOrFalseQuiz).answer
-            : !(this.kapo as TrueOrFalseQuiz).answer;
-      }
+      this.ngOnInit();
     }
   }
 
@@ -111,24 +104,6 @@ export class AnswerComponent implements OnInit {
     this.backgroundColorDark = color.darkBg;
   }
 
-  initializeTextarea() {
-    this.isTextareaDisabled = true;
-    this.emptyContent = false;
-    this.answer = this.index === 0 ? 'True' : 'False';
-  }
-
-  initializeAnswerBool() {
-    if ((this.kapo as TrueOrFalseQuiz).answer === true) {
-      if (this.index === 0) {
-        this.isChecked = true;
-      }
-    } else {
-      if (this.index === 1) {
-        this.isChecked = true;
-      }
-    }
-  }
-
   onChangeTextarea(event: any) {
     this.preventEnter(event);
     this.adjustTextareaHeight(event);
@@ -137,6 +112,7 @@ export class AnswerComponent implements OnInit {
     if (this.answer.length == 0) {
       this.isChecked = false;
     }
+    this.onAnswerValueChange.emit(this.answer);
   }
 
   preventEnter(event: any) {
@@ -173,12 +149,7 @@ export class AnswerComponent implements OnInit {
   }
 
   toggleButton() {
-    if (this.isTrueOrFalseQuiz && !this.isChecked) {
-      this.answerService.setAnswer(this.index === 0);
-      this.isChecked = true;
-      this.onAnswerChange.emit(this.index === 0);
-    } else if (!this.isTrueOrFalseQuiz) {
-      this.isChecked = !this.isChecked;
-    }
+    this.isChecked = !this.isChecked;
+    this.onAnswerCorrectnessToggle.emit(this.isChecked);
   }
 }

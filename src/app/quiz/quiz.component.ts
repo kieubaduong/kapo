@@ -1,9 +1,18 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild,
+} from '@angular/core';
 import KapoFactory from '../../data/models/kapo.factory';
 import Kapo from '../../data/models/kapo';
 import Quiz from '../../data/models/quiz';
 import Slide from '../../data/models/slide';
 import TrueOrFalseQuiz from '../../data/models/true.or.false.quiz';
+import { MatDialog } from '@angular/material/dialog';
+import { AddQuestionDialogComponent } from '../common/add-question-dialog/add.question.dialog.component';
 
 @Component({
   selector: 'app-quiz',
@@ -13,6 +22,7 @@ import TrueOrFalseQuiz from '../../data/models/true.or.false.quiz';
 export class QuizComponent {
   @ViewChild('myDiv') myDiv!: ElementRef;
   @ViewChild('userInputTextarea') userInputTextarea!: ElementRef;
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
   // UI related variables
   sidebarOpen = true;
@@ -33,7 +43,7 @@ export class QuizComponent {
   questionText = '';
   initialWindowWidth: number = window.innerWidth;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog) {
     this.kapoItems = [
       this.kapoFactory.createQuestion('Quiz'),
       this.kapoFactory.createQuestion('TrueOrFalse'),
@@ -81,11 +91,26 @@ export class QuizComponent {
   }
 
   // UI related functions
+  openAddQuestionDialog() {
+    const dialogRef = this.dialog.open(AddQuestionDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.kapoItems.push(this.kapoFactory.createQuestion(result));
+      this.scrollToBottom();
+    });
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     if (window.innerWidth < this.initialWindowWidth * 0.75) {
       this.sidebarOpen = false;
     }
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+    }, 0);
   }
 
   toggleSidebar(): void {
@@ -157,10 +182,15 @@ export class QuizComponent {
 
   updateTextareaHeightAndRemainingChars(event: any) {
     this.userInputTextarea.nativeElement.style.height = '40px';
-    if (this.userInputTextarea.nativeElement.scrollHeight > this.userInputTextarea.nativeElement.clientHeight) {
-      this.userInputTextarea.nativeElement.style.height = this.userInputTextarea.nativeElement.scrollHeight + 'px';
+    if (
+      this.userInputTextarea.nativeElement.scrollHeight >
+      this.userInputTextarea.nativeElement.clientHeight
+    ) {
+      this.userInputTextarea.nativeElement.style.height =
+        this.userInputTextarea.nativeElement.scrollHeight + 'px';
     }
-    this.remainingCharacters = 95 - this.userInputTextarea.nativeElement.value.length;
+    this.remainingCharacters =
+      95 - this.userInputTextarea.nativeElement.value.length;
   }
 
   onTextareaFocus() {
@@ -174,9 +204,4 @@ export class QuizComponent {
     }
     this.isTextareaFocused = false;
   }
-
-  trackByFn(index: number, kapo: Kapo): number {
-    return kapo.id;
-  }
-
 }

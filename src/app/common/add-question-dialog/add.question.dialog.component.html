@@ -1,0 +1,58 @@
+<div fxLayout="row" fxLayoutGap="20px" style="width: 40vw; padding: 10px">
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-right: 20px;
+    "
+  >
+    <div
+      class="button-container"
+      (mouseover)="selectedOption = 'Quiz'"
+      (click)="selectOption('Quiz')"
+    >
+      <div class="button-content">
+        <img src="../../assets/quiz.png" class="button-icon" />
+        Quiz
+      </div>
+    </div>
+    <div
+      class="button-container"
+      (mouseover)="selectedOption = 'TrueOrFalse'"
+      (click)="selectOption('TrueOrFalse')"
+    >
+      <div class="button-content">
+        <img src="../../assets/true-or-false.png" class="button-icon" />
+        True or false
+      </div>
+    </div>
+  </div>
+  <div fxFlex="60">
+    <h2>Example</h2>
+    <img
+      [src]="
+        selectedOption === 'Quiz'
+          ? '../../assets/quiz-example.png'
+          : '../../assets/tof-example.png'
+      "
+      width="260px"
+      height="160px"
+    />
+    <p style="font-size: 16px; font-weight: 700; color: #333333">
+      {{ selectedOption === "Quiz" ? "Quiz" : "True or false" }}
+    </p>
+    <p
+      *ngIf="selectedOption === 'Quiz'"
+      style="font-size: 14px; font-weight: 500; color: #333333"
+    >
+      Give players several answer alternatives to choose from.
+    </p>
+    <p
+      *ngIf="selectedOption === 'TrueOrFalse'"
+      style="font-size: 14px; font-weight: 500; color: #333333"
+    >
+      Let players decide if the statement is true or false.
+    </p>
+  </div>
+</div>

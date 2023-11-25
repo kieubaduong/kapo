@@ -38,6 +38,8 @@ import { TimeLimitComponent } from './common/select-field/time-limit-component/t
 import { AnswerComponent } from './common/answer/answer.component';
 import { TofAnswerComponent } from './common/tof-answer/tof-answer.component';
 import { TextAnswerComponent } from './common/text-answer/text-answer.component';
+import { AddQuestionDialogComponent } from './common/add-question-dialog/add.question.dialog.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { TextAnswerComponent } from './common/text-answer/text-answer.component'
     AnswerComponent,
     TofAnswerComponent,
     TextAnswerComponent,
+    AddQuestionDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +85,7 @@ import { TextAnswerComponent } from './common/text-answer/text-answer.component'
     MatTooltipModule,
     OverlayModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
   ],
   providers: [importProvidersFrom(HttpClientModule)],
   bootstrap: [AppComponent],

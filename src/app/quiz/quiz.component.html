@@ -62,10 +62,10 @@
   </div>
 </mat-toolbar>
 
-<div class="container" style="display: flex; height: calc(100vh - 64px)">
+<div  class="container" style="display: flex; height: calc(100vh - 64px)">
   <!-- Left Sidebar -->
-  <div class="left-sidebar">
-    <mat-list style="padding: 0px; overflow: auto; flex-grow: 1">
+  <div #scrollContainer class="left-sidebar">
+    <mat-list  style="padding: 0px; overflow: auto; flex-grow: 1">
       <mat-list-item
         *ngFor="let item of kapoItems; index as i"
         style="height: 130px; padding: 0px; padding-bottom: 15px"
@@ -191,12 +191,18 @@
         align-items: center;
       "
     >
-      <button mat-raised-button color="primary" style="width: 135px">
+      <button
+        mat-raised-button
+        color="primary"
+        style="width: 135px"
+        (click)="openAddQuestionDialog()"
+      >
         Add question
       </button>
       <button
         mat-raised-button
         style="margin: 10px; margin-bottom: 0px; width: 135px"
+        (click)="scrollToBottom()"
       >
         Add slide
       </button>
@@ -325,10 +331,24 @@
           "
         >
           <div style="flex: 1; margin-right: 10px; position: relative">
-            <app-answer [index]="0" [kapo]="selectedKapo"></app-answer>
+            <app-answer
+              [index]="0"
+              [kapo]="selectedKapo"
+              (onAnswerValueChange)="$any(selectedKapo).answers[0] = $event"
+              (onAnswerCorrectnessToggle)="
+                $any(selectedKapo).correctAnswers[0] = $event
+              "
+            ></app-answer>
           </div>
           <div style="flex: 1; margin-right: 10px; position: relative">
-            <app-answer [index]="1" [kapo]="selectedKapo"></app-answer>
+            <app-answer
+              [index]="1"
+              [kapo]="selectedKapo"
+              (onAnswerValueChange)="$any(selectedKapo).answers[1] = $event"
+              (onAnswerCorrectnessToggle)="
+                $any(selectedKapo).correctAnswers[1] = $event
+              "
+            ></app-answer>
           </div>
         </div>
 
@@ -336,10 +356,24 @@
           style="display: flex; justify-content: space-between; flex-grow: 1"
         >
           <div style="flex: 1; margin-right: 10px; position: relative">
-            <app-answer [index]="2" [kapo]="selectedKapo"></app-answer>
+            <app-answer
+              [index]="2"
+              [kapo]="selectedKapo"
+              (onAnswerValueChange)="$any(selectedKapo).answers[2] = $event"
+              (onAnswerCorrectnessToggle)="
+                $any(selectedKapo).correctAnswers[2] = $event
+              "
+            ></app-answer>
           </div>
           <div style="flex: 1; margin-right: 10px; position: relative">
-            <app-answer [index]="3" [kapo]="selectedKapo"></app-answer>
+            <app-answer
+              [index]="3"
+              [kapo]="selectedKapo"
+              (onAnswerValueChange)="$any(selectedKapo).answers[3] = $event"
+              (onAnswerCorrectnessToggle)="
+                $any(selectedKapo).correctAnswers[3] = $event
+              "
+            ></app-answer>
           </div>
         </div>
       </div>
