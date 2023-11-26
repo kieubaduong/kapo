@@ -20,10 +20,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './common/error-dialog/error-dialog.component';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatListModule} from '@angular/material/list';
-import { QuizComponent } from './quiz/quiz.component';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
+import {
+  OffsetTopDirective,
+  QuizComponent,
+  ScrollableDirective,
+} from './quiz/quiz.component';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PointsTooltipComponent } from './common/custom-tooltip/points-tooltip.component';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -40,6 +44,7 @@ import { TofAnswerComponent } from './common/tof-answer/tof-answer.component';
 import { TextAnswerComponent } from './common/text-answer/text-answer.component';
 import { AddQuestionDialogComponent } from './common/add-question-dialog/add.question.dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { QuizValidationErrorDialogComponent } from './common/quiz-validation-error-dialog/quiz-validation-error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +68,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     TofAnswerComponent,
     TextAnswerComponent,
     AddQuestionDialogComponent,
+    ScrollableDirective,
+    OffsetTopDirective,
+    QuizValidationErrorDialogComponent,
   ],
   imports: [
     BrowserModule,

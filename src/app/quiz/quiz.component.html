@@ -58,15 +58,22 @@
       style="border-left: 1px solid #000; height: 30px; margin: 0 10px 0 0"
     ></div>
     <button mat-raised-button style="margin-right: 10px">Exit</button>
-    <button mat-raised-button color="warn">Save</button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="openValidationErrorDialog()"
+    >
+      Save
+    </button>
   </div>
 </mat-toolbar>
 
-<div  class="container" style="display: flex; height: calc(100vh - 64px)">
+<div class="container" style="display: flex; height: calc(100vh - 64px)">
   <!-- Left Sidebar -->
-  <div #scrollContainer class="left-sidebar">
-    <mat-list  style="padding: 0px; overflow: auto; flex-grow: 1">
+  <div class="left-sidebar">
+    <mat-list appScrollable style="padding: 0px; overflow: auto; flex-grow: 1">
       <mat-list-item
+        appOffsetTop
         *ngFor="let item of kapoItems; index as i"
         style="height: 130px; padding: 0px; padding-bottom: 15px"
         [class.selected]="item.id === selectedKapo.id"
@@ -238,7 +245,6 @@
           margin: 30px 0px 20px 0px;
           position: relative;
           border-radius: 0.25rem;
-          background-color: aqua;
         "
         [style.height]="greyContainerHeight"
       >
@@ -257,7 +263,7 @@
         <textarea
           id="question"
           name="question"
-          [(ngModel)]="questionText"
+          [(ngModel)]="selectedKapo.title"
           maxlength="120"
           style="
             min-width: 400px;
@@ -277,7 +283,7 @@
             border-radius: 0.25rem;
             position: absolute;
           "
-          (input)="updateCountdown(); adjustTextareaHeight($event)"
+          (input)="onTitleChange($event)"
           (click)="displayCounter = true"
           (blur)="blurOnQuestion()"
           (focus)="placeholder = ''"

@@ -20,18 +20,14 @@
       line-height: 0.75rem;
     "
   >
-    {{ title ?? 'Question' }}
+    {{ title === null || title === "" ? "Question" : title }}
   </div>
   <div
-    style="
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    "
+    style="display: flex; justify-content: space-between; align-items: center"
   >
     <div
       style="
-        border: 1px solid #B2B2B2;
+        border: 1px solid #b2b2b2;
         border-radius: 50%;
         width: 25px;
         height: 25px;
@@ -70,15 +66,13 @@
     >
       <div
         style="
-          border: 1px solid #B2B2B2;
+          border: 1px solid #b2b2b2;
           height: 5px;
           width: 100%;
           margin-bottom: 5px;
         "
       ></div>
-      <div
-        style="border: 1px solid #B2B2B2; height: 5px; width: 100%"
-      ></div>
+      <div style="border: 1px solid #b2b2b2; height: 5px; width: 100%"></div>
     </div>
     <div
       style="
@@ -89,12 +83,8 @@
         margin-left: 5px;
       "
     >
-      <div
-        style="border: 1px solid #B2B2B2; height: 5px; width: 100%"
-      ></div>
-      <div
-        style="border: 1px solid #B2B2B2; height: 5px; width: 100%"
-      ></div>
+      <div style="border: 1px solid #b2b2b2; height: 5px; width: 100%"></div>
+      <div style="border: 1px solid #b2b2b2; height: 5px; width: 100%"></div>
     </div>
   </div>
 </div>

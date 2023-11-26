@@ -2,7 +2,7 @@ abstract class Kapo {
   static lastId = 0;
 
   id: number;
-  title: string | null = null;
+  title: string = "";
   media: string | null = null;
 
   constructor() {

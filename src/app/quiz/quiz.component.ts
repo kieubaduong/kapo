@@ -2,17 +2,34 @@ import {
   AfterViewChecked,
   ChangeDetectorRef,
   Component,
+  Directive,
   ElementRef,
   HostListener,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
-import KapoFactory from '../../data/models/kapo.factory';
-import Kapo from '../../data/models/kapo';
-import Quiz from '../../data/models/quiz';
-import Slide from '../../data/models/slide';
-import TrueOrFalseQuiz from '../../data/models/true.or.false.quiz';
+import KapoFactory from '../../models/kapo.factory';
+import Kapo from '../../models/kapo';
+import Quiz from '../../models/quiz';
+import Slide from '../../models/slide';
+import TrueOrFalseQuiz from '../../models/true.or.false.quiz';
 import { MatDialog } from '@angular/material/dialog';
 import { AddQuestionDialogComponent } from '../common/add-question-dialog/add.question.dialog.component';
+import { isInstanceOfQuiz, isInstanceOfSlide, isInstanceOfTrueFalseQuiz } from 'src/util';
+import { QuizValidationErrorDialogComponent } from '../common/quiz-validation-error-dialog/quiz-validation-error-dialog.component';
+
+@Directive({ selector: '[appScrollable]' })
+export class ScrollableDirective {
+  constructor(private _el: ElementRef) {}
+  set scrollTop(value: number) { this._el.nativeElement.scrollTop = value; }
+}
+
+@Directive({ selector: '[appOffsetTop]' })
+export class OffsetTopDirective {
+  constructor(private _el: ElementRef) { }
+  get offsetTop(): number { return this._el.nativeElement.offsetTop; }
+}
 
 @Component({
   selector: 'app-quiz',
@@ -20,9 +37,13 @@ import { AddQuestionDialogComponent } from '../common/add-question-dialog/add.qu
   styleUrls: ['./quiz.component.css'],
 })
 export class QuizComponent {
-  @ViewChild('myDiv') myDiv!: ElementRef;
+  isInstanceOfQuiz = isInstanceOfQuiz;
+  isInstanceOfSlide = isInstanceOfSlide;
+  isInstanceOfTrueFalseQuiz = isInstanceOfTrueFalseQuiz;
+
   @ViewChild('userInputTextarea') userInputTextarea!: ElementRef;
-  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+  @ViewChildren(OffsetTopDirective) listItems!: QueryList<OffsetTopDirective>;
+  @ViewChild(ScrollableDirective) list!: ScrollableDirective;
 
   // UI related variables
   sidebarOpen = true;
@@ -32,7 +53,6 @@ export class QuizComponent {
   displayCounter = false;
   remainingCharacters: number = 95;
   isTextareaFocused: boolean = false;
-  answerPlaceholder: string = 'Add answer...';
 
   // Data related variables
   kapoItems: Kapo[] = [];
@@ -40,10 +60,9 @@ export class QuizComponent {
   kapoFactory = new KapoFactory();
   questionType = 'quiz';
   remainingCharacter = 120;
-  questionText = '';
   initialWindowWidth: number = window.innerWidth;
 
-  constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog) {
+  constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog, private validationErrorDialog: MatDialog) {
     this.kapoItems = [
       this.kapoFactory.createQuestion('Quiz'),
       this.kapoFactory.createQuestion('TrueOrFalse'),
@@ -54,8 +73,23 @@ export class QuizComponent {
     this.selectedKapo = this.kapoItems[0];
   }
 
-  ngAfterViewInit() {
-    this.myDiv.nativeElement.addEventListener('focus', this.onFocus.bind(this));
+  onTitleChange(event: any) {
+    this.selectedKapo.title = event.target.value;
+    this.adjustTextareaHeight(event);
+    this.updateCountdown();
+  }
+
+  handleAnswerChange(newValue: boolean) {
+    (this.selectedKapo as TrueOrFalseQuiz).answer = newValue;
+    this.cdr.detectChanges();
+  }
+
+  selectQuiz(index: number) {
+    this.selectedKapo = this.kapoItems[index];
+    this.remainingCharacter = 120 - this.selectedKapo.title.length;
+    this.blurOnQuestion();
+    console.log(this.selectedKapo);
+    this.cdr.detectChanges();
   }
 
   getTypeName(item: any): string {
@@ -73,24 +107,13 @@ export class QuizComponent {
   }
 
   // Check if the item is an instance of a specific class
-  isInstanceOfQuiz(item: any): boolean {
-    return item instanceof Quiz;
-  }
 
-  isInstanceOfSlide(item: any): boolean {
-    return item instanceof Slide;
-  }
-
-  isInstanceOfTrueFalseQuiz(item: any): boolean {
-    return item instanceof TrueOrFalseQuiz;
-  }
-
-  handleAnswerChange(newValue: boolean) {
-    (this.selectedKapo as TrueOrFalseQuiz).answer = newValue;
-    this.cdr.detectChanges();
-  }
 
   // UI related functions
+  openValidationErrorDialog() {
+    this.validationErrorDialog.open(QuizValidationErrorDialogComponent);
+  }
+
   openAddQuestionDialog() {
     const dialogRef = this.dialog.open(AddQuestionDialogComponent);
 
@@ -109,7 +132,7 @@ export class QuizComponent {
 
   scrollToBottom() {
     setTimeout(() => {
-      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+      this.list.scrollTop = this.listItems.last.offsetTop;
     }, 0);
   }
 
@@ -125,14 +148,8 @@ export class QuizComponent {
     }, 200);
   }
 
-  selectQuiz(index: number) {
-    this.selectedKapo = this.kapoItems[index];
-    console.log(this.selectedKapo);
-    this.cdr.detectChanges();
-  }
-
   updateCountdown() {
-    this.remainingCharacter = 120 - this.questionText.length;
+    this.remainingCharacter = 120 - this.selectedKapo.title.length;
   }
 
   adjustTextareaHeight(event: any): void {
@@ -157,7 +174,7 @@ export class QuizComponent {
 
   blurOnQuestion(): void {
     this.displayCounter = false;
-    if (this.questionText.length === 0) {
+    if (this.selectedKapo.title.length === 0) {
       this.placeholder = 'Enter your question here...';
     }
   }
@@ -166,17 +183,9 @@ export class QuizComponent {
     const range = document.createRange();
     const sel = window.getSelection();
     if (sel) {
-      range.setStart(this.myDiv.nativeElement.firstChild, 0);
       range.collapse(true);
       sel.removeAllRanges();
       sel.addRange(range);
-    }
-  }
-
-  onKeyup() {
-    if (!this.myDiv.nativeElement.textContent) {
-      this.myDiv.nativeElement.innerHTML = '&#8203;';
-      this.onFocus();
     }
   }
 
@@ -195,13 +204,9 @@ export class QuizComponent {
 
   onTextareaFocus() {
     this.isTextareaFocused = true;
-    this.answerPlaceholder = '';
   }
 
   onTextareaBlur() {
-    if (!this.userInputTextarea.nativeElement.value) {
-      this.answerPlaceholder = 'Add answer...';
-    }
     this.isTextareaFocused = false;
   }
 }

@@ -14,9 +14,9 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import AppColor from 'src/app/color';
-import Kapo from 'src/data/models/kapo';
-import TrueOrFalseQuiz from 'src/data/models/true.or.false.quiz';
+import AppColor from 'src/core/color';
+import Kapo from 'src/models/kapo';
+import TrueOrFalseQuiz from 'src/models/true.or.false.quiz';
 import { AnswerService } from '../answer/answer.service';
 
 export enum AnswerType {

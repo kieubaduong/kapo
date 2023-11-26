@@ -1,0 +1,113 @@
+<div
+  style="
+    height: 530px;
+    max-height: 530px;
+    width: 600px;
+    padding: 0px;
+    overflow: visible;
+    position: relative;
+  "
+>
+  <h1 style="color: #333333; font-weight: 700; margin: 20px">
+    This kapo can't be played
+  </h1>
+  <p style="margin-left: 20px; margin-bottom: 20px">
+    All questions need to be completed before you can start playing.
+  </p>
+
+  <div
+    style="
+      overflow: auto;
+      height: 360px;
+      width: 600px;
+      background-color: #f2f2f2;
+      padding: 0px;
+      position: relative;
+    "
+  >
+    <ul
+      style="
+        overflow-y: auto;
+        padding: 24px;
+        margin: 0px;
+        list-style-type: none;
+      "
+    >
+      <li
+        *ngFor="let item of kapoErrors; let i = index"
+        style="padding: 0; margin: 0"
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: white;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              height: 75px;
+              border-bottom: 1px solid #f2f2f2;
+            "
+          >
+            <img
+              src="../../../assets/img-place-holder.png"
+              alt="Image description"
+              style="width: auto; height: 70px; margin: 5px"
+            />
+            <div
+              style="display: flex; flex-direction: column; margin-left: 10px"
+            >
+              <p style="margin: 0px">{{ item.name }}</p>
+              <p style="color: #333333; font-size: 14px; font-weight: 700">
+                {{ item.title }}
+              </p>
+            </div>
+            <button
+              mat-raised-button
+              color="primary"
+              style="margin-left: auto; margin-right: 20px"
+            >
+              Fix
+            </button>
+          </div>
+          <div>
+            <ul style="padding: 0px">
+              <li
+                *ngFor="let subError of item.errors; let isLast = last"
+                [style.border-bottom]="isLast ? 'none' : '1px solid #f2f2f2'"
+                style="
+                  display: flex;
+                  align-items: center;
+                  margin-left: 0px;
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                "
+              >
+                <mat-icon
+                  class="purple-icon"
+                  style="margin-left: 15px; margin-right: 10px"
+                  >error</mat-icon
+                >
+                <p style="margin-left: 10px; margin: 0px">{{ subError }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div
+    style="display: flex; justify-content: center; gap: 20px; margin-top: 20px"
+  >
+    <button mat-raised-button>Back to edit</button>
+    <button mat-raised-button color="warn">Keep as draft</button>
+  </div>
+</div>
