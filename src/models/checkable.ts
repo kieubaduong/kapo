@@ -1,5 +1,7 @@
+import KapoError from "./kapo.error";
+
 interface Checkable {
-    validate(): string[];
+    validate(): KapoError;
 }
 
 export default Checkable;

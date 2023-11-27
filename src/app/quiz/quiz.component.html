@@ -112,6 +112,7 @@
               mat-icon-button
               style="width: 25px; height: 25px; padding: 0px"
               *ngIf="item.id === selectedKapo?.id"
+              (click)="deleteKapo(i)"
             >
               <mat-icon
                 class="material-icons-outlined"
@@ -301,20 +302,63 @@
 
       <!-- Second row -->
       <div class="row" style="margin-bottom: 20px">
-        <div class="media-container">
+        <div
+          class="media-container"
+          *ngIf="selectedKapo.media === ''; else imageTemplate"
+        >
           <span
             class="media-text"
             style="color: #000; font-size: 20px; margin-top: 5vh"
             >Attach media file</span
           >
+          <input
+            type="file"
+            accept="image/*"
+            #fileInput
+            style="display: none"
+            (change)="onFileSelected($event)"
+          />
+
           <button
             mat-raised-button
             class="media-button"
             style="height: 48px; width: 48px; min-width: 48px; margin-top: 2vh"
+            (click)="fileInput.click()"
           >
             <i class="material-icons" style="font-size: 30px">add</i>
           </button>
         </div>
+
+        <ng-template #imageTemplate>
+          <div style="position: relative; width: 20vw; height: 30vh">
+            <img
+              [src]="selectedKapo.media"
+              style="width: 100%; height: 100%; border-radius: 4px"
+            />
+            <button
+              (click)="deleteImage()"
+              style="
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                background: white;
+                border: none;
+                border-radius: 4px;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 10px;
+                cursor: pointer;
+              "
+            >
+              <i class="material-icons-outlined" style="font-size: 20px">delete</i>
+            </button>
+          </div>
+        </ng-template>
       </div>
 
       <!-- Third row -->

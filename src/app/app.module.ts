@@ -45,6 +45,8 @@ import { TextAnswerComponent } from './common/text-answer/text-answer.component'
 import { AddQuestionDialogComponent } from './common/add-question-dialog/add.question.dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { QuizValidationErrorDialogComponent } from './common/quiz-validation-error-dialog/quiz-validation-error-dialog.component';
+import { FinalizeKapoDialogComponent } from './common/finalize-kapo-dialog/finalize-kapo-dialog.component';
+import { DeleteKapoDialogComponent } from './common/delete-kapo-dialog/delete-kapo-dialog.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { QuizValidationErrorDialogComponent } from './common/quiz-validation-err
     ScrollableDirective,
     OffsetTopDirective,
     QuizValidationErrorDialogComponent,
+    FinalizeKapoDialogComponent,
+    DeleteKapoDialogComponent,
   ],
   imports: [
     BrowserModule,

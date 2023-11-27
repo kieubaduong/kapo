@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import KapoError from 'src/models/kapo.error';
 
 @Component({
@@ -7,50 +8,16 @@ import KapoError from 'src/models/kapo.error';
   styleUrls: ['./quiz-validation-error-dialog.component.css'],
 })
 export class QuizValidationErrorDialogComponent {
-  kapoErrors: KapoError[] = [];
+  kapoErrors: KapoError[];
 
-  constructor() {
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-        'Quiz title is required',
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
-    this.kapoErrors.push(
-      new KapoError('Quiz', 'Quiz title is required', [
-        'Quiz title is required',
-      ])
-    );
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { kapoErrors: KapoError[] },
+    public dialogRef: MatDialogRef<QuizValidationErrorDialogComponent>
+  ) {
+    this.kapoErrors = data.kapoErrors;
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }

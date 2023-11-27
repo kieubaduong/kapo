@@ -1,0 +1,23 @@
+.check-button {
+    transition: transform 0.3s;
+    border-radius: 50%;
+    border: 4px solid white;
+    background-color: transparent;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 50px;
+    transform: translateY(-50%);
+}
+
+.check-button:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.upscale-icon {
+    transform: scale(1.5);
+}

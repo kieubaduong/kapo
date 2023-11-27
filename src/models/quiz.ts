@@ -1,5 +1,6 @@
 import Checkable from './checkable';
 import Kapo from './kapo';
+import KapoError from './kapo.error';
 
 class Quiz extends Kapo implements Checkable {
   questionType: string = 'Quiz';
@@ -14,7 +15,7 @@ class Quiz extends Kapo implements Checkable {
     super();
   }
 
-  validate(): string[] {
+  validate(): KapoError {
     let errors: string[] = [];
 
     if (this.title.trim().length === 0) {
@@ -31,18 +32,21 @@ class Quiz extends Kapo implements Checkable {
       errors.push(`${answerMissing} answers missing`);
     }
 
-    const selectedCorrectAnswers = this.correctAnswers.filter((answer) => answer === true);
+    const selectedCorrectAnswers = this.correctAnswers.filter(
+      (answer) => answer === true
+    );
     if (selectedCorrectAnswers.length === 0) {
       errors.push('Correct answer not selected');
     }
 
-    return errors;
+    const name: string = this.id + 1 + ' - ' + this.questionType;
+    const question: string = this.title;
+    return new KapoError(name, question, errors);
   }
 
   override getFieldsForUI(): string[] {
     return ['time-limit', 'points', 'answer-options'];
   }
-
 }
 
 export default Quiz;

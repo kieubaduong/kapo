@@ -16,19 +16,31 @@ import Slide from '../../models/slide';
 import TrueOrFalseQuiz from '../../models/true.or.false.quiz';
 import { MatDialog } from '@angular/material/dialog';
 import { AddQuestionDialogComponent } from '../common/add-question-dialog/add.question.dialog.component';
-import { isInstanceOfQuiz, isInstanceOfSlide, isInstanceOfTrueFalseQuiz } from 'src/util';
+import {
+  isInstanceOfQuiz,
+  isInstanceOfSlide,
+  isInstanceOfTrueFalseQuiz,
+} from 'src/util';
 import { QuizValidationErrorDialogComponent } from '../common/quiz-validation-error-dialog/quiz-validation-error-dialog.component';
+import KapoError from 'src/models/kapo.error';
+import Checkable from 'src/models/checkable';
+import { FinalizeKapoDialogComponent } from '../common/finalize-kapo-dialog/finalize-kapo-dialog.component';
+import { DeleteKapoDialogComponent } from '../common/delete-kapo-dialog/delete-kapo-dialog.component';
 
 @Directive({ selector: '[appScrollable]' })
 export class ScrollableDirective {
   constructor(private _el: ElementRef) {}
-  set scrollTop(value: number) { this._el.nativeElement.scrollTop = value; }
+  set scrollTop(value: number) {
+    this._el.nativeElement.scrollTop = value;
+  }
 }
 
 @Directive({ selector: '[appOffsetTop]' })
 export class OffsetTopDirective {
-  constructor(private _el: ElementRef) { }
-  get offsetTop(): number { return this._el.nativeElement.offsetTop; }
+  constructor(private _el: ElementRef) {}
+  get offsetTop(): number {
+    return this._el.nativeElement.offsetTop;
+  }
 }
 
 @Component({
@@ -62,12 +74,16 @@ export class QuizComponent {
   remainingCharacter = 120;
   initialWindowWidth: number = window.innerWidth;
 
-  constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog, private validationErrorDialog: MatDialog) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public dialog: MatDialog,
+    private validationErrorDialog: MatDialog
+  ) {
     this.kapoItems = [
-      this.kapoFactory.createQuestion('Quiz'),
       this.kapoFactory.createQuestion('TrueOrFalse'),
-      this.kapoFactory.createQuestion('TrueOrFalse'),
-      this.kapoFactory.createQuestion('Quiz'),
+      // this.kapoFactory.createQuestion('Quiz'),
+      // this.kapoFactory.createQuestion('TrueOrFalse'),
+      // this.kapoFactory.createQuestion('Quiz'),
     ];
 
     this.selectedKapo = this.kapoItems[0];
@@ -92,6 +108,57 @@ export class QuizComponent {
     this.cdr.detectChanges();
   }
 
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+  
+    if (files && files.length > 0) {
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          this.selectedKapo.media = reader.result;
+        }
+      };
+  
+      reader.readAsDataURL(files[0]);
+    }
+  }
+
+  deleteKapo(index: number) {
+    let typeQuestion: string = "";
+    if (isInstanceOfQuiz(this.kapoItems[index])) {
+      typeQuestion = 'quiz';
+    }
+    if (isInstanceOfTrueFalseQuiz(this.kapoItems[index])) {
+      typeQuestion = 'true or false';
+    }
+    const dialogRef = this.dialog.open(DeleteKapoDialogComponent, {
+      data: typeQuestion,
+      disableClose: true,
+    });
+
+    if (this.kapoItems.length === 1) {
+      return;
+    }
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.kapoItems.splice(index, 1);
+        this.updateItemId();
+        if (index === 0) {
+          this.selectQuiz(0);
+        } else {
+          this.selectQuiz(index - 1);
+        }
+      }
+    });
+  }
+
+  deleteImage() {
+    this.selectedKapo.media = '';
+  }
+
   getTypeName(item: any): string {
     switch (item.constructor.name) {
       case 'Quiz':
@@ -106,17 +173,42 @@ export class QuizComponent {
     return 'Invalid type';
   }
 
-  // Check if the item is an instance of a specific class
-
+  updateItemId() {
+    this.kapoItems.forEach((item, index) => {
+      item.id = index;
+    });
+  }
 
   // UI related functions
   openValidationErrorDialog() {
-    this.validationErrorDialog.open(QuizValidationErrorDialogComponent);
+    const kapoErrors = this.kapoItems.flatMap((kapo) => {
+      if (isInstanceOfQuiz(kapo)) {
+        return (kapo as Quiz).validate();
+      }
+      if (isInstanceOfTrueFalseQuiz(kapo)) {
+        return (kapo as TrueOrFalseQuiz).validate();
+      }
+      return [];
+    });
+
+    const errors = kapoErrors.filter(
+      (kapoError) => kapoError.errors.length > 0
+    ).length;
+
+    if (errors === 0) {
+      this.dialog.open(FinalizeKapoDialogComponent, {
+        disableClose: true,
+      });
+    } else {
+      this.validationErrorDialog.open(QuizValidationErrorDialogComponent, {
+        data: { kapoErrors },
+        disableClose: true,
+      });
+    }
   }
 
   openAddQuestionDialog() {
     const dialogRef = this.dialog.open(AddQuestionDialogComponent);
-
     dialogRef.afterClosed().subscribe((result) => {
       this.kapoItems.push(this.kapoFactory.createQuestion(result));
       this.scrollToBottom();

@@ -1,0 +1,56 @@
+<div
+  class="container"
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  style="padding: 20px; height: 500px"
+>
+  <h1 style="color: #333333; font-size: 24px; font-weight: 700">
+    Add the finishing touches!
+  </h1>
+  <p style="font-size: 16px; color: #6e6e6e">
+    Enter a title and a description for your kapo.
+  </p>
+
+  <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>Title</mat-label>
+    <input matInput maxlength="95" [(ngModel)]="title" />
+    <mat-hint align="end">{{ title.length }} / 95</mat-hint>
+  </mat-form-field>
+  <p style="color: #6e6e6e; font-size: 12px">
+    A descriptive title will give players an indication of what the kahoot is
+    about.
+  </p>
+
+  <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>Description (Optional)</mat-label>
+    <textarea
+      matInput
+      [(ngModel)]="description"
+      [rows]="6"
+      maxlength="500"
+      style="height: 100%; resize: none"
+    ></textarea>
+    <mat-hint align="end">{{ description.length }} / 500</mat-hint>
+  </mat-form-field>
+  <p style="color: #6e6e6e; font-size: 12px">
+    A good description will help other users find your kahoot.
+  </p>
+
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <button
+      mat-raised-button
+      (click)="dialogRef.close()"
+      style="margin-right: 12px; width: 95px"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      [disabled]="!title"
+      color="primary"
+      style="width: 95px"
+    >
+      Continue
+    </button>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<mat-dialog-content
+  style="
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 475px;
+  "
+>
+  <p style="color: #333333; font-size: 24px; font-weight: 700">
+    Delete {{ typeQuestion }} question
+  </p>
+  <p style="color: #333333; font-size: 14px; margin-top: 16px">
+    Are you sure you want to delete this question? This action can’t be undone.
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions
+  style="display: flex; justify-content: center; padding-bottom: 24px"
+>
+  <button mat-raised-button mat-dialog-close style="width: 120px">
+    Cancel
+  </button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true" style="width: 120px">
+    Delete
+  </button>
+</mat-dialog-actions>

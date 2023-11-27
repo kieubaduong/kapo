@@ -3,7 +3,7 @@ abstract class Kapo {
 
   id: number;
   title: string = "";
-  media: string | null = null;
+  media: string = "";
 
   constructor() {
     this.id = Kapo.lastId++;
