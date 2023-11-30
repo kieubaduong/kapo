@@ -1,4 +1,5 @@
 import Checkable from './checkable';
+import Cloneable from './cloneable';
 import Kapo from './kapo';
 import KapoError from './kapo.error';
 
@@ -26,6 +27,17 @@ class TrueOrFalseQuiz extends Kapo implements Checkable {
     const name: string = this.id + 1 + ' - ' + 'True or false';
     const question: string = this.title;
     return new KapoError(name, question, errors);
+  }
+
+  override clone(): Cloneable {
+    const trueOrFalseQuiz = new TrueOrFalseQuiz();
+    trueOrFalseQuiz.id = this.id;
+    trueOrFalseQuiz.title = this.title;
+    trueOrFalseQuiz.media = this.media;
+    trueOrFalseQuiz.answer = this.answer;
+    trueOrFalseQuiz.timeLimit = this.timeLimit;
+    trueOrFalseQuiz.points = this.points;
+    return trueOrFalseQuiz;
   }
 }
 

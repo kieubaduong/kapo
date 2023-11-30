@@ -1,4 +1,5 @@
 import Checkable from './checkable';
+import Cloneable from './cloneable';
 import Kapo from './kapo';
 import KapoError from './kapo.error';
 
@@ -46,6 +47,20 @@ class Quiz extends Kapo implements Checkable {
 
   override getFieldsForUI(): string[] {
     return ['time-limit', 'points', 'answer-options'];
+  }
+
+  override clone(): Cloneable {
+    const quiz = new Quiz();
+    quiz.id = this.id;
+    quiz.title = this.title;
+    quiz.media = this.media;
+    quiz.questionType = this.questionType;
+    quiz.timeLimit = this.timeLimit;
+    quiz.points = this.points;
+    quiz.answerOptions = this.answerOptions;
+    quiz.answers = this.answers;
+    quiz.correctAnswers = this.correctAnswers;
+    return quiz;
   }
 }
 

@@ -125,6 +125,16 @@ export class QuizComponent {
     }
   }
 
+  duplicateKapo(item: Kapo, index: number, event: Event) {
+    event.stopPropagation();
+
+    const duplicatedKapo = item.clone();
+    this.kapoItems.splice(index + 1, 0, duplicatedKapo as Kapo);
+    this.updateItemId();
+    this.selectQuiz(index + 1);
+    this.cdr.detectChanges();
+  }
+
   deleteKapo(index: number) {
     let typeQuestion: string = "";
     if (isInstanceOfQuiz(this.kapoItems[index])) {
