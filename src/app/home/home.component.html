@@ -62,6 +62,7 @@
       </a>
       <a
         mat-list-item
+        (click)="navigateToReport()"
         style="
           border-radius: 4px;
           padding: 0;
@@ -110,6 +111,6 @@
   </mat-sidenav>
 
   <mat-sidenav-content style="overflow: auto">
-    <!-- Main content goes here -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

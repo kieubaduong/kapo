@@ -1,0 +1,92 @@
+<div style="display: flex; flex-direction: column">
+  <!-- First row -->
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100px;
+    "
+  >
+    <mat-form-field
+      style="margin-bottom: -1.25em; width: 220px"
+      appearance="outline"
+    >
+      <mat-label>Search</mat-label>
+      <input matInput [(ngModel)]="searchValue" />
+      <button
+        mat-icon-button
+        *ngIf="searchValue"
+        matSuffix
+        aria-label="Clear"
+        (click)="searchValue = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Trash button -->
+    <button
+      mat-raised-button
+      style="margin-right: 40px; margin-left: 40px"
+      color="warn"
+    >
+      <mat-icon>delete</mat-icon>
+      Trash
+    </button>
+  </div>
+
+  <!-- Second row -->
+  <div
+    style="flex: 1; margin-bottom: 50px; margin-left: 20px; margin-right: 20px"
+  >
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+      </ng-container>
+
+      <!-- No. of players Column -->
+      <ng-container matColumnDef="players">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          No. of players
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.players }}</td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openReport(element)">
+              <mat-icon>folder_open</mat-icon>
+              <span>Open report</span>
+            </button>
+            <button mat-menu-item (click)="rename(element)">
+              <mat-icon class="material-icons-outlined">edit</mat-icon>
+              <span>Rename</span>
+            </button>
+            <button mat-menu-item (click)="moveToTrash(element)">
+              <mat-icon class="material-icons-outlined">delete</mat-icon>
+              <span>Move to trash</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

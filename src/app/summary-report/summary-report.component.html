@@ -1,0 +1,471 @@
+<div style="display: flex; background-color: #f2f2f2; height: 280px">
+  <div style="background-color: lightblue; flex: 2; padding: 20px">
+    <div
+      style="
+        display: flex;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+      "
+    >
+      <div style="flex: 1">
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+            height: 100%;
+          "
+        >
+          <svg
+            width="160"
+            height="160"
+            viewBox="0 0 120 120"
+            style="transform: rotate(-90deg)"
+          >
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              stroke="#f2f2f2"
+              stroke-width="10"
+              fill="none"
+            />
+            <circle
+              #progress
+              cx="60"
+              cy="60"
+              r="50"
+              stroke="#0F9D58"
+              stroke-width="10"
+              fill="none"
+            />
+          </svg>
+          <span
+            style="
+              position: absolute;
+              top: 47%;
+              left: 52%;
+              transform: translate(-50%, -50%);
+              font-size: 32px;
+              font-weight: 700;
+              color: #333333;
+            "
+            >{{ percent }}%</span
+          >
+          <span
+            style="
+              position: absolute;
+              top: 57%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-size: 14px;
+              color: #333333;
+              font-weight: 700;
+            "
+            >Correct</span
+          >
+        </div>
+      </div>
+      <div style="flex: 1; padding: 16px; padding-left: 0px; padding-top: 8px">
+        <h3
+          style="
+            color: #333333;
+            font-size: 32px;
+            font-weight: 650;
+            line-height: 40px;
+          "
+        >
+          Practice makes perfect!
+        </h3>
+        <p
+          style="
+            color: #333333;
+            font-size: 16px;
+            margin-bottom: 16px;
+            line-height: 24px;
+          "
+        >
+          Play again and let the same group improve their score or see if new
+          players can beat this result.
+        </p>
+        <button mat-raised-button color="primary">Play again</button>
+      </div>
+    </div>
+  </div>
+  <div style="flex: 1; padding: 20px">
+    <div style="background-color: #fafafa">
+      <div
+        style="
+          background-color: white;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 180px;
+        "
+      >
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f2f2f2;
+          "
+        >
+          <i
+            class="material-icons"
+            style="margin-right: 8px; margin-left: 16px; color: #864cbf"
+            >person</i
+          >
+          <span
+            style="flex: 1; font-size: 16px; font-weight: 500; color: #333333"
+            >Players</span
+          >
+          <span
+            style="
+              margin-right: 16px;
+              font-size: 16px;
+              font-weight: 700;
+              color: #333333;
+            "
+            >4</span
+          >
+        </div>
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f2f2f2;
+          "
+        >
+          <i
+            class="material-icons"
+            style="margin-right: 8px; margin-left: 16px; color: #1368ce"
+            >help</i
+          >
+          <span
+            style="flex: 1; font-size: 16px; font-weight: 500; color: #333333"
+            >Questions</span
+          >
+          <span
+            style="
+              margin-right: 16px;
+              font-size: 16px;
+              font-weight: 700;
+              color: #333333;
+            "
+            >5</span
+          >
+        </div>
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f2f2f2;
+          "
+        >
+          <i
+            class="material-icons"
+            style="margin-right: 8px; margin-left: 16px; color: #0aa3a3"
+            >timer</i
+          >
+          <span
+            style="flex: 1; font-size: 16px; font-weight: 500; color: #333333"
+            >Time</span
+          >
+          <span
+            style="
+              margin-right: 16px;
+              font-size: 16px;
+              font-weight: 700;
+              color: #333333;
+            "
+            >3 min</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="background-color: lightyellow; flex: 1; padding-right: 20px">
+    <div style="background-color: #fafafa">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          background-color: #a2d1f2;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+          height: 140px;
+          background-image: url('../../assets/report-share-podium-background.svg');
+          background-size: 900px;
+          background-repeat: no-repeat;
+          margin-top: 50px;
+        "
+      >
+        <div
+          style="
+            width: 116.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <img src="../../assets/report-podium.svg" />
+        </div>
+        <div style="flex: 1">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              height: 100%;
+            "
+          >
+            <button
+              mat-raised-button
+              color="primary"
+              style="width: 135px; margin-bottom: 15px"
+            >
+              View podium
+            </button>
+            <button mat-raised-button style="width: 135px">Share podium</button>
+          </div>
+        </div>
+      </div>
+      <p
+        style="
+          color: #333333;
+          font-weight: 500;
+          font-size: 12px;
+          margin: 40px;
+          margin-top: 10px;
+        "
+      >
+        <span style="color: #333333; font-weight: 700; font-size: 12px"
+          >Top tip:</span
+        >
+        Boost player engagement by sharing the podium.
+      </p>
+    </div>
+  </div>
+</div>
+<div
+  style="
+    background-color: #fafafa;
+    height: 435px;
+    display: flex;
+    flex-direction: column;
+  "
+>
+  <!-- Content for the second row goes here -->
+  <div style="height: 40px; background-color: lightsalmon; padding: 20px">
+    <h1
+      style="
+        color: #333333;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 20px;
+      "
+    >
+      Advanced reports
+    </h1>
+  </div>
+  <div
+    style="
+      flex: 1;
+      background-color: lightskyblue;
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+    "
+  >
+    <div style="flex: 2; background-color: #ffcccc; padding: 20px">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          background-color: #ffffff;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+          height: calc(100% - 30px);
+          padding: 20px;
+          padding-bottom: 10px;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: lightcyan;
+            height: 50px;
+            border-bottom: 1px solid rgb(242, 242, 242);
+          "
+        >
+          <h3
+            style="
+              margin: 0px;
+              color: #333333;
+              font-size: 16px;
+              font-weight: 700;
+            "
+          >
+            Difficult questions (3)
+          </h3>
+          <button mat-icon-button>
+            <mat-icon>help_outline</mat-icon>
+          </button>
+        </div>
+        <div style="flex: 1; display: flex">
+          <div
+            style="
+              flex: 1;
+              background-color: #ffcccc;
+              display: flex;
+              flex-direction: column;
+              padding: 10px;
+            "
+          >
+            <p
+              style="
+                margin: 0px;
+                color: #333333;
+                font-size: 14px;
+                font-weight: 500;
+              "
+            >
+              4 - Quiz
+            </p>
+            <p style="color: #333333; font-size: 16px; font-weight: 700">
+              Hỏi gì hỏi đi?
+            </p>
+          </div>
+          <img
+            src="../../assets/beach.jpg"
+            style="height: 110px; object-fit: contain"
+          />
+        </div>
+        <div
+          style="
+            background-color: #f2f2f2;
+            height: 40px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+          "
+        >
+          <div style="display: flex; align-items: center">
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 120 120"
+              style="transform: rotate(-90deg); margin-right: 5px"
+            >
+              <circle
+                cx="60"
+                cy="60"
+                r="50"
+                stroke="#e21b3c"
+                stroke-width="15"
+                fill="none"
+              />
+              <circle
+                #progress
+                cx="60"
+                cy="60"
+                r="50"
+                stroke="#0F9D58"
+                stroke-width="15"
+                fill="none"
+                stroke-dasharray="314.16"
+                stroke-dashoffset="235.62"
+              />
+            </svg>
+            <p style="color: #333333; font-size: 14px; margin: 0px">
+              {{ difficultAnswerCorrectPercent }}% correct
+            </p>
+          </div>
+          <div style="display: flex; align-items: center">
+            <mat-icon style="margin-right: 5px">access_time</mat-icon>
+            <p style="color: #333333; font-size: 14px; margin: 0px">
+              Avg. 5.75 sec
+            </p>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #b2df9c;
+            padding: 10px;
+          "
+        >
+          <p
+            style="
+              margin: 0px;
+              color: #333333;
+              font-size: 14px;
+              font-weight: 500;
+            "
+          >
+            Create a new kapo with only the difficult questions
+          </p>
+          <button mat-raised-button color="primary">Create</button>
+        </div>
+        <div
+          style="
+            background-color: lightgoldenrodyellow;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+          "
+        >
+          <!-- Third row -->
+          <!-- Content for the third row goes here -->
+          <a href="https://www.example.com">See all (3)</a>
+        </div>
+      </div>
+    </div>
+    <div style="flex: 1; background-color: #ccffcc; padding: 20px">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          background-color: #ffffff;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+          height: 100%;
+        "
+      ></div>
+    </div>
+    <div
+      style="
+        flex: 1;
+        background-color: #ccccff;
+        padding: 20px;
+        padding-left: 0px;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          background-color: #ffffff;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+          height: 100%;
+        "
+      ></div>
+    </div>
+  </div>
+</div>

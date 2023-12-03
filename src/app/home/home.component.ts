@@ -18,4 +18,8 @@ export class HomeComponent {
   navigateToQuiz() {
     this.router.navigate(['/quiz']);
   }
+
+  navigateToReport() {
+    this.router.navigate(['home/report']);
+  }
 }

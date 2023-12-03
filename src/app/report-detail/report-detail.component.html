@@ -1,0 +1,98 @@
+<div style="display: flex; flex-direction: column; height: 100%">
+  <div style="display: flex; height: 170px; min-height: 170px; background: lightblue">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        flex: 2;
+        background: lightpink;
+        margin-left: 16px;
+      "
+    >
+      <div
+        style="display: flex; flex: 1; background: lightcyan; margin-top: 24px"
+      >
+        <div style="background: lightgrey">
+          <h5 style="font-size: 16px; color: #333333; font-weight: 700">
+            Report
+          </h5>
+          <div style="display: flex; align-items: center">
+            <h2
+              style="
+                font-size: 32px;
+                color: #333333;
+                font-weight: 600;
+                margin: 0px;
+              "
+            >
+              Music quiz
+            </h2>
+            <button mat-icon-button>
+              <mat-icon class="material-icons-outlined">edit</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div style="flex: 1; background: lightBlue; width: 100%"></div>
+        <div style="background: lightgrey">
+          <div style="display: flex; align-items: center">
+            <div style="font-size: 14px; color: #333333">Report options</div>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon class="material-icons-outlined">download</mat-icon>
+                <span>Download report</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon class="material-icons-outlined">print</mat-icon>
+                <span>Print</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon class="material-icons-outlined">leaderboard</mat-icon>
+                <span>Other reports</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon class="material-icons-outlined">visibility</mat-icon>
+                <span>View kapo</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon class="material-icons-outlined">delete</mat-icon>
+                <span>Move to trash</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="
+        flex: 1;
+        background: lightyellow;
+        margin-right: 16px;
+        margin-left: 16px;
+        padding-top: 16px;
+      "
+    >
+      <div style="display: flex; flex-direction: column">
+        <div style="padding: 14px; border-bottom: 1px solid #b2b2b2">
+          Dec 1, 2023, 11:43 PM
+        </div>
+        <div style="padding: 14px">Hosted by DuongBK</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mat-tab-group dynamicHeight>
+      <mat-tab label="Summary">
+        <app-summary-report></app-summary-report>
+      </mat-tab>
+      <mat-tab label="Players">
+        <p>Players content goes here</p>
+      </mat-tab>
+      <mat-tab label="Questions">
+        <p>Questions content goes here</p>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +47,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { QuizValidationErrorDialogComponent } from './common/quiz-validation-error-dialog/quiz-validation-error-dialog.component';
 import { FinalizeKapoDialogComponent } from './common/finalize-kapo-dialog/finalize-kapo-dialog.component';
 import { DeleteKapoDialogComponent } from './common/delete-kapo-dialog/delete-kapo-dialog.component';
+import { ReportComponent } from './report/report.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTabsModule } from '@angular/material/tabs';
+import { SummaryReportComponent } from './summary-report/summary-report.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -75,6 +84,9 @@ import { DeleteKapoDialogComponent } from './common/delete-kapo-dialog/delete-ka
     QuizValidationErrorDialogComponent,
     FinalizeKapoDialogComponent,
     DeleteKapoDialogComponent,
+    ReportComponent,
+    ReportDetailComponent,
+    SummaryReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,8 +110,15 @@ import { DeleteKapoDialogComponent } from './common/delete-kapo-dialog/delete-ka
     OverlayModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    MatTableModule,
+    MatSortModule,
+    MatGridListModule,
+    MatTabsModule,
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   providers: [importProvidersFrom(HttpClientModule)],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
