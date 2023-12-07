@@ -1,5 +1,5 @@
 <div style="display: flex; background-color: #f2f2f2; height: 280px">
-  <div style="background-color: lightblue; flex: 2; padding: 20px">
+  <div style="flex: 2; padding: 20px; padding-right: 0px;">
     <div
       style="
         display: flex;
@@ -8,7 +8,7 @@
         box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
       "
     >
-      <div style="flex: 1">
+      <div style="flex: 0.6">
         <div
           style="
             display: flex;
@@ -193,67 +193,65 @@
       </div>
     </div>
   </div>
-  <div style="background-color: lightyellow; flex: 1; padding-right: 20px">
-    <div style="background-color: #fafafa">
+  <div style="flex: 1; padding-right: 20px">
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        background-color: #a2d1f2;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
+        height: 140px;
+        background-image: url('../../assets/report-share-podium-background.svg');
+        background-size: 900px;
+        background-repeat: no-repeat;
+        margin-top: 50px;
+      "
+    >
       <div
         style="
+          width: 116.5px;
           display: flex;
-          justify-content: space-between;
-          background-color: #a2d1f2;
-          border-radius: 5px;
-          box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
-          height: 140px;
-          background-image: url('../../assets/report-share-podium-background.svg');
-          background-size: 900px;
-          background-repeat: no-repeat;
-          margin-top: 50px;
+          justify-content: center;
+          align-items: center;
         "
       >
+        <img src="../../assets/report-podium.svg" />
+      </div>
+      <div style="flex: 1">
         <div
           style="
-            width: 116.5px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
+            height: 100%;
           "
         >
-          <img src="../../assets/report-podium.svg" />
-        </div>
-        <div style="flex: 1">
-          <div
-            style="
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              height: 100%;
-            "
+          <button
+            mat-raised-button
+            color="primary"
+            style="width: 135px; margin-bottom: 15px"
           >
-            <button
-              mat-raised-button
-              color="primary"
-              style="width: 135px; margin-bottom: 15px"
-            >
-              View podium
-            </button>
-            <button mat-raised-button style="width: 135px">Share podium</button>
-          </div>
+            View podium
+          </button>
+          <button mat-raised-button style="width: 135px">Share podium</button>
         </div>
       </div>
-      <p
-        style="
-          color: #333333;
-          font-weight: 500;
-          font-size: 12px;
-          margin: 40px;
-          margin-top: 10px;
-        "
-      >
-        <span style="color: #333333; font-weight: 700; font-size: 12px"
-          >Top tip:</span
-        >
-        Boost player engagement by sharing the podium.
-      </p>
     </div>
+    <p
+      style="
+        color: #333333;
+        font-weight: 500;
+        font-size: 12px;
+        margin: 40px;
+        margin-top: 10px;
+      "
+    >
+      <span style="color: #333333; font-weight: 700; font-size: 12px"
+        >Top tip:</span
+      >
+      Boost player engagement by sharing the podium.
+    </p>
   </div>
 </div>
 <div
@@ -265,28 +263,21 @@
   "
 >
   <!-- Content for the second row goes here -->
-  <div style="height: 40px; background-color: lightsalmon; padding: 20px">
+  <div style="padding: 20px; padding-bottom: 10px">
     <h1
       style="
         color: #333333;
         font-size: 16px;
         font-weight: 700;
         line-height: 20px;
+        margin: 0px;
       "
     >
       Advanced reports
     </h1>
   </div>
-  <div
-    style="
-      flex: 1;
-      background-color: lightskyblue;
-      display: flex;
-      flex-direction: row;
-      height: 100%;
-    "
-  >
-    <div style="flex: 2; background-color: #ffcccc; padding: 20px">
+  <div style="flex: 1; display: flex; flex-direction: row; height: 100%">
+    <div style="flex: 2; padding: 20px; padding-right: 0px">
       <div
         style="
           display: flex;
@@ -295,9 +286,7 @@
           background-color: #ffffff;
           border-radius: 5px;
           box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
-          height: calc(100% - 30px);
-          padding: 20px;
-          padding-bottom: 10px;
+          height: calc(100% - 0px);
         "
       >
         <div
@@ -305,9 +294,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: lightcyan;
-            height: 50px;
+            height: 30px;
             border-bottom: 1px solid rgb(242, 242, 242);
+            padding: 10px;
           "
         >
           <h3
@@ -320,15 +309,12 @@
           >
             Difficult questions (3)
           </h3>
-          <button mat-icon-button>
-            <mat-icon>help_outline</mat-icon>
-          </button>
+          <mat-icon>help_outline</mat-icon>
         </div>
-        <div style="flex: 1; display: flex">
+        <div style="flex: 1; display: flex; padding: 10px 10px 0px 10px">
           <div
             style="
               flex: 1;
-              background-color: #ffcccc;
               display: flex;
               flex-direction: column;
               padding: 10px;
@@ -356,11 +342,15 @@
         <div
           style="
             background-color: #f2f2f2;
-            height: 40px;
+            height: 20px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-around;
             align-items: center;
+            padding: 10px;
+            margin: 0px 10px 0px 10px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
           "
         >
           <div style="display: flex; align-items: center">
@@ -408,6 +398,8 @@
             justify-content: space-between;
             background-color: #b2df9c;
             padding: 10px;
+            margin: 10px 10px 0px 10px;
+            border-radius: 4px;
           "
         >
           <p
@@ -424,10 +416,10 @@
         </div>
         <div
           style="
-            background-color: lightgoldenrodyellow;
             display: flex;
             justify-content: flex-end;
             align-items: center;
+            padding: 10px;
           "
         >
           <!-- Third row -->
@@ -436,36 +428,139 @@
         </div>
       </div>
     </div>
-    <div style="flex: 1; background-color: #ccffcc; padding: 20px">
+    <div style="flex: 1; padding: 20px">
       <div
         style="
           display: flex;
+          flex-direction: column;
           justify-content: space-between;
           background-color: #ffffff;
           border-radius: 5px;
           box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
           height: 100%;
         "
-      ></div>
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 30px;
+            border-bottom: 1px solid rgb(242, 242, 242);
+            padding: 10px;
+          "
+        >
+          <h3
+            style="
+              margin: 0px;
+              color: #333333;
+              font-size: 16px;
+              font-weight: 700;
+            "
+          >
+            Need help (1)
+          </h3>
+          <mat-icon>help_outline</mat-icon>
+        </div>
+        <div style="flex: 1; padding: 10px">
+          <ul style="list-style-type: none; padding: 0">
+            <li
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span style="font-size: 14px; color: #333333">Link</span>
+              <div style="display: flex; align-items: center">
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 120 120"
+                  style="transform: rotate(-90deg); margin-right: 5px"
+                >
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="50"
+                    stroke="#e21b3c"
+                    stroke-width="15"
+                    fill="none"
+                  />
+                  <circle
+                    cx="60"
+                    cy="60"
+                    r="50"
+                    stroke="#0F9D58"
+                    stroke-width="15"
+                    fill="none"
+                    stroke-dasharray="314.16"
+                    stroke-dashoffset="235.62"
+                  />
+                </svg>
+                <span
+                  style="
+                    font-size: 14px;
+                    color: #333333;
+                    font-weight: 700;
+                    padding-left: 10px;
+                  "
+                  >20%</span
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div
-      style="
-        flex: 1;
-        background-color: #ccccff;
-        padding: 20px;
-        padding-left: 0px;
-      "
-    >
+    <div style="flex: 1; padding: 20px; padding-left: 0px">
       <div
         style="
           display: flex;
+          flex-direction: column;
           justify-content: space-between;
           background-color: #ffffff;
           border-radius: 5px;
           box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
           height: 100%;
         "
-      ></div>
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 30px;
+            border-bottom: 1px solid rgb(242, 242, 242);
+            padding: 10px;
+          "
+        >
+          <h3
+            style="
+              margin: 0px;
+              color: #333333;
+              font-size: 16px;
+              font-weight: 700;
+            "
+          >
+            Didn't finish (0)
+          </h3>
+          <mat-icon>help_outline</mat-icon>
+        </div>
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+          "
+        >
+          <span style="color: #333333; font-weight: 500px"
+            >Great! Everyone finished</span
+          >
+        </div>
+      </div>
     </div>
   </div>
 </div>

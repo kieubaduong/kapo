@@ -56,6 +56,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SummaryReportComponent } from './summary-report/summary-report.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PlayersReportComponent } from './players-report/players-report.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReportComponent,
     ReportDetailComponent,
     SummaryReportComponent,
+    PlayersReportComponent,
   ],
   imports: [
     BrowserModule,

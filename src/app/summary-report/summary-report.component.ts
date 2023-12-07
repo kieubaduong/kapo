@@ -23,7 +23,5 @@ export class SummaryReportComponent {
   }
 
   setProgress(percent: number) {
-    const offset = this.progress.nativeElement.style.strokeDasharray.baseVal[0] - percent / 100 * this.progress.nativeElement.style.strokeDasharray.baseVal[0];
-    this.progress.nativeElement.style.strokeDashoffset = offset;
   }
 }
