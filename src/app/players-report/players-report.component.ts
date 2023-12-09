@@ -24,19 +24,44 @@ export class PlayersReportComponent {
   ];
 
   displayedPlayers: Player[] = [];
-  displayedColumns: string[] = ['nickname', 'rank', 'correctAnswers', 'unanswered', 'finalScore'];
+  filteredPlayers: any[] = [];
+
+  displayedColumns: string[] = [
+    'nickname',
+    'rank',
+    'correctAnswers',
+    'unanswered',
+    'finalScore',
+  ];
+
   searchPlayerName: string = '';
 
   ngOnInit() {
     this.displayedPlayers = this.allPlayers;
+    this.filteredPlayers = this.displayedPlayers;
+  }
+
+  filterPlayers() {
+    if (this.searchPlayerName !== '') {
+      this.filteredPlayers = this.displayedPlayers.filter((player) =>
+        player.nickname
+          .toLowerCase()
+          .includes(this.searchPlayerName.toLowerCase())
+      );
+    } else {
+      this.filteredPlayers = this.displayedPlayers;
+    }
   }
 
   updateDisplayedPlayers(event: MatTabChangeEvent) {
     if (event.index === 0) {
       this.displayedPlayers = this.allPlayers;
     } else if (event.index === 1) {
-      this.displayedPlayers = this.allPlayers.filter(player => player.correctAnswers < 30);
+      this.displayedPlayers = this.allPlayers.filter(
+        (player) => player.correctAnswers < 30
+      );
     }
+    this.filterPlayers();
   }
 
   sortData(sort: Sort) {
@@ -45,7 +70,7 @@ export class PlayersReportComponent {
       this.displayedPlayers = data;
       return;
     }
-  
+
     this.displayedPlayers = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
@@ -64,9 +89,13 @@ export class PlayersReportComponent {
       }
     });
   }
-  
+
+  clearSearch() {
+    this.searchPlayerName = '';
+    this.filterPlayers();
+  }
+
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
 }

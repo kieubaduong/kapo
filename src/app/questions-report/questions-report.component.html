@@ -1,0 +1,129 @@
+<div style="display: flex; justify-content: flex-end; margin: 20px">
+  <mat-tab-group (selectedTabChange)="handleViewChange($event)">
+    <mat-tab label="Expanded view"></mat-tab>
+    <mat-tab label="Compact view"></mat-tab>
+  </mat-tab-group>
+</div>
+
+<mat-card style="padding: 20px; margin: 20px">
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <mat-tab-group (selectedTabChange)="handleTabChange($event)">
+      <mat-tab label="All"></mat-tab>
+      <mat-tab label="Difficult questions"></mat-tab>
+    </mat-tab-group>
+
+    <mat-form-field appearance="outline" style="width: 200px">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        placeholder="Search"
+        [(ngModel)]="searchQuestionTitle"
+        (ngModelChange)="performSearch()"
+      />
+      <button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clearSearch()"
+        *ngIf="searchQuestionTitle"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 40%; text-align: start; padding-left: 16px">
+          Question
+        </th>
+        <th style="width: 20%; text-align: start">Type</th>
+        <th style="width: 20%; text-align: end; padding-right: 16px">
+          Correct/Incorrect
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let element of displayedData; let isLast = last">
+        <tr>
+          <td colspan="3">
+            <mat-card
+              [style.margin-bottom.px]="isLast ? 0 : 20"
+              style="cursor: pointer"
+              (click)="openDialog(element)"
+            >
+              <mat-card-content>
+                <div style="display: flex; align-items: center">
+                  <p style="flex: 2; color: #333333; font-weight: 700">
+                    {{ element.title }}
+                  </p>
+                  <p style="flex: 1; color: #333333">{{ element.type }}</p>
+                  <p style="flex: 1; color: #333333; text-align: end">
+                    {{ element.correctPercentage }}%
+                  </p>
+                </div>
+                <div
+                  *ngIf="isExpandedView === true"
+                  style="display: flex; align-items: start"
+                >
+                  <img
+                    [src]="element.image"
+                    style="width: 288px; height: 216px; object-fit: cover"
+                  />
+                  <div style="flex: 1; padding-left: 10px">
+                    <div
+                      *ngFor="let item of element.answers; let i = index"
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        border-bottom: 1px solid #cccccc;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                      "
+                    >
+                      <app-shape [index]="i"></app-shape>
+                      <p style="margin: 0 10px; flex: 1">
+                        {{ element.answers[i] }}
+                      </p>
+                      <mat-icon
+                        class="green-icon"
+                        *ngIf="element.correctAnswers[i]; else closeBlock"
+                        >check</mat-icon
+                      >
+                      <ng-template #closeBlock>
+                        <mat-icon class="red-icon">close</mat-icon>
+                      </ng-template>
+                      <div style="width: 100px; margin-left: 10px">
+                        <div
+                          style="
+                            height: 8px;
+                            background-color: #26890c;
+                            border-radius: 4px;
+                          "
+                          [style.width]="
+                            (element.countAnswers[i] / element.players.length) *
+                              100 +
+                            'px'
+                          "
+                        ></div>
+                      </div>
+                      <p style="margin: 0px; width: 20px; text-align: end">
+                        {{ element.countAnswers[i] }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</mat-card>

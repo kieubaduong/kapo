@@ -57,6 +57,9 @@ import { SummaryReportComponent } from './summary-report/summary-report.componen
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PlayersReportComponent } from './players-report/players-report.component';
+import { QuestionsReportComponent } from './questions-report/questions-report.component';
+import { ShapeComponent } from './shape/shape.component';
+import { QuestionReportDetailDialogComponent } from './question-report-detail-dialog/question-report-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +92,9 @@ import { PlayersReportComponent } from './players-report/players-report.componen
     ReportDetailComponent,
     SummaryReportComponent,
     PlayersReportComponent,
+    QuestionsReportComponent,
+    ShapeComponent,
+    QuestionReportDetailDialogComponent,
   ],
   imports: [
     BrowserModule,

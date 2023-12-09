@@ -14,11 +14,7 @@
     <meta name="Referrer-Policy" content="no-referrer-when-downgrade" />
 
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
+    
     <link
       href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
       rel="stylesheet"
@@ -28,16 +24,12 @@
 
     <script>
       function handleCredentialResponse(response) {
-        // Define the data you want to send
         const data = response["credential"];
 
-        // Send an HTTP POST request using Angular's HttpClient
         const url = "http://localhost:8080/login/google";
 
-        // You need to inject HttpClient in your Angular component
         const httpClient = new HttpClient();
 
-        // Send the POST request
         httpClient.post(url, data).subscribe(
           (result) => {
             console.log("HTTP POST request was successful", result);

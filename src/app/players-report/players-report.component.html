@@ -1,4 +1,4 @@
-<div style="padding: 20px">
+<mat-card style="padding: 20px; margin: 20px;">
   <div
     style="display: flex; justify-content: space-between; align-items: center"
   >
@@ -7,35 +7,72 @@
       <mat-tab label="Need Help"></mat-tab>
     </mat-tab-group>
     <mat-form-field appearance="outline">
-        <mat-label>Search</mat-label>
-        <input matInput type="text" placeholder="Search" [(ngModel)]="searchPlayerName" />
-        <button matSuffix mat-icon-button aria-label="Clear" (click)="searchPlayerName = ''" *ngIf="searchPlayerName">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="searchPlayerName"
+        (ngModelChange)="filterPlayers()"
+      />
+      <button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clearSearch()"
+        *ngIf="searchPlayerName"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
-  <table mat-table [dataSource]="displayedPlayers" matSort (matSortChange)="sortData($event)">
+  <table
+    mat-table
+    [dataSource]="filteredPlayers"
+    matSort
+    (matSortChange)="sortData($event)"
+  >
     <ng-container matColumnDef="nickname">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nickname</th>
-      <td mat-cell *matCellDef="let player">{{ player.nickname }}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centered">
+        Nickname
+      </th>
+      <td mat-cell *matCellDef="let player" class="centered">
+        {{ player.nickname }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="rank">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rank</th>
-      <td mat-cell *matCellDef="let player">{{ player.rank }}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centered">
+        Rank
+      </th>
+      <td mat-cell *matCellDef="let player" class="centered">
+        {{ player.rank }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="correctAnswers">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Correct Answers</th>
-      <td mat-cell *matCellDef="let player">{{ player.correctAnswers }}%</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centered">
+        Correct Answers
+      </th>
+      <td mat-cell *matCellDef="let player" class="centered">
+        {{ player.correctAnswers }}%
+      </td>
     </ng-container>
     <ng-container matColumnDef="unanswered">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Unanswered</th>
-      <td mat-cell *matCellDef="let player">{{ player.unanswered }}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centered">
+        Unanswered
+      </th>
+      <td mat-cell *matCellDef="let player" class="centered">
+        {{ player.unanswered }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="finalScore">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Final Score</th>
-      <td mat-cell *matCellDef="let player">{{ player.finalScore }}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="centered">
+        Final Score
+      </th>
+      <td mat-cell *matCellDef="let player" class="centered">
+        {{ player.finalScore }}
+      </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-</div>
+</mat-card>
