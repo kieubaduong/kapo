@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import QuestionReport from 'src/models/question.report';
 
 @Component({
@@ -8,6 +8,15 @@ import QuestionReport from 'src/models/question.report';
   styleUrls: ['./question-report-detail-dialog.component.css']
 })
 export class QuestionReportDetailDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: QuestionReport) { }
+  displayedColumns: string[] = ['player', 'answered', 'correct', 'time', 'points'];
 
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public questionReport: QuestionReport,
+    public dialogRef: MatDialogRef<QuestionReportDetailDialogComponent>
+  ) { }
+
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

@@ -1,7 +1,11 @@
 .green-icon {
-    color: #26890c;
+  color: #26890c;
 }
 
 .red-icon {
-    color: #DB4437;
+  color: #db4437;
+}
+
+.question-card:hover {
+  background-color: #f5f5f5; /* Change this to the color you want */
 }

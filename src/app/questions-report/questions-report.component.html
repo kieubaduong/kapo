@@ -1,7 +1,17 @@
 <div style="display: flex; justify-content: flex-end; margin: 20px">
   <mat-tab-group (selectedTabChange)="handleViewChange($event)">
-    <mat-tab label="Expanded view"></mat-tab>
-    <mat-tab label="Compact view"></mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="material-icons-outlined">view_agenda</mat-icon>
+        Expanded view
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="material-icons-outlined">view_module</mat-icon>
+        Compact view
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </div>
 
@@ -50,77 +60,92 @@
       <ng-container *ngFor="let element of displayedData; let isLast = last">
         <tr>
           <td colspan="3">
-            <mat-card
-              [style.margin-bottom.px]="isLast ? 0 : 20"
-              style="cursor: pointer"
-              (click)="openDialog(element)"
-            >
-              <mat-card-content>
-                <div style="display: flex; align-items: center">
-                  <p style="flex: 2; color: #333333; font-weight: 700">
-                    {{ element.title }}
-                  </p>
-                  <p style="flex: 1; color: #333333">{{ element.type }}</p>
-                  <p style="flex: 1; color: #333333; text-align: end">
-                    {{ element.correctPercentage }}%
-                  </p>
-                </div>
-                <div
-                  *ngIf="isExpandedView === true"
-                  style="display: flex; align-items: start"
-                >
-                  <img
-                    [src]="element.image"
-                    style="width: 288px; height: 216px; object-fit: cover"
-                  />
-                  <div style="flex: 1; padding-left: 10px">
-                    <div
-                      *ngFor="let item of element.answers; let i = index"
-                      style="
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        padding-left: 20px;
-                        padding-right: 20px;
-                        border-bottom: 1px solid #cccccc;
-                        padding-top: 10px;
-                        padding-bottom: 10px;
-                      "
-                    >
-                      <app-shape [index]="i"></app-shape>
-                      <p style="margin: 0 10px; flex: 1">
-                        {{ element.answers[i] }}
-                      </p>
-                      <mat-icon
-                        class="green-icon"
-                        *ngIf="element.correctAnswers[i]; else closeBlock"
-                        >check</mat-icon
+            <ng-container *ngIf="isExpandedView; else compactView">
+              <mat-card
+                class="question-card"
+                [style.margin-bottom.px]="isLast ? 0 : 20"
+                style="cursor: pointer"
+                (click)="openDialog(element)"
+              >
+                <mat-card-content>
+                  <div style="display: flex; align-items: center">
+                    <p style="flex: 2; color: #333333; font-weight: 700">
+                      {{ element.title }}
+                    </p>
+                    <p style="flex: 1; color: #333333">{{ element.type }}</p>
+                    <p style="flex: 1; color: #333333; text-align: end">
+                      {{ element.correctPercentage }}%
+                    </p>
+                  </div>
+                  <div
+                    *ngIf="isExpandedView === true"
+                    style="display: flex; align-items: start"
+                  >
+                    <img
+                      [src]="element.image"
+                      style="width: 288px; height: 216px; object-fit: cover"
+                    />
+                    <div style="flex: 1; padding-left: 10px">
+                      <div
+                        *ngFor="let item of element.answers; let i = index"
+                        style="
+                          display: flex;
+                          align-items: center;
+                          justify-content: space-between;
+                          padding-left: 20px;
+                          padding-right: 20px;
+                          border-bottom: 1px solid #cccccc;
+                          padding-top: 10px;
+                          padding-bottom: 10px;
+                        "
                       >
-                      <ng-template #closeBlock>
-                        <mat-icon class="red-icon">close</mat-icon>
-                      </ng-template>
-                      <div style="width: 100px; margin-left: 10px">
-                        <div
-                          style="
-                            height: 8px;
-                            background-color: #26890c;
-                            border-radius: 4px;
-                          "
-                          [style.width]="
-                            (element.countAnswers[i] / element.players.length) *
-                              100 +
-                            'px'
-                          "
-                        ></div>
+                        <app-shape [index]="i"></app-shape>
+                        <p style="margin: 0 10px; flex: 1">
+                          {{ element.answers[i] }}
+                        </p>
+                        <mat-icon
+                          class="green-icon"
+                          *ngIf="element.correctAnswers[i]; else closeBlock"
+                          >check</mat-icon
+                        >
+                        <ng-template #closeBlock>
+                          <mat-icon class="red-icon">close</mat-icon>
+                        </ng-template>
+                        <div style="width: 100px; margin-left: 10px">
+                          <div
+                            style="
+                              height: 8px;
+                              background-color: #26890c;
+                              border-radius: 4px;
+                            "
+                            [style.width]="
+                              (element.countAnswers[i] /
+                                element.players.length) *
+                                100 +
+                              'px'
+                            "
+                          ></div>
+                        </div>
+                        <p style="margin: 0px; width: 20px; text-align: end">
+                          {{ element.countAnswers[i] }}
+                        </p>
                       </div>
-                      <p style="margin: 0px; width: 20px; text-align: end">
-                        {{ element.countAnswers[i] }}
-                      </p>
                     </div>
                   </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
+                </mat-card-content>
+              </mat-card>
+            </ng-container>
+            <ng-template #compactView>
+              <div class="question-card" style="display: flex; align-items: center; border-bottom: 0.67px solid #F2F2F2">
+                <p style="flex: 2; color: #333333; font-weight: 700; margin-top: 12px;">
+                  {{ element.title }}
+                </p>
+                <p style="flex: 1; color: #333333; margin-top: 12px; margin-left: 16px">{{ element.type }}</p>
+                <p style="flex: 1; color: #333333; text-align: end; margin-top: 12px; margin-right: 16px">
+                  {{ element.correctPercentage }}%
+                </p>
+              </div>
+            </ng-template>
           </td>
         </tr>
       </ng-container>

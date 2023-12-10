@@ -11,7 +11,6 @@ import { QuestionReportDetailDialogComponent } from '../question-report-detail-d
   styleUrls: ['./questions-report.component.css'],
 })
 export class QuestionsReportComponent {
-  
   mockData: QuestionReport[] = [
     new QuestionReport(
       'What is the capital of France?',
@@ -86,11 +85,11 @@ export class QuestionsReportComponent {
   ];
 
   displayedData: QuestionReport[] = this.mockData;
-  searchQuestionTitle: string = "";
+  searchQuestionTitle: string = '';
   isExpandedView = true;
   isNotExpandedView = () => !this.isExpandedView;
 
-constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 
   handleViewChange(event: MatTabChangeEvent) {
     this.isExpandedView = event.index === 0;
@@ -100,7 +99,9 @@ constructor(public dialog: MatDialog) { }
     if (event.index === 0) {
       this.displayedData = this.mockData;
     } else if (event.index === 1) {
-      this.displayedData = this.mockData.filter(data => data.correctPercentage <= 30);
+      this.displayedData = this.mockData.filter(
+        (data) => data.correctPercentage <= 30
+      );
     }
     if (this.searchQuestionTitle !== '') {
       this.performSearch();
@@ -109,7 +110,9 @@ constructor(public dialog: MatDialog) { }
 
   performSearch() {
     const filterValue = this.searchQuestionTitle.trim().toLowerCase();
-    this.displayedData = this.mockData.filter(data => data.title.toLowerCase().includes(filterValue));
+    this.displayedData = this.mockData.filter((data) =>
+      data.title.toLowerCase().includes(filterValue)
+    );
   }
 
   clearSearch() {
@@ -119,7 +122,11 @@ constructor(public dialog: MatDialog) { }
 
   openDialog(questionReport: QuestionReport) {
     this.dialog.open(QuestionReportDetailDialogComponent, {
-      data: questionReport
+      data: questionReport,
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '90%',
+      width: '95%',
     });
   }
 }

@@ -1,1 +1,244 @@
-<p>question-report-detail-dialog works!</p>
+<div style="display: flex; flex-direction: column; height: 100%">
+  <div
+    style="
+      height: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-left: 20px;
+      padding-right: 20px;
+      border-bottom: 1px solid #333333;
+    "
+  >
+    <span style="font-size: 16px; font-weight: 700">{{
+      questionReport.title
+    }}</span>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div
+    style="display: flex; flex-direction: column;"
+  >
+    <div
+      style="
+        display: flex;
+        padding: 20px;
+        background-color: #f8f8f8;
+        box-sizing: border-box;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
+      "
+    >
+      <div style="display: flex; flex-direction: column; align-items: center">
+        <img
+          [src]="questionReport.image"
+          style="width: 288px; height: 216px; object-fit: cover"
+        />
+        <div style="display: flex; align-items: center; padding-top: 20px">
+          <mat-icon style="padding-right: 10px">access_time</mat-icon>
+          <p style="margin: 0px">{{ questionReport.timeLimit }}s time limit</p>
+        </div>
+      </div>
+      <div style="flex: 1; padding-left: 10px">
+        <div
+          *ngFor="let item of questionReport.answers; let i = index"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-bottom: 1px solid #cccccc;
+            padding-top: 10px;
+            padding-bottom: 10px;
+          "
+        >
+          <app-shape [index]="i"></app-shape>
+          <p style="margin: 0 10px; flex: 1">
+            {{ questionReport.answers[i] }}
+          </p>
+          <mat-icon
+            class="green-icon"
+            *ngIf="questionReport.correctAnswers[i]; else closeBlock"
+            >check</mat-icon
+          >
+          <ng-template #closeBlock>
+            <mat-icon class="red-icon">close</mat-icon>
+          </ng-template>
+          <div style="width: 100px; margin-left: 10px">
+            <div
+              style="height: 8px; background-color: #26890c; border-radius: 4px"
+              [style.width]="
+                (questionReport.countAnswers[i] /
+                  questionReport.players.length) *
+                  100 +
+                'px'
+              "
+            ></div>
+          </div>
+          <p style="margin: 0px; width: 20px; text-align: end">
+            {{ questionReport.countAnswers[i] }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div style="height: 40px"></div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        padding-left: 20px;
+        padding-right: 20px;
+        height: 30px;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          flex: 1;
+          border-bottom: 1px solid #333333;
+          padding-bottom: 10px;
+          height: 100%;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <p style="flex: 1; margin: 0px">Correct answers</p>
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 120 120"
+            style="transform: rotate(-90deg); margin-right: 5px"
+          >
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              stroke="#e21b3c"
+              stroke-width="15"
+              fill="none"
+            />
+            <circle
+              #progress
+              cx="60"
+              cy="60"
+              r="50"
+              stroke="#0F9D58"
+              stroke-width="15"
+              fill="none"
+              stroke-dasharray="314.159"
+              stroke-dashoffset="235.619"
+            />
+          </svg>
+          <p style="margin: 0px; font-weight: 700">
+            {{ questionReport.correctPercentage }}%
+          </p>
+        </div>
+      </div>
+      <div style="width: 30px"></div>
+      <div
+        style="
+          flex: 1;
+          border-bottom: 1px solid #333333;
+          padding-bottom: 10px;
+          height: 100%;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <p style="flex: 1; margin: 0px">Avg. answers time</p>
+          <mat-icon class="teal-icon" style="margin-right: 5px"
+            >access_time_filled</mat-icon
+          >
+          <p style="margin: 0px; font-weight: 700">
+            {{ questionReport.avgAnswerTime }}s
+          </p>
+        </div>
+      </div>
+      <div style="width: 30px"></div>
+      <div
+        style="
+          flex: 1;
+          border-bottom: 1px solid #333333;
+          padding-bottom: 10px;
+          height: 100%;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <p style="flex: 1; margin: 0px">Players answered</p>
+          <mat-icon class="purple-icon" style="margin-right: 5px"
+            >person</mat-icon
+          >
+          <p style="margin: 0px; font-weight: 700">
+            {{ questionReport.playersAnswered }} of
+            {{ questionReport.players.length }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 20px; margin-top: 20px;">
+      <table
+        mat-table
+        [dataSource]="questionReport.players"
+        class="mat-elevation-z2 custom-table"
+      >
+        <!-- Player Column -->
+        <ng-container matColumnDef="player">
+          <th mat-header-cell *matHeaderCellDef>Player</th>
+          <td mat-cell *matCellDef="let player">{{ player.name }}</td>
+        </ng-container>
+
+        <!-- Answered Column -->
+        <ng-container matColumnDef="answered">
+          <th mat-header-cell *matHeaderCellDef>Answered</th>
+          <td mat-cell *matCellDef="let player">
+            <div style="display: flex; align-items: center">
+              <app-shape
+                [index]="questionReport.answers.indexOf(player.answer)"
+                style="margin-right: 10px"
+              ></app-shape>
+              <span>{{ player.answer }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Correct Column -->
+        <ng-container matColumnDef="correct">
+          <th mat-header-cell *matHeaderCellDef>Correct/Incorrect</th>
+          <td mat-cell *matCellDef="let player">
+            <div
+              *ngIf="player.correct; else incorrectBlock"
+              style="display: flex; align-items: center"
+            >
+              <mat-icon class="green-icon" style="margin-right: 5px"
+                >check</mat-icon
+              >
+              <span>Correct</span>
+            </div>
+            <ng-template #incorrectBlock>
+              <div style="display: flex; align-items: center">
+                <mat-icon class="red-icon" style="margin-right: 5px"
+                  >close</mat-icon
+                >
+                <span>Incorrect</span>
+              </div>
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <!-- Time Column -->
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef>Time</th>
+          <td mat-cell *matCellDef="let player">{{ player.time }}s</td>
+        </ng-container>
+
+        <!-- Points Column -->
+        <ng-container matColumnDef="points">
+          <th mat-header-cell *matHeaderCellDef>Points</th>
+          <td mat-cell *matCellDef="let player">{{ player.points }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div>
