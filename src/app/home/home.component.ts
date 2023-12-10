@@ -19,6 +19,10 @@ export class HomeComponent {
     this.router.navigate(['/quiz']);
   }
 
+  navigateToStore() {
+    this.router.navigate(['home/store']);
+  }
+
   navigateToReport() {
     this.router.navigate(['home/report']);
   }

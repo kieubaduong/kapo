@@ -1,0 +1,126 @@
+<div
+  style="
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px;
+    margin-bottom: 0px;
+  "
+>
+  <!-- Angular Material Tab Group -->
+  <mat-tab-group style="margin-bottom: 22px">
+    <mat-tab label="Recent"></mat-tab>
+    <mat-tab label="Drafts"></mat-tab>
+    <mat-tab label="Favorites"></mat-tab>
+  </mat-tab-group>
+
+  <mat-form-field appearance="outline" style="margin-left: 10px; width: 300px">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Search"
+      [(ngModel)]="templateSearchText"
+      (ngModelChange)="searchTemplates()"
+    />
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="clearSearch()"
+      *ngIf="templateSearchText"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div style="flex: 1"></div>
+
+  <mat-tab-group style="margin-bottom: 22px">
+    <mat-tab class="icon-tab">
+      <ng-template mat-tab-label>
+        <mat-icon class="material-icons-outlined" matTooltip="Default View"
+          >view_module</mat-icon
+        >
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="material-icons-outlined" matTooltip="Compact View"
+          >view_list</mat-icon
+        >
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<!-- List View -->
+<div style="margin: 10px; margin-top: 0px">
+  <mat-card
+    *ngFor="let template of templates"
+    style="background-color: #ffffff; padding: 0px; margin-bottom: 10px"
+  >
+    <mat-card-content style="padding: 5px">
+      <div style="display: flex; justify-content: space-between">
+        <img style="height: 185px; width: 280px; object-fit: cover;" [src]="template.image" />
+        <div
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-left: 20px;
+          "
+        >
+          <p
+            style="
+              margin: 0px;
+              margin-top: 10px;
+              font-weight: 700;
+              font-size: 16px;
+            "
+          >
+            {{ template.title }}
+          </p>
+          <div style="display: flex; align-items: center">
+            <mat-icon class="red-icon">account_circle</mat-icon>
+            <p style="margin: 0px; margin-left: 5px; color: #6e6e6e">
+              {{ template.hostName }}
+            </p>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div style="display: flex; align-items: center; justify-content: end">
+            <button mat-icon-button>
+              <mat-icon class="material-icons-outlined"
+                >mode_edit_outlined</mat-icon
+              >
+            </button>
+            <button mat-icon-button>
+              <mat-icon>more_vert</mat-icon>
+            </button>
+          </div>
+          <div style="display: flex; align-items: center">
+            <p
+              style="
+                color: #6e6e6e;
+                font-weight: 700;
+                margin: 0px;
+                margin-right: 20px;
+              "
+            >
+              {{ template.totalPlayers }} plays
+            </p>
+            <button mat-raised-button color="primary">Start</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

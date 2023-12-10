@@ -60,6 +60,7 @@ import { PlayersReportComponent } from './players-report/players-report.componen
 import { QuestionsReportComponent } from './questions-report/questions-report.component';
 import { ShapeComponent } from './shape/shape.component';
 import { QuestionReportDetailDialogComponent } from './question-report-detail-dialog/question-report-detail-dialog.component';
+import { StoreComponent } from './store/store.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { QuestionReportDetailDialogComponent } from './question-report-detail-di
     QuestionsReportComponent,
     ShapeComponent,
     QuestionReportDetailDialogComponent,
+    StoreComponent,
   ],
   imports: [
     BrowserModule,

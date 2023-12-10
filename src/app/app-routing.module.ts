@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { ReportComponent } from './report/report.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { StoreComponent } from './store/store.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     children: [
+      { path: 'store', component: StoreComponent },
       { path: 'report', component: ReportComponent },
       { path: 'report-detail/:id', component: ReportDetailComponent},
     ],
