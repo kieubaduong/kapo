@@ -36,7 +36,10 @@
 
   <div style="flex: 1"></div>
 
-  <mat-tab-group style="margin-bottom: 22px">
+  <mat-tab-group
+    (selectedTabChange)="tabChanged($event)"
+    style="margin-bottom: 22px"
+  >
     <mat-tab class="icon-tab">
       <ng-template mat-tab-label>
         <mat-icon class="material-icons-outlined" matTooltip="Default View"
@@ -57,12 +60,19 @@
 <!-- List View -->
 <div style="margin: 10px; margin-top: 0px">
   <mat-card
-    *ngFor="let template of templates"
+    *ngFor="let template of filteredTemplates"
     style="background-color: #ffffff; padding: 0px; margin-bottom: 10px"
   >
     <mat-card-content style="padding: 5px">
-      <div style="display: flex; justify-content: space-between">
-        <img style="height: 185px; width: 280px; object-fit: cover;" [src]="template.image" />
+      <!-- Default View -->
+      <div
+        *ngIf="viewMode === ViewMode.Default"
+        style="display: flex; justify-content: space-between"
+      >
+        <img
+          style="height: 185px; width: 280px; object-fit: cover"
+          [src]="template.image"
+        />
         <div
           style="
             flex: 1;
@@ -120,6 +130,20 @@
             <button mat-raised-button color="primary">Start</button>
           </div>
         </div>
+      </div>
+
+      <!-- Compact View -->
+      <div *ngIf="viewMode === ViewMode.Compact" style="display: flex; justify-content: space-between; align-items: center;">
+        <p style="flex: 1; margin: 0px; font-weight: 700; margin-left: 20px"> {{ template.title }} </p>
+        <mat-icon class="red-icon" style="margin-right: 10px">account_circle</mat-icon>
+        <p style="margin: 0px; margin-right: 20px;"> {{ template.hostName }} </p>
+        <button mat-raised-button  style="margin-right: 10px" color="primary">Start</button>
+        <button mat-icon-button>
+          <mat-icon class="material-icons-outlined">edit_oulined</mat-icon>
+        </button>
+        <button mat-icon-button style="margin-right: 10px;">
+          <mat-icon>more_vert</mat-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>

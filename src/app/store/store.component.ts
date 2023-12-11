@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import Template from 'src/models/template';
+
+export enum ViewMode {
+  Default,
+  Compact
+}
 
 @Component({
   selector: 'app-store',
@@ -7,6 +13,10 @@ import Template from 'src/models/template';
   styleUrls: ['./store.component.css'],
 })
 export class StoreComponent {
+
+  viewMode = ViewMode.Default; // Default view mode
+  ViewMode = ViewMode;
+
   templates: Template[] = [
     new Template(
       'The Quizzical Quiz',
@@ -35,15 +45,13 @@ export class StoreComponent {
   filteredTemplates: Template[] = this.templates;
 
   searchTemplates() {
-    if (this.templateSearchText) {
-      this.filteredTemplates = this.templates.filter((template) =>
-        template.title
-          .toLowerCase()
-          .includes(this.templateSearchText.toLowerCase())
-      );
-    } else {
-      this.filteredTemplates = this.templates;
-    }
+    this.filteredTemplates = this.templates.filter(template =>
+      template.title.toLowerCase().includes(this.templateSearchText.toLowerCase())
+    );
+  }
+
+  tabChanged(event: MatTabChangeEvent) {
+    this.viewMode = event.index === 0 ? ViewMode.Default : ViewMode.Compact; // Update the view mode when the tab changes
   }
 
   clearSearch() {
