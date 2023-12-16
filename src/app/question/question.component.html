@@ -1,0 +1,37 @@
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  "
+  (click)="toggleCollapse()"
+>
+  <div style="display: flex; height: 80px">
+    <div style="
+    flex: 1; 
+    padding: 10px;
+    ">
+      <p style="color: #6e6e6e; font-weight: 500">1 - Quiz</p>
+      <p style="font-weight: 700">1+1=?</p>
+    </div>
+    <img
+      src="https://langmai.org/wp-content/uploads/2017/09/12717461881840515394_574_0-jpg.jpeg"
+      style="width: 150px"
+    />
+  </div>
+  <div style="flex: 1" *ngIf="!isCollapsed">
+    <div
+      *ngFor="let i of [0, 1, 2, 3]"
+      style="display: flex; align-items: center; justify-content: space-between; padding: 15px;"
+    >
+      <div style="display: flex">
+        <app-shape [index]="i"></app-shape>
+        <p style="margin-left: 20px;">Text {{ i }}</p>
+      </div>
+      <mat-icon class="green-icon">check</mat-icon>
+    </div>
+  </div>
+</div>

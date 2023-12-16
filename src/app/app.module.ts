@@ -61,6 +61,8 @@ import { QuestionsReportComponent } from './questions-report/questions-report.co
 import { ShapeComponent } from './shape/shape.component';
 import { QuestionReportDetailDialogComponent } from './question-report-detail-dialog/question-report-detail-dialog.component';
 import { StoreComponent } from './store/store.component';
+import { TemplateComponent } from './template/template.component';
+import { QuestionComponent } from './question/question.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,8 @@ import { StoreComponent } from './store/store.component';
     ShapeComponent,
     QuestionReportDetailDialogComponent,
     StoreComponent,
+    TemplateComponent,
+    QuestionComponent,
   ],
   imports: [
     BrowserModule,

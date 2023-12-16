@@ -5,8 +5,8 @@ import KapoError from './kapo.error';
 
 class Quiz extends Kapo implements Checkable {
   questionType: string = 'Quiz';
-  timeLimit: number = 5;
   minTimeLimit: number = 5;
+  timeLimit: number = this.minTimeLimit;
   points: string = 'standard';
   answerOptions: string = 'single-select';
   answers: string[] = new Array(4).fill(null);

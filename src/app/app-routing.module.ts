@@ -7,6 +7,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { ReportComponent } from './report/report.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { StoreComponent } from './store/store.component';
+import { TemplateComponent } from './template/template.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,9 +15,13 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     children: [
-      { path: 'store', component: StoreComponent },
+      {
+        path: 'store',
+        component: StoreComponent,
+      },
+      { path: 'template', component: TemplateComponent },
       { path: 'report', component: ReportComponent },
-      { path: 'report-detail/:id', component: ReportDetailComponent},
+      { path: 'report-detail/:id', component: ReportDetailComponent },
     ],
   },
   { path: 'login', component: LoginComponent },

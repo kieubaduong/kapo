@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 import Template from 'src/models/template';
 
 export enum ViewMode {
   Default,
-  Compact
+  Compact,
 }
 
 @Component({
@@ -13,7 +14,6 @@ export enum ViewMode {
   styleUrls: ['./store.component.css'],
 })
 export class StoreComponent {
-
   viewMode = ViewMode.Default; // Default view mode
   ViewMode = ViewMode;
 
@@ -44,9 +44,13 @@ export class StoreComponent {
   templateSearchText = '';
   filteredTemplates: Template[] = this.templates;
 
+  constructor(private router: Router) {}
+
   searchTemplates() {
-    this.filteredTemplates = this.templates.filter(template =>
-      template.title.toLowerCase().includes(this.templateSearchText.toLowerCase())
+    this.filteredTemplates = this.templates.filter((template) =>
+      template.title
+        .toLowerCase()
+        .includes(this.templateSearchText.toLowerCase())
     );
   }
 
@@ -57,5 +61,9 @@ export class StoreComponent {
   clearSearch() {
     this.templateSearchText = '';
     this.searchTemplates();
+  }
+
+  navigateToTemplate() {
+    this.router.navigate(['home/template']);
   }
 }

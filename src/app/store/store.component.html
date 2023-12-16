@@ -7,7 +7,6 @@
     margin-bottom: 0px;
   "
 >
-  <!-- Angular Material Tab Group -->
   <mat-tab-group style="margin-bottom: 22px">
     <mat-tab label="Recent"></mat-tab>
     <mat-tab label="Drafts"></mat-tab>
@@ -61,16 +60,17 @@
 <div style="margin: 10px; margin-top: 0px">
   <mat-card
     *ngFor="let template of filteredTemplates"
-    style="background-color: #ffffff; padding: 0px; margin-bottom: 10px"
+    style="padding: 0px; margin-bottom: 10px"
+    (click)="navigateToTemplate()"
   >
-    <mat-card-content style="padding: 5px">
+    <mat-card-content style="padding: 5px; cursor: pointer;">
       <!-- Default View -->
       <div
         *ngIf="viewMode === ViewMode.Default"
         style="display: flex; justify-content: space-between"
       >
         <img
-          style="height: 185px; width: 280px; object-fit: cover"
+          style="height: 140px; width: 200px; object-fit: cover"
           [src]="template.image"
         />
         <div
