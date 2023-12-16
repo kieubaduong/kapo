@@ -35,9 +35,13 @@
 <mat-sidenav-container style="height: calc(100vh - 64px)">
   <mat-sidenav mode="side" opened style="width: 80px">
     <mat-nav-list style="padding: 8px">
-      <!-- Home navigation item -->
       <a
+        *ngFor="let item of navItems; let i = index"
         mat-list-item
+        (click)="item.clickHandler()"
+        [ngStyle]="{
+          'background-color': clickedItemIndex === i ? '#add8e6' : 'white'
+        }"
         style="
           border-radius: 4px;
           padding: 0;
@@ -55,84 +59,10 @@
             height: 100%;
           "
         >
-          <mat-icon matListIcon matListIcon class="material-icons-outlined"
-            >home</mat-icon
-          >
-          <p matLine style="margin: 0; font-size: 0.625rem">Home</p>
-        </div>
-      </a>
-      <!-- Store navigation item -->
-      <a
-        mat-list-item
-        (click)="navigateToStore()"
-        style="
-          border-radius: 4px;
-          padding: 0;
-          height: 100%;
-          margin-bottom: 10px;
-        "
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            height: 100%;
-          "
-        >
-          <mat-icon matListIcon class="material-icons-outlined">inventory</mat-icon>
-          <p matLine style="margin: 0; font-size: 0.625rem">Store</p>
-        </div>
-      </a>
-      <!-- Reports navigation item -->
-      <a
-        mat-list-item
-        (click)="navigateToReport()"
-        style="
-          border-radius: 4px;
-          padding: 0;
-          height: 100%;
-          margin-bottom: 10px;
-        "
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            height: 100%;
-          "
-        >
-          <mat-icon matListIcon class="material-icons-outlined">poll</mat-icon>
-          <p matLine style="margin: 0; font-size: 0.625rem">Reports</p>
-        </div>
-      </a>
-      <!-- Groups navigation item -->
-      <a
-        mat-list-item
-        style="
-          border-radius: 4px;
-          padding: 0;
-          height: 100%;
-          margin-bottom: 10px;
-        "
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            height: 100%;
-          "
-        >
-          <mat-icon matListIcon class="material-icons-outlined">group</mat-icon>
-          <p matLine style="margin: 0; font-size: 0.625rem">Groups</p>
+          <mat-icon matListIcon class="material-icons-outlined">{{
+            item.icon
+          }}</mat-icon>
+          <p matLine style="margin: 0; font-size: 0.625rem">{{ item.text }}</p>
         </div>
       </a>
     </mat-nav-list>

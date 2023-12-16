@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatListItem } from '@angular/material/list';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +8,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+
+  clickedItemIndex: number | null = null;
+
+  navItems = [
+    {
+      icon: 'home',
+      text: 'Home',
+      clickHandler: () => this.onItemClicked(0)
+    },
+    {
+      icon: 'inventory',
+      text: 'Store',
+      clickHandler: () => { this.navigateToStore(); this.onItemClicked(1); }
+    },
+    {
+      icon: 'poll',
+      text: 'Reports',
+      clickHandler: () => { this.navigateToReport(); this.onItemClicked(2); }
+    },
+    {
+      icon: 'group',
+      text: 'Groups',
+      clickHandler: () => this.onItemClicked(3)
+    }
+  ];
 
   constructor(private router: Router) { }
   
@@ -25,5 +51,9 @@ export class HomeComponent {
 
   navigateToReport() {
     this.router.navigate(['home/report']);
+  }
+
+  onItemClicked(index: number) {
+    this.clickedItemIndex = index;
   }
 }
