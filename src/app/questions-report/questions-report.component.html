@@ -15,7 +15,16 @@
   </mat-tab-group>
 </div>
 
-<mat-card style="padding: 20px; margin: 20px">
+<mat-card
+  style="
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 20px;
+    height: calc(100% - 100px - 80px);
+    overflow: auto;
+  "
+>
   <div
     style="display: flex; justify-content: space-between; align-items: center"
   >
@@ -43,8 +52,7 @@
       </button>
     </mat-form-field>
   </div>
-
-  <table>
+  <table style="flex-grow: 1">
     <thead>
       <tr>
         <th style="width: 40%; text-align: start; padding-left: 16px">
@@ -70,11 +78,15 @@
                 <mat-card-content>
                   <div style="display: flex; align-items: center">
                     <p style="flex: 2; color: #333333; font-weight: 700">
-                      {{ element.title }}
+                      {{ element.content }}
                     </p>
                     <p style="flex: 1; color: #333333">{{ element.type }}</p>
                     <p style="flex: 1; color: #333333; text-align: end">
-                      {{ element.correctPercentage }}%
+                      <span *ngIf="element.answersCount">
+                        {{
+                          (element.correctCount / element.answersCount) * 100
+                        }}%
+                      </span>
                     </p>
                   </div>
                   <div
@@ -87,7 +99,10 @@
                     />
                     <div style="flex: 1; padding-left: 10px">
                       <div
-                        *ngFor="let item of element.answers; let i = index"
+                        *ngFor="
+                          let item of element.answersReport;
+                          let i = index
+                        "
                         style="
                           display: flex;
                           align-items: center;
@@ -101,11 +116,11 @@
                       >
                         <app-shape [index]="i"></app-shape>
                         <p style="margin: 0 10px; flex: 1">
-                          {{ element.answers[i] }}
+                          {{ item.content }}
                         </p>
                         <mat-icon
                           class="green-icon"
-                          *ngIf="element.correctAnswers[i]; else closeBlock"
+                          *ngIf="item.isCorrect; else closeBlock"
                           >check</mat-icon
                         >
                         <ng-template #closeBlock>
@@ -113,21 +128,20 @@
                         </ng-template>
                         <div style="width: 100px; margin-left: 10px">
                           <div
-                            style="
-                              height: 8px;
-                              background-color: #26890c;
-                              border-radius: 4px;
+                            style="height: 8px; border-radius: 4px"
+                            [style.background-color]="
+                              item.isCorrect ? '#26890c' : '#db4437'
                             "
                             [style.width]="
-                              (element.countAnswers[i] /
-                                element.players.length) *
+                              (item.count /
+                                getTotalCount(element.answersReport)) *
                                 100 +
                               'px'
                             "
                           ></div>
                         </div>
                         <p style="margin: 0px; width: 20px; text-align: end">
-                          {{ element.countAnswers[i] }}
+                          {{ item.count }}
                         </p>
                       </div>
                     </div>
@@ -136,13 +150,48 @@
               </mat-card>
             </ng-container>
             <ng-template #compactView>
-              <div class="question-card" style="display: flex; align-items: center; border-bottom: 0.67px solid #F2F2F2">
-                <p style="flex: 2; color: #333333; font-weight: 700; margin-top: 12px;">
-                  {{ element.title }}
+              <div
+                class="question-card"
+                style="
+                  display: flex;
+                  align-items: center;
+                  border-bottom: 0.67px solid #f2f2f2;
+                "
+              >
+                <p
+                  style="
+                    flex: 2;
+                    color: #333333;
+                    font-weight: 700;
+                    margin-top: 12px;
+                  "
+                >
+                  {{ element.content }}
                 </p>
-                <p style="flex: 1; color: #333333; margin-top: 12px; margin-left: 16px">{{ element.type }}</p>
-                <p style="flex: 1; color: #333333; text-align: end; margin-top: 12px; margin-right: 16px">
-                  {{ element.correctPercentage }}%
+                <p
+                  style="
+                    flex: 1;
+                    color: #333333;
+                    margin-top: 12px;
+                    margin-left: 16px;
+                  "
+                >
+                  {{ element.type }}
+                </p>
+                <p
+                  style="
+                    flex: 1;
+                    color: #333333;
+                    text-align: end;
+                    margin-top: 12px;
+                    margin-right: 16px;
+                  "
+                >
+                  {{
+                    element.answersReport && element.answersReport.length > 0
+                      ? (element.correctCount / element.answersCount) * 100
+                      : 100
+                  }}%
                 </p>
               </div>
             </ng-template>

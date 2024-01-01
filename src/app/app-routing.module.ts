@@ -10,7 +10,7 @@ import { StoreComponent } from './store/store.component';
 import { TemplateComponent } from './template/template.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
     component: HomeComponent,
@@ -19,7 +19,7 @@ const routes: Routes = [
         path: 'store',
         component: StoreComponent,
       },
-      { path: 'template', component: TemplateComponent },
+      { path: 'template/:id', component: TemplateComponent },
       { path: 'report', component: ReportComponent },
       { path: 'report-detail/:id', component: ReportDetailComponent },
     ],

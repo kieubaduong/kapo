@@ -2,7 +2,11 @@
   color="primary"
   style="display: flex; justify-content: space-between; align-items: center"
 >
-  <span>Kapo!</span>
+  <a
+    routerLink="/"
+    style="cursor: pointer; text-decoration: none; color: inherit"
+    ><span>Kapo!</span></a
+  >
 
   <div style="position: relative; min-width: 300px">
     <input
@@ -29,7 +33,7 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>Option 1</button>
+  <button mat-menu-item (click)="logOut()">Log out</button>
 </mat-menu>
 
 <mat-sidenav-container style="height: calc(100vh - 64px)">
@@ -68,7 +72,16 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content style="overflow: auto">
-    <router-outlet></router-outlet>
+  <mat-sidenav-content style="display: flex; flex-direction: column; height: 100vh; overflow: auto">
+    <div *ngIf="router.url === '/home'" style="text-align: center; background-color: #FFF; padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
+      <img src="../../assets/logo.png" alt="Welcome image" style="width: 300px; height: auto; margin: 50px auto 20px;">
+      <h1 style="color: #333; font-size: 2rem; margin-top: 50px; margin-bottom: 10px;">Welcome to Kapo</h1>
+      <p style="color: #666; margin: 0; font-size: 1rem">
+        We are a game learning platform that makes learning fun and engaging.<br>
+        With a wide range of games across various subjects, we offer a unique and effective approach to learning.<br>
+        Join us and take your learning to the next level.
+      </p>
+    </div>
+    <router-outlet *ngIf="router.url !== '/home'"></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

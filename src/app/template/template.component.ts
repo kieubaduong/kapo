@@ -1,45 +1,38 @@
-import { Component } from '@angular/core';
-import Kapo from 'src/models/kapo';
-import Quiz from 'src/models/quiz';
-import Template from 'src/models/template';
-import TrueOrFalseQuiz from 'src/models/true.or.false.quiz';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TemplateDTO } from 'src/DTO/template.dto';
+import { TemplateService } from 'src/service/template.service';
+import { MOCK_IMAGE } from '../../core/const';
 
 @Component({
   selector: 'app-template',
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.css'],
 })
-export class TemplateComponent {
-  mockKapoes: Kapo[] = [];
-  mockTemplate: Template = new Template(
-    'World Capitals Quiz',
-    'world_capitals_image.jpg',
-    10,
-    'Quiz Master',
-    5
-  );
+export class TemplateComponent implements OnInit {
+  template: TemplateDTO = TemplateDTO.null();
+  isCollapsed: boolean[] = [];
 
-  constructor() {
-    for (let i = 0; i < 5; i++) {
-      const quiz = new Quiz();
-      quiz.title = `What is the capital of country ${i + 1}?`;
-      quiz.timeLimit = 10;
-      quiz.points = 'standard';
-      quiz.answerOptions = 'single-select';
-      quiz.answers = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-      quiz.correctAnswers = [true, false, false, false];
-      this.mockKapoes.push(quiz);
+  mockImage = MOCK_IMAGE;
 
-      const trueOrFalseQuiz = new TrueOrFalseQuiz();
-      trueOrFalseQuiz.title = `True or False: The capital of country ${
-        i + 1
-      } is Option 1.`;
-      trueOrFalseQuiz.timeLimit = 10;
-      trueOrFalseQuiz.points = 'standard';
-      trueOrFalseQuiz.answer = true;
-      this.mockKapoes.push(trueOrFalseQuiz);
+  constructor(private route: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      TemplateService.getTemplateById(+id).subscribe(response => {
+        if (response.success) {
+          this.template = response.data ?? TemplateDTO.null();
+          this.isCollapsed = [...this.template.questions.map(() => true)];
+        } else {
+          console.error(response.message);
+        }
+      });
     }
+  }
 
-    this.mockTemplate.setKapoes(this.mockKapoes);
+  showAnswers(): void {
+    this.isCollapsed = [...this.isCollapsed.map(() => false)];
   }
 }

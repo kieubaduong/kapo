@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MatListItem } from '@angular/material/list';
 import { Router } from '@angular/router';
+import GlobalData from 'src/core/global.data';
 
 @Component({
   selector: 'app-home',
@@ -12,33 +12,33 @@ export class HomeComponent {
   clickedItemIndex: number | null = null;
 
   navItems = [
-    {
-      icon: 'home',
-      text: 'Home',
-      clickHandler: () => this.onItemClicked(0)
-    },
+    // {
+    //   icon: 'home',
+    //   text: 'Home',
+    //   clickHandler: () => this.onItemClicked(0)
+    // },
     {
       icon: 'inventory',
       text: 'Store',
-      clickHandler: () => { this.navigateToStore(); this.onItemClicked(1); }
+      clickHandler: () => { this.navigateToStore(); this.onItemClicked(0); }
     },
     {
       icon: 'poll',
       text: 'Reports',
-      clickHandler: () => { this.navigateToReport(); this.onItemClicked(2); }
-    },
-    {
-      icon: 'group',
-      text: 'Groups',
-      clickHandler: () => this.onItemClicked(3)
+      clickHandler: () => { this.navigateToReport(); this.onItemClicked(1); }
     }
   ];
 
-  constructor(private router: Router) { }
+  constructor(public router: Router) { }
   
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') ?? '{}');
     console.log(user);
+  }
+
+  logOut() {
+    GlobalData.getInstance().clear();
+    this.router.navigate(['/login']);
   }
 
   navigateToQuiz() {

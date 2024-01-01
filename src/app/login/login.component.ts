@@ -10,6 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../common/error-dialog/error-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import ApiResponse from 'src/models/api.response';
+import LoginService from 'src/service/login.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -26,35 +29,25 @@ export class LoginComponent {
     private http: HttpClient,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private fb: FormBuilder
-  ) {
-    // this.loginForm = new FormGroup({
-    //   email: new FormControl('', [Validators.required, Validators.email]),
-    //   password: new FormControl('', Validators.required)
-    // });
-  }
+    private fb: FormBuilder,
+    private notificationService: NotificationService
+  ) {}
 
   loginWithEmail(): void {
     if (this.loginForm.valid) {
       const payload = this.loginForm.value;
-
-      this.http
-        .post('http://localhost:8080/login/email', payload, {
-          responseType: 'text',
-        })
-        .subscribe(
-          (response) => {
-            console.log(JSON.stringify(response));
-            const user = JSON.parse(response);
-            delete user.password;
-            localStorage.setItem('user', JSON.stringify(user));
+      if (payload.email && payload.password) {
+        LoginService.login(payload.email, payload.password).then((response: ApiResponse<any>) => {
+          if (response.success) {
             this.router.navigate(['/home']);
-          },
-          (error) => {
-            console.log(JSON.stringify(error));
-            this._snackBar.open(error['error'], 'Close', {});
+            this.notificationService.showSuccess('Login successful');
+          } else {
+            this.notificationService.showError('Login failed: ' + response.message);
           }
-        );
+        });
+      } else {
+        this.notificationService.showError('Email and password must be provided');
+      }
     }
   }
 

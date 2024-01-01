@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
-import Template from 'src/models/template';
+import { TemplateDTO } from 'src/DTO/template.dto';
+import { TemplateService } from 'src/service/template.service';
 
 export enum ViewMode {
   Default,
   Compact,
+}
+
+export enum SelectType {
+  Public = 'public',
+  Favourites = 'favourites',
+  Draft = 'draft',
 }
 
 @Component({
@@ -13,38 +20,45 @@ export enum ViewMode {
   templateUrl: './store.component.html',
   styleUrls: ['./store.component.css'],
 })
-export class StoreComponent {
+export class StoreComponent implements OnInit {
   viewMode = ViewMode.Default; // Default view mode
   ViewMode = ViewMode;
 
-  templates: Template[] = [
-    new Template(
-      'The Quizzical Quiz',
-      'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      50,
-      'DuongKieu',
-      500
-    ),
-    new Template(
-      'Puzzling Puzzles',
-      'https://images.unsplash.com/photo-1595147389795-37094173bfd8?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3DUrl2',
-      75,
-      'DuongKieu',
-      750
-    ),
-    new Template(
-      'Trivia Triumph',
-      'https://images.unsplash.com/photo-1598214886806-c87b84b7078b?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      100,
-      'DuongKieu',
-      1000
-    ),
-  ];
+  templates: TemplateDTO[] = [];
+  private templateCache: { [key in SelectType]?: TemplateDTO[] } = {};
 
   templateSearchText = '';
-  filteredTemplates: Template[] = this.templates;
+  filteredTemplates: TemplateDTO[] = this.templates;
 
   constructor(private router: Router) {}
+
+  ngOnInit() {
+    TemplateService.getAllTemplates(SelectType.Public).subscribe((response) => {
+      if (response.success) {
+        this.templates = response.data ? response.data : [];
+        this.filteredTemplates = this.templates;
+      } else {
+        console.error(response.message);
+      }
+    });
+  }
+
+  changeSelectType(event: MatTabChangeEvent) {
+    let selectType: SelectType = SelectType.Public;
+    switch (event.index) {
+      case 0:
+        selectType = SelectType.Public;
+        break;
+      case 1:
+        selectType = SelectType.Draft;
+        break;
+      case 2:
+        selectType = SelectType.Favourites;
+        break;
+    }
+
+    this.fetchTemplates(selectType);
+  }
 
   searchTemplates() {
     this.filteredTemplates = this.templates.filter((template) =>
@@ -54,8 +68,27 @@ export class StoreComponent {
     );
   }
 
-  tabChanged(event: MatTabChangeEvent) {
+  changeViewMode(event: MatTabChangeEvent) {
     this.viewMode = event.index === 0 ? ViewMode.Default : ViewMode.Compact; // Update the view mode when the tab changes
+  }
+
+  private fetchTemplates(selectType: SelectType) {
+    if (this.templateCache[selectType]) {
+      this.templates = this.templateCache[selectType]!;
+      this.filteredTemplates = this.templates;
+      return;
+    }
+
+    TemplateService.getAllTemplates(selectType).subscribe((response) => {
+      if (response.success) {
+        this.templates = response.data ? response.data : [];
+        this.filteredTemplates = this.templates;
+
+        this.templateCache[selectType] = this.templates;
+      } else {
+        console.error(response.message);
+      }
+    });
   }
 
   clearSearch() {
@@ -63,7 +96,7 @@ export class StoreComponent {
     this.searchTemplates();
   }
 
-  navigateToTemplate() {
-    this.router.navigate(['home/template']);
+  navigateToTemplate(templateId: number) {
+    this.router.navigate(['home/template', templateId]);
   }
 }

@@ -1,8 +1,13 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReportDTO } from 'src/DTO/report.dto';
+import ApiResponse from 'src/models/api.response';
+import { KapoReport } from 'src/models/report';
+import { ReportService } from 'src/service/report.service';
+import { formatDateTime } from 'src/util';
 
 @Component({
   selector: 'app-report',
@@ -10,60 +15,42 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./report.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ReportComponent {
+export class ReportComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   searchValue = '';
 
-  // Mock data
-  gameNames = [
-    'Math Challenge',
-    'History Quiz',
-    'Science Trivia',
-    'Geography Test',
-    'Literature Game',
-    'Music Quiz',
-    'Sports Trivia',
-    'Movie Challenge',
-    'General Knowledge',
-    'Art Quiz',
-  ];
-
-  getRandomName = () =>
-    this.gameNames[Math.floor(Math.random() * this.gameNames.length)];
-  getRandomDate = () => {
-    const start = new Date(2022, 0, 1);
-    const end = new Date(2023, 11, 31);
-    return new Date(
-      start.getTime() + Math.random() * (end.getTime() - start.getTime())
-    );
-  };
-  getRandomPlayers = () => Math.floor(Math.random() * 10) + 1;
-  data = Array.from({ length: 20 }, () => ({
-    name: this.getRandomName(),
-    date: this.getRandomDate().toLocaleString('vi-VN', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    }),
-    players: this.getRandomPlayers(),
-  }));
-
   // Table data
+  data: ReportDTO[] = [];
   dataSource = new MatTableDataSource(this.data);
   displayedColumns: string[] = ['name', 'date', 'players', 'action'];
 
+  formatDateTime = formatDateTime;
+
   constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.getAllReports();
+  }
+
+  getAllReports() {
+    ReportService.getAllReports().subscribe((response: ApiResponse<ReportDTO[]>) => {
+      if (response.success) {
+        this.data = response.data ? response.data : [];
+        this.dataSource = new MatTableDataSource(this.data);
+      } else {
+        console.error(response.message);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.getAllReports();
   }
 
   openReport(element: any) {
-    this.router.navigate(['home/report-detail', 5]);
+    this.router.navigate(['home/report-detail', element.id]);
   }
 
   rename(element: any) {

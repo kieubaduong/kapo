@@ -1,5 +1,5 @@
 <div style="display: flex; background-color: #f2f2f2; height: 280px">
-  <div style="flex: 2; padding: 20px; padding-right: 0px;">
+  <div style="flex: 2; padding: 20px; padding-right: 0px">
     <div
       style="
         display: flex;
@@ -133,8 +133,9 @@
               font-weight: 700;
               color: #333333;
             "
-            >4</span
           >
+            {{ reportSummary.totalPlayerCount }}
+          </span>
         </div>
         <div
           style="
@@ -160,8 +161,9 @@
               font-weight: 700;
               color: #333333;
             "
-            >5</span
           >
+            {{ reportSummary.totalQuestion }}
+          </span>
         </div>
         <div
           style="
@@ -187,7 +189,7 @@
               font-weight: 700;
               color: #333333;
             "
-            >3 min</span
+            >{{ reportSummary.totalTime | number : "1.0-0" }} min</span
           >
         </div>
       </div>
@@ -257,13 +259,13 @@
 <div
   style="
     background-color: #fafafa;
-    height: 435px;
+    height: 500px;
     display: flex;
     flex-direction: column;
   "
 >
   <!-- Content for the second row goes here -->
-  <div style="padding: 20px; padding-bottom: 10px">
+  <div style="padding: 20px; padding-bottom: 10px;">
     <h1
       style="
         color: #333333;
@@ -286,7 +288,7 @@
           background-color: #ffffff;
           border-radius: 5px;
           box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
-          height: calc(100% - 0px);
+          height: calc(100% - 70px);
         "
       >
         <div
@@ -307,7 +309,7 @@
               font-weight: 700;
             "
           >
-            Difficult questions (3)
+            Difficult questions ({{ reportSummary.difficultQuestions.length }})
           </h3>
           <mat-icon>help_outline</mat-icon>
         </div>
@@ -328,15 +330,15 @@
                 font-weight: 500;
               "
             >
-              4 - Quiz
+              {{ reportSummary.game.type }}
             </p>
             <p style="color: #333333; font-size: 16px; font-weight: 700">
-              Hỏi gì hỏi đi?
+              {{ difficultQuestion.question }}
             </p>
           </div>
           <img
-            src="../../assets/beach.jpg"
-            style="height: 110px; object-fit: contain"
+            [src]="difficultQuestion.image"
+            style="height: 110px; width: 200px"
           />
         </div>
         <div
@@ -369,7 +371,6 @@
                 fill="none"
               />
               <circle
-                #progress
                 cx="60"
                 cy="60"
                 r="50"
@@ -378,6 +379,9 @@
                 fill="none"
                 stroke-dasharray="314.16"
                 stroke-dashoffset="235.62"
+                [attr.stroke-dashoffset]="
+                  (1 - difficultAnswerCorrectPercent / 100) * 314.16
+                "
               />
             </svg>
             <p style="color: #333333; font-size: 14px; margin: 0px">
@@ -387,7 +391,7 @@
           <div style="display: flex; align-items: center">
             <mat-icon style="margin-right: 5px">access_time</mat-icon>
             <p style="color: #333333; font-size: 14px; margin: 0px">
-              Avg. 5.75 sec
+              Avg. {{ difficultQuestion.averageTime }} sec
             </p>
           </div>
         </div>
@@ -424,7 +428,9 @@
         >
           <!-- Third row -->
           <!-- Content for the third row goes here -->
-          <a href="https://www.example.com">See all (3)</a>
+          <a href="https://www.example.com"
+            >See all ({{ reportSummary.difficultQuestions.length }})</a
+          >
         </div>
       </div>
     </div>
@@ -437,7 +443,7 @@
           background-color: #ffffff;
           border-radius: 5px;
           box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
-          height: 100%;
+          height: calc(100% - 70px);
         "
       >
         <div
@@ -458,20 +464,23 @@
               font-weight: 700;
             "
           >
-            Need help (1)
+            Need help ({{ reportSummary.needHelpQuestions.length }})
           </h3>
           <mat-icon>help_outline</mat-icon>
         </div>
         <div style="flex: 1; padding: 10px">
           <ul style="list-style-type: none; padding: 0">
             <li
+              *ngFor="let question of reportSummary.needHelpQuestions"
               style="
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
               "
             >
-              <span style="font-size: 14px; color: #333333">Link</span>
+              <span style="font-size: 14px; color: #333333">{{
+                question.username
+              }}</span>
               <div style="display: flex; align-items: center">
                 <svg
                   width="30"
@@ -505,7 +514,11 @@
                     font-weight: 700;
                     padding-left: 10px;
                   "
-                  >20%</span
+                >
+                  {{
+                    (question.correctCount / reportSummary.totalQuestion) * 100
+                  }}
+                  %</span
                 >
               </div>
             </li>
@@ -522,7 +535,7 @@
           background-color: #ffffff;
           border-radius: 5px;
           box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.15);
-          height: 100%;
+          height: calc(100% - 70px);
         "
       >
         <div
@@ -543,22 +556,47 @@
               font-weight: 700;
             "
           >
-            Didn't finish (0)
+            Didn't finish ({{ reportSummary.notFinishedPlayers.length }})
           </h3>
           <mat-icon>help_outline</mat-icon>
         </div>
-        <div
-          style="
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-          "
-        >
-          <span style="color: #333333; font-weight: 500px"
-            >Great! Everyone finished</span
+        <div style="flex: 1; padding: 10px">
+          <ul
+            style="list-style-type: none; padding: 0"
+            *ngIf="reportSummary.notFinishedPlayers.length > 0"
           >
+            <li
+              *ngFor="let player of reportSummary.notFinishedPlayers"
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <span style="font-size: 14px; color: #333333">{{
+                player.username
+              }}</span>
+              <div style="display: flex; align-items: center">
+                <span
+                  style="
+                    font-size: 14px;
+                    color: #333333;
+                    font-weight: 700;
+                    padding-left: 10px;
+                  "
+                >
+                  {{ player.noAnswersCount }}</span
+                >
+              </div>
+            </li>
+          </ul>
+
+          <span
+            style="color: #333333; font-weight: 500px"
+            *ngIf="reportSummary.notFinishedPlayers.length === 0"
+          >
+            Great! Everyone finished
+          </span>
         </div>
       </div>
     </div>

@@ -1,29 +1,35 @@
 import Kapo from './kapo';
 
 class Template {
+  id: number = 0;
   title: string = '';
-  image: string = '';
+  description: string = '';
+  cover: string = '';
+  isPublic: boolean = false;
+  creatorId: number = 0;
   totalQuestions: number = 0;
   hostName: string = '';
   totalPlayers: number = 0;
-  kapoes: Kapo[] = [];
+  questions: Kapo[] = [];
+  createdAt: string = '';
+  updatedAt: string = '';
 
   constructor(
     title: string,
-    image: string,
+    cover: string,
     totalQuestions: number,
     hostName: string,
     totalPlayers: number
   ) {
     this.title = title;
-    this.image = image;
+    this.cover = cover;
     this.totalQuestions = totalQuestions;
     this.hostName = hostName;
     this.totalPlayers = totalPlayers;
   }
 
   setKapoes(kapoes: Kapo[]) {
-    this.kapoes = kapoes;
+    this.questions = kapoes;
   }
 }
 

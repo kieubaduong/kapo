@@ -1,8 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ReportUserDTO } from 'src/DTO/report.user.dto';
 import Player from 'src/models/player';
+import { ReportService } from 'src/service/report.service';
 
 @Component({
   selector: 'app-players-report',
@@ -10,21 +12,11 @@ import Player from 'src/models/player';
   styleUrls: ['./players-report.component.css'],
 })
 export class PlayersReportComponent {
-  allPlayers: Player[] = [
-    new Player('NinjaCoder', 1, 42, 0, 100),
-    new Player('SleepyDev', 2, 35, 5, 85),
-    new Player('CoffeeAddict', 3, 30, 10, 75),
-    new Player('CodeWizard', 4, 25, 15, 65),
-    new Player('KeyboardWarrior', 5, 20, 20, 55),
-    new Player('BugHunter', 6, 15, 25, 45),
-    new Player('TerminalJockey', 7, 10, 30, 35),
-    new Player('ScriptKid', 8, 5, 35, 25),
-    new Player('RookieCoder', 9, 0, 40, 15),
-    new Player('HelloWorld', 10, 0, 45, 5),
-  ];
+  @Input() gameId: number = 0;
 
-  displayedPlayers: Player[] = [];
-  filteredPlayers: any[] = [];
+  allPlayers: ReportUserDTO[] = [];
+  displayedPlayers: ReportUserDTO[] = [];
+  filteredPlayers: ReportUserDTO[] = [];
 
   displayedColumns: string[] = [
     'nickname',
@@ -37,14 +29,19 @@ export class PlayersReportComponent {
   searchPlayerName: string = '';
 
   ngOnInit() {
-    this.displayedPlayers = this.allPlayers;
-    this.filteredPlayers = this.displayedPlayers;
+    ReportService.getPlayersReport(this.gameId).subscribe((response) => {
+      if (response.success) {
+        this.allPlayers = response.data ?? [];
+        this.displayedPlayers = this.allPlayers;
+        this.filteredPlayers = this.displayedPlayers;
+      }
+    });
   }
 
   filterPlayers() {
     if (this.searchPlayerName !== '') {
       this.filteredPlayers = this.displayedPlayers.filter((player) =>
-        player.nickname
+        player.username
           .toLowerCase()
           .includes(this.searchPlayerName.toLowerCase())
       );
@@ -58,7 +55,10 @@ export class PlayersReportComponent {
       this.displayedPlayers = this.allPlayers;
     } else if (event.index === 1) {
       this.displayedPlayers = this.allPlayers.filter(
-        (player) => player.correctAnswers < 30
+        (player) =>
+          player.correctAnswersCount /
+            (player.answersCount + player.unansweredCount) <
+          0.3
       );
     }
     this.filterPlayers();
@@ -75,15 +75,19 @@ export class PlayersReportComponent {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'nickname':
-          return this.compare(a.nickname, b.nickname, isAsc);
+          return this.compare(a.username, b.username, isAsc);
         case 'rank':
           return this.compare(a.rank, b.rank, isAsc);
         case 'correctAnswers':
-          return this.compare(a.correctAnswers, b.correctAnswers, isAsc);
+          return this.compare(
+            a.correctAnswersCount / (a.answersCount + a.unansweredCount),
+            b.correctAnswersCount / (b.answersCount + b.unansweredCount),
+            isAsc
+          );
         case 'unanswered':
-          return this.compare(a.unanswered, b.unanswered, isAsc);
+          return this.compare(a.unansweredCount, b.unansweredCount, isAsc);
         case 'finalScore':
-          return this.compare(a.finalScore, b.finalScore, isAsc);
+          return this.compare(a.points, b.points, isAsc);
         default:
           return 0;
       }
@@ -97,5 +101,9 @@ export class PlayersReportComponent {
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  logPlayer(player: ReportUserDTO) {
+    console.log(player);
   }
 }

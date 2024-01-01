@@ -1,98 +1,110 @@
-<div style="display: flex; flex-direction: column; height: 100%">
-  <div style="display: flex; height: 170px; min-height: 170px;">
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        flex: 2;
-        margin-left: 16px;
-      "
-    >
+<ng-container *ngIf="reportSummary$ | async as reportSummary; else loading">
+  <div *ngIf="reportSummary.data" style="display: flex; flex-direction: column; height: 100%">
+    <div style="display: flex; height: 170px; min-height: 170px">
       <div
-        style="display: flex; flex: 1; margin-top: 24px"
+        style="
+          display: flex;
+          flex-direction: column;
+          flex: 2;
+          margin-left: 16px;
+        "
       >
-        <div>
-          <h5 style="font-size: 16px; color: #333333; font-weight: 700">
-            Report
-          </h5>
-          <div style="display: flex; align-items: center">
-            <h2
-              style="
-                font-size: 32px;
-                color: #333333;
-                font-weight: 600;
-                margin: 0px;
-              "
-            >
-              Music quiz
-            </h2>
-            <button mat-icon-button>
-              <mat-icon class="material-icons-outlined">edit</mat-icon>
-            </button>
+        <div style="display: flex; flex: 1; margin-top: 24px">
+          <div>
+            <h5 style="font-size: 16px; color: #333333; font-weight: 700">
+              Report
+            </h5>
+            <div style="display: flex; align-items: center">
+              <h2
+                style="
+                  font-size: 32px;
+                  color: #333333;
+                  font-weight: 600;
+                  margin: 0px;
+                "
+              >
+                {{ reportSummary.data.game.name }}
+              </h2>
+              <button mat-icon-button>
+                <mat-icon class="material-icons-outlined">edit</mat-icon>
+              </button>
+            </div>
           </div>
-        </div>
-        <div style="flex: 1; width: 100%"></div>
-        <div>
-          <div style="display: flex; align-items: center">
-            <div style="font-size: 14px; color: #333333">Report options</div>
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <mat-icon class="material-icons-outlined">download</mat-icon>
-                <span>Download report</span>
+          <div style="flex: 1; width: 100%"></div>
+          <div>
+            <div style="display: flex; align-items: center">
+              <div style="font-size: 14px; color: #333333">Report options</div>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
               </button>
-              <button mat-menu-item>
-                <mat-icon class="material-icons-outlined">print</mat-icon>
-                <span>Print</span>
-              </button>
-              <button mat-menu-item>
-                <mat-icon class="material-icons-outlined">leaderboard</mat-icon>
-                <span>Other reports</span>
-              </button>
-              <button mat-menu-item>
-                <mat-icon class="material-icons-outlined">visibility</mat-icon>
-                <span>View kapo</span>
-              </button>
-              <button mat-menu-item>
-                <mat-icon class="material-icons-outlined">delete</mat-icon>
-                <span>Move to trash</span>
-              </button>
-            </mat-menu>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon class="material-icons-outlined">download</mat-icon>
+                  <span>Download report</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon class="material-icons-outlined">print</mat-icon>
+                  <span>Print</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon class="material-icons-outlined"
+                    >leaderboard</mat-icon
+                  >
+                  <span>Other reports</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon class="material-icons-outlined"
+                    >visibility</mat-icon
+                  >
+                  <span>View kapo</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon class="material-icons-outlined">delete</mat-icon>
+                  <span>Move to trash</span>
+                </button>
+              </mat-menu>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      style="
-        flex: 1;
-        margin-right: 16px;
-        margin-left: 16px;
-        padding-top: 16px;
-      "
-    >
-      <div style="display: flex; flex-direction: column">
-        <div style="padding: 14px; border-bottom: 1px solid #b2b2b2">
-          Dec 1, 2023, 11:43 PM
+      <div
+        style="
+          flex: 1;
+          margin-right: 16px;
+          margin-left: 16px;
+          padding-top: 16px;
+        "
+      >
+        <div style="display: flex; flex-direction: column">
+          <div style="padding: 14px; border-bottom: 1px solid #b2b2b2">
+            {{ formatDateTime(reportSummary.data.game.createdAt) }}
+          </div>
+          <div style="padding: 14px"> {{ reportSummary.data.game.host.username }} </div>
         </div>
-        <div style="padding: 14px">Hosted by DuongBK</div>
       </div>
     </div>
+    <div>
+      <mat-tab-group dynamicHeight>
+        <mat-tab label="Summary">
+          <app-summary-report
+            [reportSummary]="reportSummary.data"
+          ></app-summary-report>
+        </mat-tab>
+        <mat-tab label="Players">
+          <app-players-report [gameId]="gameId"></app-players-report>
+        </mat-tab>
+        <mat-tab label="Questions">
+          <app-questions-report [gameId]="gameId"></app-questions-report>
+        </mat-tab>
+      </mat-tab-group>
+
+      <ng-template #loading>
+        <div>Loading...</div>
+      </ng-template>
+    </div>
   </div>
-  <div>
-    <mat-tab-group dynamicHeight>
-      
-      <mat-tab label="Summary">
-        <app-summary-report></app-summary-report>
-      </mat-tab>
-      <mat-tab label="Players">
-        <app-players-report></app-players-report>
-      </mat-tab>
-      <mat-tab label="Questions">
-        <app-questions-report></app-questions-report>
-      </mat-tab>
-      
-    </mat-tab-group>
-  </div>
-</div>
+</ng-container>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>

@@ -7,7 +7,7 @@
     margin-bottom: 0px;
   "
 >
-  <mat-tab-group style="margin-bottom: 22px">
+  <mat-tab-group (selectedTabChange)="changeSelectType($event)" style="margin-bottom: 22px">
     <mat-tab label="Recent"></mat-tab>
     <mat-tab label="Drafts"></mat-tab>
     <mat-tab label="Favorites"></mat-tab>
@@ -36,7 +36,7 @@
   <div style="flex: 1"></div>
 
   <mat-tab-group
-    (selectedTabChange)="tabChanged($event)"
+    (selectedTabChange)="changeViewMode($event)"
     style="margin-bottom: 22px"
   >
     <mat-tab class="icon-tab">
@@ -61,9 +61,9 @@
   <mat-card
     *ngFor="let template of filteredTemplates"
     style="padding: 0px; margin-bottom: 10px"
-    (click)="navigateToTemplate()"
+    (click)="navigateToTemplate(template.id)"
   >
-    <mat-card-content style="padding: 5px; cursor: pointer;">
+    <mat-card-content style="padding: 5px; cursor: pointer">
       <!-- Default View -->
       <div
         *ngIf="viewMode === ViewMode.Default"
@@ -71,7 +71,7 @@
       >
         <img
           style="height: 140px; width: 200px; object-fit: cover"
-          [src]="template.image"
+          [src]="template.cover"
         />
         <div
           style="
@@ -93,9 +93,21 @@
             {{ template.title }}
           </p>
           <div style="display: flex; align-items: center">
-            <mat-icon class="red-icon">account_circle</mat-icon>
+            <img
+              [src]="template.creator.avatar"
+              (error)="
+                template.creator.avatar =
+                  'https://i.pinimg.com/1200x/bf/e2/2d/bfe22d559d674fdbff92aae729a3b54b.jpg'
+              "
+              style="
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+              "
+            />
             <p style="margin: 0px; margin-left: 5px; color: #6e6e6e">
-              {{ template.hostName }}
+              {{ template.creator.username }}
             </p>
           </div>
         </div>
@@ -125,7 +137,7 @@
                 margin-right: 20px;
               "
             >
-              {{ template.totalPlayers }} plays
+              {{ template.gameCount }} plays
             </p>
             <button mat-raised-button color="primary">Start</button>
           </div>
@@ -133,15 +145,40 @@
       </div>
 
       <!-- Compact View -->
-      <div *ngIf="viewMode === ViewMode.Compact" style="display: flex; justify-content: space-between; align-items: center;">
-        <p style="flex: 1; margin: 0px; font-weight: 700; margin-left: 20px"> {{ template.title }} </p>
-        <mat-icon class="red-icon" style="margin-right: 10px">account_circle</mat-icon>
-        <p style="margin: 0px; margin-right: 20px;"> {{ template.hostName }} </p>
-        <button mat-raised-button  style="margin-right: 10px" color="primary">Start</button>
+      <div
+        *ngIf="viewMode === ViewMode.Compact"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <p style="flex: 1; margin: 0px; font-weight: 700; margin-left: 20px">
+          {{ template.title }}
+        </p>
+        <img
+          [src]="template.creator.avatar"
+          (error)="
+            template.creator.avatar =
+              'https://i.pinimg.com/1200x/bf/e2/2d/bfe22d559d674fdbff92aae729a3b54b.jpg'
+          "
+          style="
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+          "
+        />
+        <p style="margin: 0px; margin-right: 20px">
+          {{ template.creator.username }}
+        </p>
+        <button mat-raised-button style="margin-right: 10px" color="primary">
+          Start
+        </button>
         <button mat-icon-button>
           <mat-icon class="material-icons-outlined">edit_oulined</mat-icon>
         </button>
-        <button mat-icon-button style="margin-right: 10px;">
+        <button mat-icon-button style="margin-right: 10px">
           <mat-icon>more_vert</mat-icon>
         </button>
       </div>
