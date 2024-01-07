@@ -20,9 +20,16 @@ export class QuestionComponent {
   ngOnInit() {
     this.index += 1;
     this.choices = this.question.choices;
+    console.log(this.question.type, '?????');
     switch (this.question.type) {
       case 'true_false':
         this.kapoType = 'True or False';
+        break;
+      case 'open_ended':
+        this.kapoType = 'Open Ended';
+        break;
+      case 'type_answer':
+        this.kapoType = 'Type Answer';
         break;
       default:
         this.kapoType = 'Quiz';

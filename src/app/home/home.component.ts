@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import GlobalData from 'src/core/global.data';
 
 @Component({
@@ -29,7 +29,7 @@ export class HomeComponent {
     }
   ];
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, public route: ActivatedRoute) { }
   
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') ?? '{}');
@@ -42,7 +42,7 @@ export class HomeComponent {
   }
 
   navigateToQuiz() {
-    this.router.navigate(['/quiz']);
+    this.router.navigate(['/quiz', "-1"]);
   }
 
   navigateToStore() {

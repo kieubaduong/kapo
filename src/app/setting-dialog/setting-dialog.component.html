@@ -1,0 +1,34 @@
+<mat-dialog-content style="height: 450px; max-height: 480px; overflow-y: hidden">
+    <h2 style="text-align: left;">Kapo summary</h2>
+    <div style="display: flex; justify-content: space-between;">
+      <div style="flex: 1; margin-right: 10px;">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Title</mat-label>
+          <input matInput [(ngModel)]="data.title" maxlength="95">
+          <mat-hint align="end">{{ data.title.length }} / 95</mat-hint>
+        </mat-form-field>
+        <p style="color: #6e6e6e; font-size: 12px">
+          A descriptive title will give players an indication of what the kahoot is
+          about.
+        </p>
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="data.description" maxlength="500" [rows]="6" style="height: 100%; resize: none"></textarea>
+          <mat-hint align="end">{{ data.description.length }} / 500</mat-hint>
+        </mat-form-field>
+        <p style="color: #6e6e6e; font-size: 12px">
+          A good description will help other users find your kahoot.
+        </p>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; margin-left: 10px; height: 100%; justify-content: space-between; align-items: center">
+        <p style="font-size: 14px; font-weight: 700; text-align: left; width: 100%">Cover image</p>
+        <img [src]="data.cover" alt="Cover image" style="width: 100%; height: 200px;" onerror="this.src='https://www.customwallpaper.net.au/wp-content/themes/customwallpaper/images/uploadyourown.png'">
+        <button mat-raised-button color="primary" (click)="fileInput.click()" style="margin-top: 20px; width: 80px">Change</button>
+        <input hidden type="file" #fileInput (change)="handleFileInput($event)">
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-raised-button (click)="onCancel()" style="width: 80px;">Cancel</button>
+    <button mat-raised-button (click)="onDone()" color="primary" style="width: 80px;">Done</button>
+  </mat-dialog-actions>

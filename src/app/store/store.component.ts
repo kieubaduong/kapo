@@ -3,6 +3,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TemplateDTO } from 'src/DTO/template.dto';
 import { TemplateService } from 'src/service/template.service';
+import { NotificationService } from '../services/notification.service';
 
 export enum ViewMode {
   Default,
@@ -30,7 +31,7 @@ export class StoreComponent implements OnInit {
   templateSearchText = '';
   filteredTemplates: TemplateDTO[] = this.templates;
 
-  constructor(private router: Router) {}
+  constructor(private notificationService: NotificationService, private router: Router) {}
 
   ngOnInit() {
     TemplateService.getAllTemplates(SelectType.Public).subscribe((response) => {
@@ -91,6 +92,19 @@ export class StoreComponent implements OnInit {
     });
   }
 
+  deleteTemplate(event: Event, templateId: number) {
+    event.stopPropagation();
+
+    TemplateService.deleteTemplate(templateId.toString()).subscribe((response) => {
+      if (response !== 'Could not delete template') {
+        this.fetchTemplates(SelectType.Draft);
+        this.notificationService.showSuccess('Template deleted successfully');
+      } else {
+        this.notificationService.showError('Could not delete template');
+      }
+    });
+  }
+
   clearSearch() {
     this.templateSearchText = '';
     this.searchTemplates();
@@ -98,5 +112,10 @@ export class StoreComponent implements OnInit {
 
   navigateToTemplate(templateId: number) {
     this.router.navigate(['home/template', templateId]);
+  }
+
+  navigateToQuiz(event: Event, templateId: string): void {
+    event.stopPropagation();
+    this.router.navigate(['/quiz', templateId]);
   }
 }

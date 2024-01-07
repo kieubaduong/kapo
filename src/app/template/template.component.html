@@ -14,7 +14,7 @@
         {{ template.gameCount }} players
       </p>
       <div>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="navigateToQuiz(template.id.toString())">
           <mat-icon class="material-icons-outlined">edit_outlined</mat-icon>
         </button>
         <button mat-icon-button>
@@ -34,7 +34,7 @@
         padding: 0px 20px 0px 20px;
       "
     >
-      <button mat-raised-button color="primary" style="flex: 1">Start</button>
+      <button mat-raised-button (click)="startGame(template.id.toString())" color="primary" style="flex: 1">Start</button>
     </div>
     <p style="margin: 10px; font-weight: 500; color: #6e6e6e"> {{ template.description }} </p>
     <div style="display: flex; align-items: center">

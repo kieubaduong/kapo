@@ -24,7 +24,7 @@ export class QuestionReportDetailDialogComponent implements OnInit {
     ReportService.getQuestionDetailReport(this.data.gameId, this.data.questionId).subscribe(response => {
       if (response.success) {
         this.questionReport = response.data ?? new ReportQuestionDetailDTO();
-        this.averageTime = this.questionReport.playerAnswers.reduce((total, player) => total + player.time, 0) / this.questionReport.playerAnswers.length;
+        this.averageTime = Number((this.questionReport.playerAnswers.reduce((total, player) => total + player.time, 0) / this.questionReport.playerAnswers.length).toFixed(2));
         this.answers = this.questionReport.answersReport.map(answer => answer.content);
         console.log(this.questionReport);
       } else {

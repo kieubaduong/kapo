@@ -31,9 +31,9 @@ export class SummaryReportComponent {
       }
     }
     this.difficultAnswerCorrectPercent =
-      (this.difficultQuestion.correctCount /
+      Number(((this.difficultQuestion.correctCount /
         this.reportSummary.totalPlayerCount) *
-      100;
+      100).toFixed(2));
   }
 
   ngAfterViewInit() {

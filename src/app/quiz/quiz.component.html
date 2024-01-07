@@ -25,8 +25,9 @@
       cursor: pointer;
     "
   >
-    Enter kapo title...
+    {{ (settingData.title === '' || settingData.title === null) ? 'Enter kapo title...' : settingData.title }}
     <span
+    (click)="openSettingDialog()"
       style="
         position: absolute;
         right: 0;
@@ -72,9 +73,9 @@
   </div>
 </mat-toolbar>
 
-<div class="container" style="display: flex; height: calc(100vh - 64px)">
+<div *ngIf="selectedKapo" class="container" style="display: flex; height: calc(100vh - 64px)">
   <!-- Left Sidebar -->
-  <div class="left-sidebar">
+  <div #kapoList class="left-sidebar" style="overflow: auto">
     <mat-list appScrollable style="padding: 0px; overflow: auto; flex-grow: 1">
       <mat-list-item
         appOffsetTop
@@ -82,6 +83,7 @@
         style="height: 130px; padding: 0px; padding-bottom: 15px"
         [class.selected]="item.id === selectedKapo.id"
         (click)="selectQuiz(i)"
+        [id]="'kapo-' + i"
       >
         <div
           class="item-container"
@@ -330,7 +332,7 @@
             style="height: 48px; width: 48px; min-width: 48px; margin-top: 2vh"
             (click)="fileInput.click()"
           >
-            <i class="material-icons" style="font-size: 30px">add</i>
+            <mat-icon class="material-icons-outlined" style="margin: 0; padding: 0; font-size: 20px">add</mat-icon>
           </button>
         </div>
 
@@ -512,7 +514,7 @@
       class="sidebar"
     >
       <!-- Scrollable container -->
-      <div style="overflow-y: auto; flex-grow: 1">
+      <div style="overflow-y: hidden; flex-grow: 1">
         <div style="display: flex; align-items: center; margin-bottom: 10px">
           <mat-icon class="material-icons-outlined" style="margin-right: 5px"
             >live_help_outlined</mat-icon
@@ -532,7 +534,7 @@
             [timeLimit]="$any(selectedKapo).timeLimit.toString()"
             [points]="$any(selectedKapo).points"
             [answerOptions]="$any(selectedKapo).answerOptions"
-            (timeLimitChange)="$any(selectedKapo).timeLimit = $event"
+            (timeLimitChange)="$any(selectedKapo).timeLimit = +$event"
             (pointsChange)="$any(selectedKapo).points = $event"
             (answerOptionsChange)="$any(selectedKapo).answerOptions = $event"
           ></app-quiz-field>

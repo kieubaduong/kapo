@@ -5,6 +5,7 @@ import {
   Directive,
   ElementRef,
   HostListener,
+  Input,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -26,6 +27,12 @@ import KapoError from 'src/models/kapo.error';
 import Checkable from 'src/models/checkable';
 import { FinalizeKapoDialogComponent } from '../common/finalize-kapo-dialog/finalize-kapo-dialog.component';
 import { DeleteKapoDialogComponent } from '../common/delete-kapo-dialog/delete-kapo-dialog.component';
+import { SettingDialogComponent } from '../setting-dialog/setting-dialog.component';
+import SettingData from 'src/models/setting.data';
+import { TemplateService } from 'src/service/template.service';
+import { NotificationService } from '../services/notification.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Directive({ selector: '[appScrollable]' })
 export class ScrollableDirective {
@@ -56,6 +63,7 @@ export class QuizComponent {
   @ViewChild('userInputTextarea') userInputTextarea!: ElementRef;
   @ViewChildren(OffsetTopDirective) listItems!: QueryList<OffsetTopDirective>;
   @ViewChild(ScrollableDirective) list!: ScrollableDirective;
+  @ViewChild('kapoList') kapoList!: ElementRef;
 
   // UI related variables
   sidebarOpen = true;
@@ -68,25 +76,73 @@ export class QuizComponent {
 
   // Data related variables
   kapoItems: Kapo[] = [];
-  selectedKapo: Kapo;
+  selectedKapo!: Kapo;
   kapoFactory = new KapoFactory();
   questionType = 'quiz';
   remainingCharacter = 120;
   initialWindowWidth: number = window.innerWidth;
+  settingData: SettingData = new SettingData();
 
   constructor(
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
-    private validationErrorDialog: MatDialog
+    private validationErrorDialog: MatDialog,
+    private notificationService: NotificationService,
+    public router: Router,
+    private location: Location,
+    private route: ActivatedRoute
   ) {
-    this.kapoItems = [
-      this.kapoFactory.createQuestion('TrueOrFalse'),
-      // this.kapoFactory.createQuestion('Quiz'),
-      // this.kapoFactory.createQuestion('TrueOrFalse'),
-      // this.kapoFactory.createQuestion('Quiz'),
-    ];
+    
+  }
 
-    this.selectedKapo = this.kapoItems[0];
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const templateId = parseInt(params['templateId']);
+      
+      if (templateId === -1) {
+        this.kapoItems = [
+          this.kapoFactory.createQuestion('TrueOrFalse'),
+        ];
+  
+        this.selectedKapo = this.kapoItems[0];
+        return;
+      }
+  
+      this.settingData.templateId = templateId;
+      console.log(templateId, "templateId");
+      TemplateService.getQuestionsByTemplateId(
+        templateId.toString()
+      ).subscribe(
+        (response) => {
+          if (response.success) {
+            console.log(response, "response");
+            if (response.data === null || response.data === undefined || response.data.length === 0) {
+              this.kapoItems.push(new Quiz());
+            }
+            const questions = response.data ?? [];
+            for (let i = 0; i < questions.length; i++) {
+              switch (questions[i].type) {
+                case 'multiple_choice':
+                  this.kapoItems.push(Quiz.fromQuestionDTO(questions[i]));
+                  break;
+                case 'true_false':
+                  this.kapoItems.push(
+                    TrueOrFalseQuiz.fromQuestionDTO(questions[i])
+                  );
+                  break;
+              }
+            }
+            console.log("??????????????????????");
+            console.log(this.kapoItems, "kapoItems");
+            this.selectedKapo = this.kapoItems[0];
+          } else {
+            this.notificationService.showError(
+              'Error occurred while fetching questions'
+            );
+          }
+        }
+      );
+    });
   }
 
   onTitleChange(event: any) {
@@ -100,27 +156,45 @@ export class QuizComponent {
     this.cdr.detectChanges();
   }
 
-  selectQuiz(index: number) {
+  selectQuiz(index: number, scroll: boolean = false) {
     this.selectedKapo = this.kapoItems[index];
+    this.questionType =
+      this.selectedKapo.constructor.name === 'Quiz' ? 'quiz' : 'true-or-false';
     this.remainingCharacter = 120 - this.selectedKapo.title.length;
     this.blurOnQuestion();
     console.log(this.selectedKapo);
+
+    // Scroll to the selected kapo
+    if (scroll && this.kapoList && this.kapoList.nativeElement) {
+      const matListElement =
+        this.kapoList.nativeElement.querySelector('mat-list');
+      if (matListElement) {
+        const kapoElements = matListElement.children;
+        const selectedElement = kapoElements[index];
+        if (selectedElement) {
+          setTimeout(() => {
+            matListElement.scrollTop =
+              selectedElement.offsetTop - selectedElement.clientHeight;
+          }, 0);
+        }
+      }
+    }
     this.cdr.detectChanges();
   }
 
   onFileSelected(event: Event) {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-  
+
     if (files && files.length > 0) {
       const reader = new FileReader();
-  
+
       reader.onload = () => {
         if (typeof reader.result === 'string') {
           this.selectedKapo.media = reader.result;
         }
       };
-  
+
       reader.readAsDataURL(files[0]);
     }
   }
@@ -136,7 +210,7 @@ export class QuizComponent {
   }
 
   deleteKapo(index: number) {
-    let typeQuestion: string = "";
+    let typeQuestion: string = '';
     if (isInstanceOfQuiz(this.kapoItems[index])) {
       typeQuestion = 'quiz';
     }
@@ -151,8 +225,8 @@ export class QuizComponent {
     if (this.kapoItems.length === 1) {
       return;
     }
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.kapoItems.splice(index, 1);
         this.updateItemId();
@@ -190,29 +264,128 @@ export class QuizComponent {
   }
 
   // UI related functions
+  openSettingDialog(): void {
+    const dialogRef = this.dialog.open(SettingDialogComponent, {
+      data: { ...this.settingData },
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+      console.log('The dialog was closed');
+      this.settingData = result;
+    });
+  }
+
   openValidationErrorDialog() {
     const kapoErrors = this.kapoItems.flatMap((kapo) => {
+      let kapoError: KapoError = new KapoError('', '', []);
       if (isInstanceOfQuiz(kapo)) {
-        return (kapo as Quiz).validate();
+        kapoError = (kapo as Quiz).validate();
       }
       if (isInstanceOfTrueFalseQuiz(kapo)) {
-        return (kapo as TrueOrFalseQuiz).validate();
+        kapoError = (kapo as TrueOrFalseQuiz).validate();
       }
-      return [];
+      if (kapoError.errors.length === 0) {
+        return [];
+      }
+      return [kapoError];
     });
+
+    console.log(kapoErrors, 'kapoErrors');
 
     const errors = kapoErrors.filter(
       (kapoError) => kapoError.errors.length > 0
     ).length;
 
     if (errors === 0) {
-      this.dialog.open(FinalizeKapoDialogComponent, {
-        disableClose: true,
+      if (this.settingData.templateId === -1) {
+        const dialogRef = this.dialog.open(FinalizeKapoDialogComponent, {
+          disableClose: true,
+          data: this.settingData,
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result === null || result === undefined) {
+            return;
+          }
+          this.settingData = result;
+
+          TemplateService.createTemplate(this.settingData).subscribe(
+            (response) => {
+              if (response.success) {
+                this.settingData.templateId = response.data?.id ?? 0;
+                const questionDTOs = this.kapoItems.map((kapo) =>
+                  kapo.toQuestionDTO()
+                );
+                for (let i = 0; i < questionDTOs.length; i++) {
+                  questionDTOs[i].limitTime = parseInt(
+                    questionDTOs[i].limitTime.toString()
+                  );
+                }
+                TemplateService.patchTemplate(
+                  this.settingData.templateId.toString(),
+                  questionDTOs
+                ).subscribe((response) => {
+                  if (response === 'Could not patch template') {
+                    this.notificationService.showError(
+                      'Error occurred while updating template'
+                    );
+                    return;
+                  }
+                  this.notificationService.showSuccess(
+                    'Template updated successfully'
+                  );
+                  this.location.back();
+                });
+              } else {
+                this.notificationService.showError(
+                  'Error occurred while saving template'
+                );
+              }
+            }
+          );
+        });
+
+        return;
+      }
+
+      const questionDTOs = this.kapoItems.map((kapo) => kapo.toQuestionDTO());
+      for (let i = 0; i < questionDTOs.length; i++) {
+        questionDTOs[i].limitTime = parseInt(
+          questionDTOs[i].limitTime.toString()
+        );
+      }
+      console.log(questionDTOs, 'questionDTOs');
+      TemplateService.patchTemplate(
+        this.settingData.templateId.toString(),
+        questionDTOs
+      ).subscribe((response) => {
+        if (response === 'Could not patch template') {
+          this.notificationService.showError(
+            'Error occurred while updating template'
+          );
+          return;
+        }
+        this.notificationService.showSuccess('Template updated successfully');
+        this.location.back();
       });
     } else {
-      this.validationErrorDialog.open(QuizValidationErrorDialogComponent, {
-        data: { kapoErrors },
-        disableClose: true,
+      let dialogRef = this.validationErrorDialog.open(
+        QuizValidationErrorDialogComponent,
+        {
+          data: { kapoErrors },
+          disableClose: true,
+        }
+      );
+
+      dialogRef.afterClosed().subscribe((index) => {
+        if (index == -1) {
+          return;
+        }
+        this.selectQuiz(index, true);
       });
     }
   }
@@ -310,5 +483,9 @@ export class QuizComponent {
 
   onTextareaBlur() {
     this.isTextareaFocused = false;
+  }
+
+  parseToInt(value: string): number {
+    return parseInt(value);
   }
 }

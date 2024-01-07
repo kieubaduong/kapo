@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'quiz', component: QuizComponent },
+  { path: 'quiz/:templateId', component: QuizComponent }
 ];
 
 @NgModule({

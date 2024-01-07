@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TemplateDTO } from 'src/DTO/template.dto';
 import { TemplateService } from 'src/service/template.service';
 import { MOCK_IMAGE } from '../../core/const';
+import { GameService } from 'src/service/game.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-template',
@@ -15,7 +17,7 @@ export class TemplateComponent implements OnInit {
 
   mockImage = MOCK_IMAGE;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -30,6 +32,20 @@ export class TemplateComponent implements OnInit {
         }
       });
     }
+  }
+
+  startGame(templateId: string): void {
+    GameService.createGame(templateId).subscribe(response => {
+      if (response.success) {
+        this.notificationService.showSuccess('Game created successfully');
+      } else {
+        this.notificationService.showError(response.message ?? 'Could not create game');
+      }
+    });
+  }
+
+  navigateToQuiz(templateId: string): void {
+    this.router.navigate(['/quiz', templateId]);
   }
 
   showAnswers(): void {

@@ -1,3 +1,4 @@
+import { QuestionDTO } from "src/DTO/question.dto";
 import Cloneable from "./cloneable";
 
 abstract class Kapo implements Cloneable {
@@ -14,6 +15,8 @@ abstract class Kapo implements Cloneable {
   abstract getFieldsForUI(): string[];
   
   abstract clone(): Cloneable;
+
+  abstract toQuestionDTO(): QuestionDTO;
 }
 
 export default Kapo;

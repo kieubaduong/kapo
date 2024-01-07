@@ -1,3 +1,4 @@
+import { QuestionDTO } from 'src/DTO/question.dto';
 import Kapo from './kapo';
 
 class Slide extends Kapo {
@@ -24,6 +25,10 @@ class Slide extends Kapo {
     slide.reaction = this.reaction;
     slide.slideLayout = this.slideLayout;
     return slide;
+  }
+
+  override toQuestionDTO(): QuestionDTO {
+    throw new Error('Method not implemented.');
   }
 
 }

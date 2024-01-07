@@ -57,17 +57,17 @@
 </div>
 
 <!-- List View -->
-<div style="margin: 10px; margin-top: 0px">
+<div style="margin: 10px; margin-top: 0px; margin-bottom: 90px">
   <mat-card
     *ngFor="let template of filteredTemplates"
     style="padding: 0px; margin-bottom: 10px"
     (click)="navigateToTemplate(template.id)"
   >
-    <mat-card-content style="padding: 5px; cursor: pointer">
+    <mat-card-content style="padding: 5px; cursor: pointer;">
       <!-- Default View -->
       <div
         *ngIf="viewMode === ViewMode.Default"
-        style="display: flex; justify-content: space-between"
+        style="display: flex;"
       >
         <img
           style="height: 140px; width: 200px; object-fit: cover"
@@ -119,13 +119,11 @@
           "
         >
           <div style="display: flex; align-items: center; justify-content: end">
-            <button mat-icon-button>
-              <mat-icon class="material-icons-outlined"
-                >mode_edit_outlined</mat-icon
-              >
+            <button mat-icon-button (click)="navigateToQuiz($event, template.id.toString())">
+              <mat-icon class="material-icons-outlined">mode_edit_outlined</mat-icon>
             </button>
-            <button mat-icon-button>
-              <mat-icon>more_vert</mat-icon>
+            <button (click)="deleteTemplate($event, template.id)" mat-icon-button>
+              <mat-icon>delete_outlined</mat-icon>
             </button>
           </div>
           <div style="display: flex; align-items: center">

@@ -17,7 +17,7 @@ export class QuizValidationErrorDialogComponent {
     this.kapoErrors = data.kapoErrors;
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog(index: number): void {
+    this.dialogRef.close(index);
   }
 }
