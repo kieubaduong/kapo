@@ -367,7 +367,6 @@ export class QuizComponent {
           return;
         }
         this.notificationService.showSuccess('Template updated successfully');
-        this.location.back();
       });
     } else {
       let dialogRef = this.validationErrorDialog.open(
