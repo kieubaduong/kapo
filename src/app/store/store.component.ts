@@ -12,8 +12,8 @@ export enum ViewMode {
 }
 
 export enum SelectType {
-  Public = 'public',
-  Favourites = 'favourites',
+  Public = '',
+  Favourites = 'favorites',
   Draft = 'draft',
 }
 
@@ -80,6 +80,8 @@ export class StoreComponent implements OnInit {
       this.filteredTemplates = this.templates;
       return;
     }
+
+    console.log(selectType, "??????????");
 
     TemplateService.getAllTemplates(selectType).subscribe((response) => {
       if (response.success) {

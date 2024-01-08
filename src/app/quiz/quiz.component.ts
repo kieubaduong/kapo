@@ -294,8 +294,6 @@ export class QuizComponent {
       return [kapoError];
     });
 
-    console.log(kapoErrors, 'kapoErrors');
-
     const errors = kapoErrors.filter(
       (kapoError) => kapoError.errors.length > 0
     ).length;
@@ -338,7 +336,6 @@ export class QuizComponent {
                   this.notificationService.showSuccess(
                     'Template updated successfully'
                   );
-                  this.location.back();
                 });
               } else {
                 this.notificationService.showError(
@@ -396,6 +393,10 @@ export class QuizComponent {
       this.kapoItems.push(this.kapoFactory.createQuestion(result));
       this.scrollToBottom();
     });
+  }
+
+  exit() {
+    this.location.back();
   }
 
   @HostListener('window:resize', ['$event'])

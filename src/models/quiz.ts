@@ -59,7 +59,7 @@ class Quiz extends Kapo implements Checkable {
     quiz.timeLimit = this.timeLimit;
     quiz.points = this.points;
     quiz.answerOptions = this.answerOptions;
-    quiz.answers = this.answers;
+    quiz.answers = { ...this.answers};
     quiz.correctAnswers = this.correctAnswers;
     return quiz;
   }
