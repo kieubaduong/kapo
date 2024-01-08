@@ -17,10 +17,10 @@
         <button mat-icon-button (click)="navigateToQuiz(template.id.toString())">
           <mat-icon class="material-icons-outlined">edit_outlined</mat-icon>
         </button>
-        <button mat-icon-button>
-          <mat-icon class="material-icons-outlined"
-            >star_border_outlined</mat-icon
-          >
+        <button mat-icon-button (click)="toggleStar()">
+          <mat-icon class="material-icons-outlined" [style.color]="isStarSelected ? '#ffc00a' : ''">
+            {{isStarSelected ? 'star' : 'star_border'}}
+          </mat-icon>
         </button>
         <button mat-icon-button>
           <mat-icon>more_vert</mat-icon>

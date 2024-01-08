@@ -137,7 +137,7 @@
             >
               {{ template.gameCount }} plays
             </p>
-            <button mat-raised-button color="primary">Start</button>
+            <button mat-raised-button (click)="startGame($event, template.id.toString())" color="primary">Start</button>
           </div>
         </div>
       </div>

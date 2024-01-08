@@ -33,8 +33,8 @@ export class ReportService {
     );
   }
 
-  public static getPlayersReport(gameId: number): Observable<ApiResponse<ReportUserDTO[]>> {
-    return from(HttpService.get<ApiResponse<ReportUserDTO[]>>(`/report/games/${gameId}/players`)).pipe(
+  public static getPlayersReport(gameId: number, selectType: string): Observable<ApiResponse<ReportUserDTO[]>> {
+    return from(HttpService.get<ApiResponse<ReportUserDTO[]>>(`/report/games/${gameId}/players?select_type=${selectType}`)).pipe(
       map((response) =>
         ApiResponse.success<ReportUserDTO[]>(response.data.data ?? [new ReportUserDTO()])
       ),

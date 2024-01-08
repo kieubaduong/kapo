@@ -1,7 +1,10 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { QuestionReportShortDTO } from 'src/DTO/question.report.short.dto';
 import { ReportSummaryDTO } from 'src/DTO/report.summary.dto';
+import { ReportUserDTO } from 'src/DTO/report.user.dto';
+import { ReportService } from 'src/service/report.service';
 import { formatQuestionType } from 'src/util';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-summary-report',
@@ -11,11 +14,16 @@ import { formatQuestionType } from 'src/util';
 export class SummaryReportComponent {
   @Input() reportSummary!: ReportSummaryDTO;
 
+  needHelpPlayers: ReportUserDTO[] = [];
+  notFinishedPlayers: ReportUserDTO[] = [];
+
   difficultQuestion: QuestionReportShortDTO = new QuestionReportShortDTO();
   @ViewChild('progress') progress!: ElementRef;
 
   percent = 25;
   difficultAnswerCorrectPercent: number = 25;
+
+  constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.reportSummary.game.type = formatQuestionType(this.reportSummary.game.type);
@@ -34,6 +42,9 @@ export class SummaryReportComponent {
       Number(((this.difficultQuestion.correctCount /
         this.reportSummary.totalPlayerCount) *
       100).toFixed(2));
+
+      this.getPlayersReport('need_help');
+      this.getPlayersReport('not_finished');
   }
 
   ngAfterViewInit() {
@@ -41,6 +52,22 @@ export class SummaryReportComponent {
     const offset = circumference - (this.percent / 100) * circumference;
     this.progress.nativeElement.style.strokeDasharray = `${circumference} ${circumference}`;
     this.progress.nativeElement.style.strokeDashoffset = offset;
+  }
+
+  getPlayersReport(reportType: string) {
+    ReportService.getPlayersReport(this.reportSummary.gameId, reportType).subscribe(
+      (response) => {
+        if (response.success) {
+          if (reportType === 'need_help') {
+            this.needHelpPlayers = response.data ?? [];
+          } else if (reportType === 'not_finished') {
+            this.notFinishedPlayers = response.data ?? [];
+          }
+        } else {
+          this.notificationService.showError(`Error fetching ${reportType} players report:`);
+        }
+      }
+    );
   }
 
   setProgress(percent: number) {

@@ -265,7 +265,7 @@
   "
 >
   <!-- Content for the second row goes here -->
-  <div style="padding: 20px; padding-bottom: 10px;">
+  <div style="padding: 20px; padding-bottom: 10px">
     <h1
       style="
         color: #333333;
@@ -468,19 +468,20 @@
           </h3>
           <mat-icon>help_outline</mat-icon>
         </div>
-        <div style="flex: 1; padding: 10px">
+        <div style="flex: 1; padding: 10px; padding-top: 0px">
           <ul style="list-style-type: none; padding: 0">
             <li
-              *ngFor="let question of reportSummary.needHelpQuestions"
+              *ngFor="let needHelpPlayer of needHelpPlayers"
               style="
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-bottom: 5px;
               "
             >
-              <span style="font-size: 14px; color: #333333">{{
-                question.username
-              }}</span>
+              <p style="font-size: 14px; color: #333333; margin: 0px">
+                {{ needHelpPlayer.username }}
+              </p>
               <div style="display: flex; align-items: center">
                 <svg
                   width="30"
@@ -507,26 +508,27 @@
                     stroke-dashoffset="235.62"
                   />
                 </svg>
-                <span
+                <p
                   style="
                     font-size: 14px;
                     color: #333333;
                     font-weight: 700;
                     padding-left: 10px;
+                    margin: 0px;
                   "
                 >
                   {{
-                    (question.correctCount / reportSummary.totalQuestion) * 100
+                    needHelpPlayer.correctRate * 100
                   }}
-                  %</span
-                >
+                  %
+                </p>
               </div>
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <div style="flex: 1; padding: 20px; padding-left: 0px">
+    <div style="flex: 1; padding: 20px; padding-left: 0px;">
       <div
         style="
           display: flex;
@@ -560,33 +562,40 @@
           </h3>
           <mat-icon>help_outline</mat-icon>
         </div>
-        <div style="flex: 1; padding: 10px">
+        <div style="flex: 1; padding: 10px; padding-top: 0px">
           <ul
-            style="list-style-type: none; padding: 0"
-            *ngIf="reportSummary.notFinishedPlayers.length > 0"
+            style="
+              list-style-type: none;
+              padding: 0;
+              overflow-y: auto;
+              max-height: 260px;
+            "
+            *ngIf="notFinishedPlayers.length > 0"
           >
             <li
-              *ngFor="let player of reportSummary.notFinishedPlayers"
+              *ngFor="let notFinishedPlayer of notFinishedPlayers"
               style="
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-bottom: 5px;
               "
             >
-              <span style="font-size: 14px; color: #333333">{{
-                player.username
-              }}</span>
+              <p style="font-size: 14px; color: #333333; margin: 0px">
+                {{ notFinishedPlayer.username }}
+              </p>
               <div style="display: flex; align-items: center">
-                <span
+                <p
                   style="
                     font-size: 14px;
                     color: #333333;
-                    font-weight: 700;
                     padding-left: 10px;
+                    margin: 0px;
+                    margin-right: 10px;
                   "
                 >
-                  {{ player.noAnswersCount }}</span
-                >
+                  {{ notFinishedPlayer.unansweredCount }}
+                </p>
               </div>
             </li>
           </ul>

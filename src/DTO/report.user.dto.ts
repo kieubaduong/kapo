@@ -6,6 +6,7 @@ export class ReportUserDTO {
   answersCount: number = 0;
   unansweredCount: number = 0;
   correctAnswersCount: number = 0;
+  correctRate: number = 0;
   streakCount: number = 0;
   CreatedAt: string = '';
   gameId: number = 0;

@@ -29,7 +29,7 @@ export class PlayersReportComponent {
   searchPlayerName: string = '';
 
   ngOnInit() {
-    ReportService.getPlayersReport(this.gameId).subscribe((response) => {
+    ReportService.getPlayersReport(this.gameId, "all").subscribe((response) => {
       if (response.success) {
         this.allPlayers = response.data ?? [];
         this.displayedPlayers = this.allPlayers;

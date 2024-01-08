@@ -16,6 +16,7 @@ export class TemplateComponent implements OnInit {
   isCollapsed: boolean[] = [];
 
   mockImage = MOCK_IMAGE;
+  isStarSelected = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private notificationService: NotificationService) {
   }
@@ -37,7 +38,8 @@ export class TemplateComponent implements OnInit {
   startGame(templateId: string): void {
     GameService.createGame(templateId).subscribe(response => {
       if (response.success) {
-        this.notificationService.showSuccess('Game created successfully');
+        const gameUrl = response.data.gameUrl;
+        window.open(gameUrl, '_blank');
       } else {
         this.notificationService.showError(response.message ?? 'Could not create game');
       }
@@ -50,5 +52,9 @@ export class TemplateComponent implements OnInit {
 
   showAnswers(): void {
     this.isCollapsed = [...this.isCollapsed.map(() => false)];
+  }
+
+  toggleStar() {
+    this.isStarSelected = !this.isStarSelected;
   }
 }

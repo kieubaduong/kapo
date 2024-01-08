@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TemplateDTO } from 'src/DTO/template.dto';
 import { TemplateService } from 'src/service/template.service';
 import { NotificationService } from '../services/notification.service';
+import { GameService } from 'src/service/game.service';
 
 export enum ViewMode {
   Default,
@@ -88,6 +89,18 @@ export class StoreComponent implements OnInit {
         this.templateCache[selectType] = this.templates;
       } else {
         console.error(response.message);
+      }
+    });
+  }
+
+  startGame(event: Event, templateId: string): void {
+    event.stopPropagation();
+    GameService.createGame(templateId).subscribe((response) => {
+      if (response.success) {
+        const gameUrl = response.data.gameUrl;
+        window.open(gameUrl, '_blank');
+      } else {
+        this.notificationService.showError(response.message ?? 'Could not start game');
       }
     });
   }
