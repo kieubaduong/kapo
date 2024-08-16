@@ -1,27 +1,100 @@
-# Kapo
+# Kapo learning platform
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.3.
+Application for building a learning platform for students and teachers. Kahoot clone.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- ✅ User authentication
+- ✅ Create a quiz
+- ✅ Join a quiz
+- ✅ View quiz results
+- ✅ View quiz history
+- ✅ View quiz leaderboard
+- ✅ View quiz statistics
 
-## Code scaffolding
+## Technologies Used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 16
+- Material UI
+- Layered Architecture
 
-## Build
+## Project Structure
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+src/
+├── core/
+│   ├── DTO/
+│   ├── mapper/
+│   ├── models/
+│   ├── service/
+│   └── util.ts
+├── data/
+│   ├── model/
+│   ├── network/
+│   │   ├── api/
+│   │   ├── auth/
+│   │   │   ├── body/
+│   │   │   └── result/
+│   └── repository/
+├── navigation/
+├── ui/
+│   ├── app/
+│   │   ├── app-routing.module.ts
+│   │   ├── app.component.css
+│   │   ├── app.component.html
+│   │   ├── app.component.ts
+│   │   ├── app.module.ts
+│   │   ├── common/
+│   │   ├── directive/
+│   │   ├── enum/
+│   │   ├── home/
+│   │   ├── login/
+│   │   ├── players-report/
+│   │   └── features/
+│   ├── MainActivity.kt
+│   ├── common/
+│   └── theme/
+└── util/
+```
 
-## Running unit tests
+The project structure is organized into several layers:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Core Layer
 
-## Running end-to-end tests
+The `core` layer contains essential components such as `DTO`, `mapper`, `models`, `service`, and utility functions (`util.ts`).
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Data Layer
 
-## Further help
+The `data` layer is structured to handle data-related operations. It includes directories for `model`, `network`, `api`, `auth`, `body`, `result`, and `repository`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### UI Layer
+
+The `ui` layer manages the user interface components. It includes the main application files (`app`), common utilities (`common`), directives (`directive`), enumerations (`enum`), and various feature modules such as `home`, `login`, `players-report`, and other `features`. Additionally, it contains the main activity file (`MainActivity.kt`) and theme-related files (`theme`).
+
+### Navigation Layer
+
+The `navigation` layer is designated for navigation-related files.
+
+### Util Layer
+
+The `util` layer is intended for utility functions and extensions.
+
+## Screenshots
+
+|                                                     |                                                   |                                                     |
+| :-------------------------------------------------: | :-----------------------------------------------: | :-------------------------------------------------: |
+|                    Login Screen                     |                    Home Screen                    |                    Store Screen                     |
+|         ![](.github/screenshots/login.png)          |         ![](.github/screenshots/home.png)         |         ![](.github/screenshots/store.png)          |
+|                   Template Screen                   |                Add Question Screen                |                   Add Quiz Dialog                   |
+|        ![](.github/screenshots/template.png)        |       ![](.github/screenshots/question.jpg)       |        ![](.github/screenshots/add-quiz.png)        |
+|                    Report Screen                    |            Report Player Detail Screen            |            Report Detail Question Screen            |
+|         ![](.github/screenshots/report.png)         | ![](.github/screenshots/report-detail-player.png) | ![](.github/screenshots/report-detail-question.png) |
+|            Report Question Detail Screen            |                  Validate Screen                  |                  Game Login Screen                  |
+| ![](.github/screenshots/report-question-detail.png) |       ![](.github/screenshots/validate.png)       |       ![](.github/screenshots/game-login.png)       |
+|                     Host Screen                     |                   Lobby Screen                    |
+|          ![](.github/screenshots/host.png)          |        ![](.github/screenshots/lobby.png)         |
+
+## Prerequisites
+
+- Angular CLI 16.0.0
+- Node.js 16.13.0
